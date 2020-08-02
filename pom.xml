@@ -12,6 +12,7 @@
   <modules>
     <module>scaffold-gateway-server</module>
     <module>scaffold-account-server</module>
+    <module>scaffold-task-server</module>
   </modules>
 
   <parent>
