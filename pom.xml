@@ -18,7 +18,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.1.8.RELEASE</version>
+    <version>2.2.2.RELEASE</version>
   </parent>
 
   <properties>
@@ -35,6 +35,17 @@
       <layout>default</layout>
       <snapshots>
         <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+    <repository>
+      <id>spring</id>
+      <url>https://maven.aliyun.com/repository/spring</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
@@ -68,6 +79,21 @@
   <!-- optional dependency -->
   <dependencyManagement>
     <dependencies>
+<!--      <dependency>-->
+<!--        <groupId>org.springframework.cloud</groupId>-->
+<!--        <artifactId>spring-cloud-dependencies</artifactId>-->
+<!--        <version>Hoxton.SR2</version>-->
+<!--        <type>pom</type>-->
+<!--        <scope>import</scope>-->
+<!--      </dependency>-->
+
+<!--      <dependency>-->
+<!--        <groupId>com.alibaba.cloud</groupId>-->
+<!--        <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
+<!--        <version>2.2.0.RELEASE</version>-->
+<!--        <type>pom</type>-->
+<!--        <scope>import</scope>-->
+<!--      </dependency>-->
 
       <!--jackson start-->
       <dependency>
@@ -113,12 +139,7 @@
       <dependency>
         <groupId>com.alibaba.cloud</groupId>
         <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        <version>2.1.2.RELEASE</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-actuator</artifactId>
+        <version>2.2.0.RELEASE</version>
       </dependency>
       <!-- nacos-->
 
