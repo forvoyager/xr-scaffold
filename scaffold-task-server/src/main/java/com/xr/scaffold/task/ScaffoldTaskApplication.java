@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * @Author: forvoyager@outlook.com
+ * @Author: yang.changyan@foundbyte.com
  * @Time: 2020-08-02 21:40:00
  * @Description:
  */

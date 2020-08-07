@@ -6,7 +6,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 /**
- * <b>@author</b>: forvoyager@outlook.com
+ * <b>@author</b>: yang.changyan@foundbyte.com
  * <b>@time</b>: 2020-07-23 17:53:00
  * <b>@description</b>:
  */

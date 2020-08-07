@@ -1,0 +1,19 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "name": "xr.base.data.source",
+      "type": "com.xr.base.jdbc.datasource.DruidDataSourceAutoConfiguration",
+      "sourceType": "com.xr.base.jdbc.datasource.DruidDataSourceAutoConfiguration"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.xr.base.jdbc.datasource.DruidDataSourceAutoConfiguration",
+      "defaultValue": true,
+      "name": "xr.base.data.source.enabled",
+      "description": "数据源是否加载",
+      "type": "java.lang.Boolean"
+    }
+  ]
+}

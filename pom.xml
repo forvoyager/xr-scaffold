@@ -10,8 +10,11 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>scaffold-gateway-server</module>
+    <module>scaffold-base</module>
+    <module>scaffold-base-jdbc-starter</module>
+    <module>scaffold-account-common</module>
     <module>scaffold-account-server</module>
+    <module>scaffold-gateway-server</module>
     <module>scaffold-task-server</module>
   </modules>
 
@@ -70,8 +73,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -95,6 +98,24 @@
 <!--        <scope>import</scope>-->
 <!--      </dependency>-->
 
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-core</artifactId>
+        <version>5.2.2.RELEASE</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-beans</artifactId>
+        <version>5.2.2.RELEASE</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-tx</artifactId>
+        <version>5.2.2.RELEASE</version>
+      </dependency>
+
       <!--jackson start-->
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -114,6 +135,12 @@
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
         <version>8.0.17</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>druid</artifactId>
+        <version>1.1.20</version>
       </dependency>
 
       <dependency>
@@ -233,9 +260,9 @@
         <plugin>
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
-          <configuration>
-            <outputDirectory>src/main/docker</outputDirectory>
-          </configuration>
+<!--          <configuration>-->
+<!--            <outputDirectory>src/main/docker</outputDirectory>-->
+<!--          </configuration>-->
         </plugin>
       </plugins>
     </pluginManagement>

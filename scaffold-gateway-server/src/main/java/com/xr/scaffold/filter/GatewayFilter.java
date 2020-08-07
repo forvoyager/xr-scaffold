@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * <b>@author</b>: forvoyager@outlook.com
+ * <b>@author</b>: yang.changyan@foundbyte.com
  * <b>@time</b>: 2020-07-23 20:11:00
  * <b>@description</b>:
  */
