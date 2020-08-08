@@ -6,6 +6,7 @@ import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
 import com.xr.base.core.page.PageData;
 import io.swagger.annotations.Api;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -41,7 +42,12 @@ public class UserController {
    */
   @PostMapping("/user/insert")
   public ResultDto insert(@RequestBody UserModel entity) throws Exception {
-    userService.insert(entity);
+    try {
+      userService.insert(entity);
+    } catch (DuplicateKeyException dke){
+      // 用户名重复
+      throw new IllegalArgumentException("该昵称已被占用");
+    }
     return ResultDto.success();
   }
 
