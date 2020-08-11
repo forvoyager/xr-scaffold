@@ -82,21 +82,21 @@
   <!-- optional dependency -->
   <dependencyManagement>
     <dependencies>
-<!--      <dependency>-->
-<!--        <groupId>org.springframework.cloud</groupId>-->
-<!--        <artifactId>spring-cloud-dependencies</artifactId>-->
-<!--        <version>Hoxton.SR2</version>-->
-<!--        <type>pom</type>-->
-<!--        <scope>import</scope>-->
-<!--      </dependency>-->
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Hoxton.SR2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
-<!--      <dependency>-->
-<!--        <groupId>com.alibaba.cloud</groupId>-->
-<!--        <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
-<!--        <version>2.2.0.RELEASE</version>-->
-<!--        <type>pom</type>-->
-<!--        <scope>import</scope>-->
-<!--      </dependency>-->
+      <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+        <version>2.1.0.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
       <dependency>
         <groupId>org.springframework</groupId>
@@ -161,6 +161,19 @@
         <version>1.2.10</version>
       </dependency>
       <!--jdbc end-->
+
+      <!-- sentinel start -->
+      <dependency>
+        <groupId>com.alibaba.cloud</groupId>
+        <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba.csp</groupId>
+        <artifactId>sentinel-datasource-nacos</artifactId>
+        <version>1.7.0</version>
+      </dependency>
+      <!-- sentinel end -->
 
       <!-- nacos-->
       <dependency>

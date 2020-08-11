@@ -1,10 +1,10 @@
 package com.xr.scaffold.account.controller;
 
-import com.xr.scaffold.account.common.model.UserModel;
-import com.xr.scaffold.account.common.service.IUserService;
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
 import com.xr.base.core.page.PageData;
+import com.xr.scaffold.account.common.model.UserModel;
+import com.xr.scaffold.account.common.service.IUserService;
 import io.swagger.annotations.Api;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
