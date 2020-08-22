@@ -1,4 +1,4 @@
-package com.xr.scaffold;
+package com.xr.scaffold.config;
 
 import org.springframework.context.annotation.Configuration;
 
@@ -8,6 +8,6 @@ import org.springframework.context.annotation.Configuration;
  * <b>@description</b>:
  */
 @Configuration
-public class ScaffoldGatewayAutoConfiguration {
+public class GatewayAutoConfiguration {
 
 }
