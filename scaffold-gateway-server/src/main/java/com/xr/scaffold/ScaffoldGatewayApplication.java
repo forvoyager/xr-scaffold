@@ -3,7 +3,6 @@ package com.xr.scaffold;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 /**
  * <b>@author</b>: yang.changyan@foundbyte.com
@@ -11,7 +10,6 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  * <b>@description</b>:
  */
 @SpringBootApplication
-@EnableZuulProxy
 @EnableDiscoveryClient
 public class ScaffoldGatewayApplication {
   public static void main(String[] args) {
