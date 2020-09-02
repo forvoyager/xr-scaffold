@@ -54,6 +54,26 @@ public class NacosDynamicRouteProcessor implements ApplicationEventPublisherAwar
   public void init() throws Exception {
     logger.info("nacos dynamic route init...");
 
+    /*
+    nacos配置中心路由信息配置，例：
+    [{
+        "id": "scaffold-account-server",
+        "uri": "lb://scaffold-account-server",
+        "predicates": [{
+            "name": "Path",
+            "args": {
+                "_genkey_0": "/api/account/**"
+            }
+        }],
+        "filters": [{
+            "name": "StripPrefix",
+            "args": {
+                "_genkey_0": 2
+            }
+        }]
+    }]
+     */
+
     this.configService = initConfigService();
     String configInfo = this.configService.getConfig(this.dataId, this.group, 3000);
     logger.info("fetch route config:\r\n{}", configInfo);
