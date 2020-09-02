@@ -10,7 +10,7 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>scaffold-base</module>
+    <module>scaffold-base-common</module>
     <module>scaffold-base-jdbc-starter</module>
     <module>scaffold-account-common</module>
     <module>scaffold-account-server</module>
