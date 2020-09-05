@@ -2,6 +2,7 @@ package com.xr.base.core.model;
 
 import java.beans.Transient;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <b>author</b>: yang.changyan@foundbyte.com
@@ -18,11 +19,11 @@ public class BaseModel implements Serializable {
   /**
    * 创建时间
    */
-  protected Long create_time;
+  protected Date create_time;
   /**
    * 最后更新时间
    */
-  protected Long update_time;
+  protected Date update_time;
   /**
    * 版本号
    */
@@ -32,19 +33,19 @@ public class BaseModel implements Serializable {
    */
   protected Integer where_version;
 
-  public Long getCreate_time() {
+  public Date getCreate_time() {
     return create_time;
   }
 
-  public void setCreate_time(Long create_time) {
+  public void setCreate_time(Date create_time) {
     this.create_time = create_time;
   }
 
-  public Long getUpdate_time() {
+  public Date getUpdate_time() {
     return update_time;
   }
 
-  public void setUpdate_time(Long update_time) {
+  public void setUpdate_time(Date update_time) {
     this.update_time = update_time;
   }
 

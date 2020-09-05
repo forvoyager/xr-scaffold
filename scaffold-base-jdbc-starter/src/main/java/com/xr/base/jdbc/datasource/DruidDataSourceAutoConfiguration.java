@@ -1,11 +1,10 @@
 package com.xr.base.jdbc.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.github.pagehelper.PageInterceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.transaction.SpringManagedTransactionFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +47,9 @@ public class DruidDataSourceAutoConfiguration {
     Resource[] resources = new PathMatchingResourcePatternResolver().getResources("classpath*:mybatis/mapper/**/*.xml");
     sessionFactory.setMapperLocations(resources);
 
+    // set plugin
+    sessionFactory.setPlugins(pageInterceptor());
+
     // set tx manager
     sessionFactory.setTransactionFactory(new SpringManagedTransactionFactory());
 
@@ -57,6 +59,13 @@ public class DruidDataSourceAutoConfiguration {
   @Bean
   public PlatformTransactionManager transactionManager(DataSource dataSource) {
     return new DataSourceTransactionManager(dataSource);
+  }
+
+  /**
+   * 分页插件
+   */
+  public PageInterceptor pageInterceptor() {
+    return new PageInterceptor();
   }
 
   public DruidDataSourceAutoConfiguration(){

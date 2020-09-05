@@ -75,12 +75,14 @@ public class NacosDynamicRouteProcessor implements ApplicationEventPublisherAwar
      */
 
     this.configService = initConfigService();
-    String configInfo = this.configService.getConfig(this.dataId, this.group, 3000);
-    logger.info("fetch route config:\r\n{}", configInfo);
-    List<RouteDefinition> definitionList = JSON.parseArray(configInfo, RouteDefinition.class);
-    for (RouteDefinition definition : definitionList) {
-      logger.info("update route : {}", definition.toString());
-      this.add(definition);
+    String routeInfo = this.configService.getConfig(this.dataId, this.group, 3000);
+    logger.info("fetch route config:\r\n{}", routeInfo);
+    if(routeInfo != null){
+      List<RouteDefinition> definitionList = JSON.parseArray(routeInfo, RouteDefinition.class);
+      for (RouteDefinition definition : definitionList) {
+        logger.info("update route : {}", definition.toString());
+        this.add(definition);
+      }
     }
 
     this.configService.addListener(this.dataId, this.group, new Listener() {
@@ -92,6 +94,7 @@ public class NacosDynamicRouteProcessor implements ApplicationEventPublisherAwar
       @Override
       public void receiveConfigInfo(String routeInfo) {
         logger.info("nacos dynamic route update:\n\r{}", routeInfo);
+        if(routeInfo == null){return;}
         List<RouteDefinition> definitionList = JSON.parseArray(routeInfo, RouteDefinition.class);
         for (RouteDefinition definition : definitionList) {
           // 更新路由信息

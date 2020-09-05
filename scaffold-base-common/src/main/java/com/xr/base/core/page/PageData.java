@@ -148,4 +148,20 @@ public class PageData<T> implements Serializable {
     this.condition = condition;
   }
 
+  @Override
+  public String toString() {
+    final StringBuffer sb = new StringBuffer("PageData{");
+    sb.append("totalRecords=").append(totalRecords);
+    sb.append(", totalPages=").append(totalPages);
+    sb.append(", pageNum=").append(pageNum);
+    sb.append(", pageSize=").append(pageSize);
+    sb.append(", nextPage=").append(nextPage);
+    sb.append(", prePage=").append(prePage);
+    sb.append(", isFirstPage=").append(isFirstPage);
+    sb.append(", isLastPage=").append(isLastPage);
+    sb.append(", data=").append(data);
+    sb.append(", condition=").append(condition);
+    sb.append('}');
+    return sb.toString();
+  }
 }

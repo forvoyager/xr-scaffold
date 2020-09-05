@@ -46,12 +46,12 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
   @Override
   public T insert(T entity) throws Exception {
     AssertUtils.notNull(entity, "insert failed, with invalid param value.");
-    BaseModel baseModel = (BaseModel)entity;
-    if(baseModel.getCreate_time() == null){
-      baseModel.setCreate_time(DateUtil.currentTimeInSecond());
-    }
-    baseModel.setVersion(0);
-    baseModel.setUpdate_time(baseModel.getCreate_time());
+//    BaseModel baseModel = (BaseModel)entity;
+//    baseModel.setVersion(0);
+//    baseModel.setUpdate_time(baseModel.getCreate_time());
+//    if(baseModel.getCreate_time() == null){
+//      baseModel.setCreate_time(DateUtil.currentTimeInSecond());
+//    }
 
     this.baseMapper.insert(entity);
     return entity;
@@ -119,10 +119,10 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
   @Override
   public long update(T entity) throws Exception {
     AssertUtils.notNull(entity, "update failed, with invalid param value.");
-    BaseModel baseModel = (BaseModel)entity;
-    if(baseModel.getUpdate_time() == null){
-      baseModel.setUpdate_time(DateUtil.currentTimeInSecond());
-    }
+//    BaseModel baseModel = (BaseModel)entity;
+//    if(baseModel.getUpdate_time() == null){
+//      baseModel.setUpdate_time(DateUtil.currentTimeInSecond());
+//    }
 
     return this.update(ReflectUtils.javaBeanToMap(entity));
   }
@@ -177,8 +177,6 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
   @Transactional(propagation = Propagation.SUPPORTS)
   @Override
   public List<T> selectList(Map<String, Object> condition, Cluster cluster) throws Exception {
-    AssertUtils.notEmpty(condition, "select failed, with invalid condition.");
-
     return this.baseMapper.selectList(condition);
   }
 

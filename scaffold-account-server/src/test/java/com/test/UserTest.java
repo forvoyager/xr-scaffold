@@ -3,6 +3,8 @@ package com.test;
 import com.alibaba.druid.support.json.JSONUtils;
 import com.github.houbb.junitperf.core.annotation.JunitPerfConfig;
 import com.github.houbb.junitperf.core.annotation.JunitPerfRequire;
+import com.xr.base.core.enums.Cluster;
+import com.xr.base.core.page.PageData;
 import com.xr.scaffold.account.ScaffoldAccountApplication;
 import com.xr.scaffold.account.common.model.UserModel;
 import com.xr.scaffold.account.common.service.IUserService;
@@ -16,9 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -40,6 +40,8 @@ public class UserTest {
   @Autowired
   private IUserService userService;
 
+  private Date current = new Date();
+
   /**
    * 配置：30个线程运行。准备时间：5000ms。运行时间: 60000ms。
    * 要求：最快不可低于 210ms, 最慢不得低于 250ms, 平均不得低于 225ms, 每秒运行次数不得低于 200 次。
@@ -51,7 +53,6 @@ public class UserTest {
   @JunitPerfConfig(threads = 30, warmUp = 5000, duration = 1*60*1000)
   @JunitPerfRequire(min = 100, max = 1000, average = 600, timesPerSecond = 200, percentiles = {"70:500", "90:1000"})
   public void test_insert() throws Exception{
-    long current = System.currentTimeMillis();
     UserModel userModel = new UserModel();
     userModel.setNick_name(UUID.randomUUID().toString());
     userModel.setCreate_time(current);
@@ -73,6 +74,18 @@ public class UserTest {
 //            .andExpect(MockMvcResultMatchers.jsonPath("$.code").value("200"))
 //            .andDo(print());
 
+  }
+
+  @Test
+  public void test_selectPage() throws Exception{
+    PageData<UserModel> pageData = userService.selectPage(2, 3, null, Cluster.master);
+    List<UserModel> userModelList = pageData.getData();
+    System.out.println(pageData);
+
+    Map condition = new HashMap();
+    condition.put(UserModel.USER_ID, "11");
+    userModelList = userService.selectList(condition, Cluster.master);
+    System.out.println(userModelList);
   }
 
 }
