@@ -213,7 +213,7 @@ public class UserController {
    * @return
    */
   @GetMapping("/user/select/{master}/page/{page}/{size}")
-  public ResultDto<PageData<UserModel>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
+  public ResultDto<PageData<UserModel>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
     return ResultDto.successData(userService.selectPage(page, size, condition, master));
   }
 
