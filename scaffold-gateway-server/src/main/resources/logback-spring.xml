@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <property name="PROJECT" value="scaffold-gateway-server"/>
+    <springProperty scope="context" name="PROJECT" source="spring.application.name"/>
     <property name="LOG_PATH" value="/var/log/${PROJECT}"/>
+
+    <property name="DEFAULT_PATTERN" value="[%date] [%thread] [%X{ms_trace_id}] [%-5level] %c: %message%n" />
+    <!--    <property name="DEFAULT_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%-3L- %msg | %X{extra}%n" />-->
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <!--<Encoding>UTF-8</Encoding>-->
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%date] [%thread] [%X{ms_trace_id}] [%-5level] %c: %message%n</pattern>
-        </layout>
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>${DEFAULT_PATTERN}</pattern>
+        </encoder>
     </appender>
 
     <appender name="FILE_INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<Encoding>UTF-8</Encoding>-->
-        <File>${LOG_PATH}/${PROJECT}.log</File>
+        <File>${LOG_PATH}.log</File>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <!--过滤 Error，不输出-->
             <level>ERROR</level>
@@ -23,27 +27,27 @@
             <onMismatch>ACCEPT</onMismatch>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_PATH}/history/${PROJECT}.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+            <FileNamePattern>${LOG_PATH}/history/%d{yyyy-MM-dd}.log.gz</FileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%date] [%thread] [%X{ms_trace_id}] [%-5level] %c: %message%n</pattern>
-        </layout>
+        <encoder>
+            <pattern>${DEFAULT_PATTERN}</pattern>
+        </encoder>
     </appender>
 
     <appender name="FILE_ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--<Encoding>UTF-8</Encoding>-->
-        <File>${LOG_PATH}/${PROJECT}_error.log</File>
+        <File>${LOG_PATH}_error.log</File>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>Error</level>
         </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${LOG_PATH}/history/${PROJECT}_error.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
+            <FileNamePattern>${LOG_PATH}/history/error.%d{yyyy-MM-dd}.log.gz</FileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%date] [%thread] [%X{ms_trace_id}] [%-5level] %c: %message%n</pattern>
-        </layout>
+        <encoder>
+            <pattern>${DEFAULT_PATTERN}</pattern>
+        </encoder>
     </appender>
 
 <!--    <logger name="org.springframework.cloud.gateway" level="DEBUG"/>-->
