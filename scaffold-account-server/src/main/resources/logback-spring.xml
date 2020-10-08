@@ -50,7 +50,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.xr.scaffold.mapper" level="DEBUG"/>
+    <logger name="com.xr.scaffold.account.mapper" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

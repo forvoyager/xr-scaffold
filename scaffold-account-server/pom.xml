@@ -31,11 +31,39 @@
       <version>1.0-SNAPSHOT</version>
     </dependency>
 
+    <!--jdbc start-->
     <dependency>
-      <groupId>com.xr.scaffold</groupId>
-      <artifactId>scaffold-base-jdbc-starter</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-boot-starter</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>mybatis-plus-generator</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+<!--    <dependency>-->
+<!--      <groupId>org.mybatis</groupId>-->
+<!--      <artifactId>mybatis-typehandlers-jsr310</artifactId>-->
+<!--    </dependency>-->
+
+    <dependency>
+      <groupId>org.freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <!--jdbc end-->
 
     <!-- nacos-->
     <dependency>

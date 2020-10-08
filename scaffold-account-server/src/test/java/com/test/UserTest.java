@@ -1,6 +1,8 @@
 package com.test;
 
-import com.alibaba.druid.support.json.JSONUtils;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.houbb.junitperf.core.annotation.JunitPerfConfig;
 import com.github.houbb.junitperf.core.annotation.JunitPerfRequire;
 import com.xr.base.core.enums.Cluster;
@@ -18,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -40,7 +43,7 @@ public class UserTest {
   @Autowired
   private IUserService userService;
 
-  private Date current = new Date();
+  private LocalDateTime current = LocalDateTime.now();
 
   /**
    * 配置：30个线程运行。准备时间：5000ms。运行时间: 60000ms。
@@ -54,10 +57,10 @@ public class UserTest {
   @JunitPerfRequire(min = 100, max = 1000, average = 600, timesPerSecond = 200, percentiles = {"70:500", "90:1000"})
   public void test_insert() throws Exception{
     UserModel userModel = new UserModel();
-    userModel.setNick_name(UUID.randomUUID().toString());
-    userModel.setCreate_time(current);
-    userModel.setUpdate_time(current);
-    userService.insert(userModel);
+    userModel.setNickName(UUID.randomUUID().toString());
+    userModel.setCreateTime(current);
+    userModel.setUpdateTime(current);
+    userService.save(userModel);
 
 //    Map map = new HashMap<>();
 //    map.put("user_id", 1002);
@@ -78,13 +81,14 @@ public class UserTest {
 
   @Test
   public void test_selectPage() throws Exception{
-    PageData<UserModel> pageData = userService.selectPage(2, 3, null, Cluster.master);
-    List<UserModel> userModelList = pageData.getData();
+    IPage<UserModel> pageData = new Page(3, 5);
+    pageData = userService.page(pageData, null);
+    List<UserModel> userModelList = pageData.getRecords();
     System.out.println(pageData);
 
-    Map condition = new HashMap();
-    condition.put(UserModel.USER_ID, "11");
-    userModelList = userService.selectList(condition, Cluster.master);
+    pageData = new Page(1, 3);
+    pageData = userService.page(pageData, new QueryWrapper<UserModel>().eq(UserModel.USER_ID, 11));
+    userModelList = pageData.getRecords();
     System.out.println(userModelList);
   }
 
