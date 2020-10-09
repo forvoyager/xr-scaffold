@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +21,14 @@ import java.util.List;
  */
 public class CodeGenerator {
 
-  public static void main(String[] args) {
+  @Test
+  public void generate() {
 
     String outputPath = "E:\\code";
     String projectName = "scaffold-account-server";
     String moduleName = "account";
     String packagePath = "com.xr.scaffold";
+    String tablePrefix = "xr_";
     String finalPath = outputPath + "/" + projectName;
 
     // 需要生成代码的表
@@ -137,7 +140,7 @@ public class CodeGenerator {
 //    strategy.setSuperEntityColumns("create_time", "update_time", "version");
     strategy.setInclude(tables.toArray(new String[]{}));
     strategy.setControllerMappingHyphenStyle(true);
-    strategy.setTablePrefix("xr_");
+    strategy.setTablePrefix(tablePrefix);
     mpg.setStrategy(strategy);
     mpg.setTemplateEngine(new FreemarkerTemplateEngine());
     mpg.execute();
