@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * <b>@author</b>: yang.changyan@foundbyte.com
+ * <b>@author</b>: forvoyager@outlook.com
  * <b>@time</b>: 2020-07-23 17:53:00
  * <b>@description</b>:
  */

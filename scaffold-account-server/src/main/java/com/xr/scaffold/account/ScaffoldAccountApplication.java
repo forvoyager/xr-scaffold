@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * <b>@author</b>: yang.changyan@foundbyte.com
+ * <b>@author</b>: forvoyager@outlook.com
  * <b>@time</b>: 2020-07-23 18:10:00
  * <b>@description</b>:
  */

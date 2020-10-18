@@ -22,7 +22,7 @@ import java.util.Properties;
 import java.util.concurrent.Executor;
 
 /**
- * <b>@author</b>: yang.changyan@foundbyte.com
+ * <b>@author</b>: forvoyager@outlook.com
  * <b>@time</b>: 2020-09-02 14:30:00
  * <b>@description</b>: 基于nacos的动态路由处理
  */

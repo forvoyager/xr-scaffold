@@ -3,7 +3,7 @@ package com.xr.base.jdbc.datasource;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
- * <b>author</b>: yang.changyan@foundbyte.com
+ * <b>author</b>: forvoyager@outlook.com
  * <b>time</b>: 2020-01-15 17:05:00 <br>
  * <b>description</b>:动态数据源
  */

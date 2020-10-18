@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @Author: yang.changyan@foundbyte.com
+ * @Author: forvoyager@outlook.com
  * @Time: 2020-08-02 21:45:00
  * @Description:
  */

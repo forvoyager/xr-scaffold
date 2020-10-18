@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <b>author</b>: yang.changyan@foundbyte.com
+ * <b>author</b>: forvoyager@outlook.com
  * <b>time</b>: 2019-06-18 08:05:38 <br>
  * <b>description</b>: 基础模型数据
  */

@@ -13,7 +13,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * @Author: yang.changyan@foundbyte.com
+ * @Author: forvoyager@outlook.com
  * @Time: 2020-07-25 13:50:00
  * @Description:
  */
@@ -35,7 +35,7 @@ public class SwaggerConfig {
             .title("帐号服务")
             .description("帐号相关API")
             .termsOfServiceUrl("")
-            .contact(new Contact("yang", "www.forvoyager.com", "yang.changyan@foundbyte.com"))
+            .contact(new Contact("yang", "www.forvoyager.com", "forvoyager@outlook.com"))
             .version("1.0")
             .build();
   }
