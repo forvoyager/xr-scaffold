@@ -1,5 +1,6 @@
 package com.xr.scaffold.account.config;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -8,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
  * <b>@description</b>:
  */
 @Configuration
+@MapperScan({
+        "com.xr.scaffold.account.mapper"
+})
 public class AutoConfiguration {
 
 }

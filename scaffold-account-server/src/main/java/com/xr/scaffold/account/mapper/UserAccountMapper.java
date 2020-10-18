@@ -1,7 +1,7 @@
 package com.xr.scaffold.account.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xr.scaffold.account.common.model.UserAccountModel;
+import com.xr.base.jdbc.mapper.IBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * <b>description</b>: 用户账户表 mapper操作 <br>
  */
 @Mapper
-public interface UserAccountMapper extends BaseMapper<UserAccountModel> {
+public interface UserAccountMapper extends IBaseMapper<UserAccountModel> {
 }

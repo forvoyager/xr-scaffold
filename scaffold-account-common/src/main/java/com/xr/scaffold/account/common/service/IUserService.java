@@ -1,16 +1,12 @@
 package com.xr.scaffold.account.common.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.xr.base.core.service.IBaseService;
 import com.xr.scaffold.account.common.model.UserModel;
 
 /**
- * <p>
- * 用户表 服务类
- * </p>
- *
- * @author forvoyager@outlook.com
- * @since 2020-10-08
+ * <b>author</b>: yang.changyan@foundbyte.com
+ * <b>time</b>: 2020-08-07 10:34:52 <br>
+ * <b>description</b>: 用户表 服务定义 <br>
  */
-public interface IUserService extends IService<UserModel> {
-
+public interface IUserService extends IBaseService<UserModel> {
 }

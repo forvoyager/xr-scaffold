@@ -1,9 +1,9 @@
 package com.xr.scaffold.account.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xr.scaffold.account.common.model.UserModel;
 import com.xr.scaffold.account.common.service.IUserService;
 import com.xr.scaffold.account.mapper.UserMapper;
+import com.xr.base.jdbc.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,5 +12,9 @@ import org.springframework.stereotype.Service;
  * <b>description</b>: 用户表 服务实现 <br>
  */
 @Service("userService")
-public class UserServiceImpl extends ServiceImpl<UserMapper, UserModel> implements IUserService {
+public class UserServiceImpl extends BaseServiceImpl<UserMapper, UserModel> implements IUserService {
+  @Override
+  protected String getPrimaryKeyName() {
+    return "user_id";
+  }
 }

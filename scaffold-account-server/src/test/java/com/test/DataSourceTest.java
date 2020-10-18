@@ -1,7 +1,7 @@
 package com.test;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import com.xr.scaffold.account.ScaffoldAccountApplication;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class DataSourceTest {
   DataSource dataSource;
 
   @Autowired
-  HikariDataSource hikariDataSource;
+  DruidDataSource druidDataSource;
 
   @Autowired
   DataSourceProperties dataSourceProperties;
