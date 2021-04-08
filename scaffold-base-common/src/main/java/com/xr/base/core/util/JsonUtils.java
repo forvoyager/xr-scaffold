@@ -92,7 +92,7 @@ public class JsonUtils {
    * @return
    * @throws IOException
    */
-  public static <T> Map<String, T> parseMap(String json, Class<T> clazz) throws IOException {
+  public static <T> Map<String, T> toMap(String json, Class<T> clazz) throws IOException {
     JavaType javaType = ObjectMapperHolder.getMapper().getTypeFactory().constructParametricType(HashMap.class, String.class, clazz);
     return ObjectMapperHolder.getMapper().readValue(json, javaType);
   }
@@ -105,7 +105,7 @@ public class JsonUtils {
    * @return
    * @throws IOException
    */
-  public static <T> List<T> parseList(String json, Class<T> clazz) throws IOException {
+  public static <T> List<T> toList(String json, Class<T> clazz) throws IOException {
     JavaType javaType = ObjectMapperHolder.getMapper().getTypeFactory().constructParametricType(List.class, clazz);
     return ObjectMapperHolder.getMapper().readValue(json, javaType);
   }
