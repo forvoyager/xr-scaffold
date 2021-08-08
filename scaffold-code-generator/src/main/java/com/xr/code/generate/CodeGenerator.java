@@ -25,7 +25,7 @@ public class CodeGenerator {
     // 模块名称
     String moduleName = "account";
     // 作者
-    String author = "yang.changyan@foundbyte.com";
+    String author = "forvoyager@outlook.com";
     // 代码存放路径
     String outputPath = "F:\\xR\\code";
 

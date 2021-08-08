@@ -24,6 +24,10 @@ public class BaseException extends RuntimeException{
    */
   private Map extData;
 
+  public BaseException(String message){
+    this(ResultCodeEnum.UNKNOW_SYSTEM_ERROR, message);
+  }
+
   public BaseException(ResultCodeEnum code, String message){
     this.code = code.getCode();
     this.message = message;

@@ -1,12 +1,15 @@
 package com.xr.scaffold.account.config;
 
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.exception.BaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
  * <b>@author</b>: forvoyager@outlook.com
@@ -54,5 +57,18 @@ public class GlobalExceptionHandler {
   public ResultDto exceptionHandler(Exception e) {
     logger.error("未知异常，原因:", e);
     return ResultDto.failure(e.getMessage());
+  }
+
+  /**
+   * 处理登录过期问题，返回401
+   * @param tee
+   * @return
+   */
+  @ExceptionHandler(value = TokenExpiredException.class)
+  @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
+  @ResponseBody
+  public ResultDto tokenExpiredHandler(TokenExpiredException tee) {
+    logger.error("token过期：", tee);
+    return ResultDto.failure("token过期，请重新登录。");
   }
 }

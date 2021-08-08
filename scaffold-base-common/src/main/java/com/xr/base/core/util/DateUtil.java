@@ -57,6 +57,19 @@ public class DateUtil {
     return date.getTimeInMillis() / 1000;
   }
 
+  public static long addMinute(long timeInSecond, int term){
+    Calendar date = Calendar.getInstance();
+    date.setTimeInMillis(timeInSecond * 1000);
+    date.add(Calendar.MINUTE, term);
+    return date.getTimeInMillis() / 1000;
+  }
+
+  public static Date addMinute(int term){
+    Calendar date = Calendar.getInstance();
+    date.add(Calendar.MINUTE, term);
+    return date.getTime();
+  }
+
   public static String parseTimestamp(long timeInSecond, String pattern){
     return new SimpleDateFormat(pattern).format(new Date(timeInSecond * 1000));
   }

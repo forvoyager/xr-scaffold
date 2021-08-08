@@ -2,16 +2,21 @@ package com.xr.scaffold.account.controller;
 
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
+import com.xr.base.core.exception.BaseException;
 import com.xr.base.core.page.PageData;
+import com.xr.scaffold.account.annotation.LoginUser;
 import com.xr.scaffold.account.common.model.UserModel;
 import com.xr.scaffold.account.common.service.IUserService;
+import com.xr.scaffold.account.service.impl.UserTokenManager;
 import io.swagger.annotations.Api;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +32,49 @@ public class UserController {
   @Resource
   private IUserService userService;
 
-  @GetMapping("/getUserName")
-  public Object getUserName(Long userId) throws Exception{
-    return userId+System.currentTimeMillis();
+  @Autowired
+  private UserTokenManager userTokenManager;
+
+  /**
+   * <p>
+   * 登录
+   * </p>
+   *
+   * @param userId 实体对象
+   * @param password 密码，md5摘要
+   * @return
+   */
+  @PostMapping("/user/login")
+  public ResultDto login(
+          @RequestParam long userId,
+          @RequestParam String password
+  ) throws Exception {
+    UserModel userModel = userService.selectById(userId, Cluster.master);
+    // todo validate password
+    if(userModel == null ){ throw new BaseException("用户名或密码错误"); }
+
+    // 返回用户登录信息
+    Map<String, Object> userInfo = new HashMap<>();
+    userInfo.put(UserModel.USER_ID, userModel.getUser_id());
+    userInfo.put(UserModel.NICK_NAME, userModel.getNick_name());
+
+    Map<Object, Object> result = new HashMap<Object, Object>();
+    result.put("userInfo", userInfo);
+    // 前端得到token，之后的每个请求都需要从header传token，key是UtilitiesToken
+    result.put("token", userTokenManager.generateToken(userModel.getUser_id()));
+
+    return ResultDto.successData(result);
+  }
+
+  /**
+   * 查询登录用户信息
+   * @param userId
+   * @return
+   * @throws Exception
+   */
+  @GetMapping("/user/getUserInfo")
+  public ResultDto getUserInfo(@LoginUser Long userId) throws Exception{
+    return ResultDto.successData(userService.selectById(userId, Cluster.slave));
   }
 
   /**
