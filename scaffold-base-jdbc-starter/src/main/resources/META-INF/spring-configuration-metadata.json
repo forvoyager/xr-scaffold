@@ -3,13 +3,13 @@
   "groups": [
     {
       "name": "xr.base.data.source",
-      "type": "com.xr.base.jdbc.datasource.DruidDataSourceAutoConfiguration",
-      "sourceType": "com.xr.base.jdbc.datasource.DruidDataSourceAutoConfiguration"
+      "type": "com.xr.base.jdbc.datasource.DynamicDataSourceAutoConfiguration",
+      "sourceType": "com.xr.base.jdbc.datasource.DynamicDataSourceAutoConfiguration"
     }
   ],
   "properties": [
     {
-      "sourceType": "com.xr.base.jdbc.datasource.DruidDataSourceAutoConfiguration",
+      "sourceType": "com.xr.base.jdbc.datasource.DynamicDataSourceAutoConfiguration",
       "defaultValue": true,
       "name": "xr.base.data.source.enabled",
       "description": "数据源是否加载",

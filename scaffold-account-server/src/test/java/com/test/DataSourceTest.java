@@ -1,7 +1,7 @@
 package com.test;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.xr.scaffold.account.ScaffoldAccountApplication;
+import com.zaxxer.hikari.HikariDataSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,8 @@ public class DataSourceTest {
   @Autowired
   DataSource dataSource;
 
-  @Autowired
-  DruidDataSource druidDataSource;
+//  @Autowired
+//  HikariDataSource hikariDataSource;
 
   @Autowired
   DataSourceProperties dataSourceProperties;
@@ -34,5 +34,6 @@ public class DataSourceTest {
     System.out.println(dataSource);
     System.out.println(dataSource.getClass().getName());
     System.out.println(dataSourceProperties);
+//    System.out.println(hikariDataSource.getConnectionInitSql());
   }
 }
