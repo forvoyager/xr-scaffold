@@ -16,6 +16,7 @@
     <module>scaffold-account-server</module>
     <module>scaffold-gateway-server</module>
     <module>scaffold-task-server</module>
+    <module>scaffold-kafka</module>
   </modules>
 
   <parent>
@@ -120,13 +121,13 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.9.9</version>
+        <version>2.10.1</version>
       </dependency>
 
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.9.9</version>
+        <version>2.10.1</version>
       </dependency>
       <!--jackson end-->
 
@@ -192,6 +193,7 @@
       <dependency>
         <groupId>com.alibaba.cloud</groupId>
         <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        <version>2.2.2.RELEASE</version>
       </dependency>
 
       <dependency>
