@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- author: forvoyager@outlook.com -->
+<!-- time: 2021-08-10 13:19:29 -->
+<!-- description: 物品数据 数据库操作mapper -->
+<mapper namespace="com.xr.recommend.mapper.ItemMapper">
+
+  <sql id="Base_Column_List">
+    `id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `title`, `content`, `author`, `tags`, `extend`, `create_time`, `update_time`
+  </sql>
+
+  <!-- 自定义查询条件 -->
+  <sql id="Custom_Where_Sql">
+
+  </sql>
+
+  <!-- 基础查询条件，不允许修改，自定义条件在Custom_Where_Sql中添加 -->
+  <sql id="Base_Where_Sql">
+    <if test="idList != null and idList.size() > 0">
+      <![CDATA[ AND t.`id` IN ]]>
+      <foreach collection="idList" item="item" open="(" separator="," close=")">
+        <![CDATA[ #{item} ]]>
+      </foreach>
+    </if>
+    <if test="id != null">
+      <![CDATA[ AND t.`id` = #{id} ]]>
+    </if>
+    <if test="datasource_id != null">
+      <![CDATA[ AND t.`datasource_id` = #{datasource_id} ]]>
+    </if>
+    <if test="item_id != null">
+      <![CDATA[ AND t.`item_id` = #{item_id} ]]>
+    </if>
+    <if test="type != null">
+      <![CDATA[ AND t.`type` = #{type} ]]>
+    </if>
+    <if test="category != null">
+      <![CDATA[ AND t.`category` = #{category} ]]>
+    </if>
+    <if test="status != null">
+      <![CDATA[ AND t.`status` = #{status} ]]>
+    </if>
+    <if test="title != null">
+      <![CDATA[ AND t.`title` = #{title} ]]>
+    </if>
+    <if test="content != null">
+      <![CDATA[ AND t.`content` = #{content} ]]>
+    </if>
+    <if test="author != null">
+      <![CDATA[ AND t.`author` = #{author} ]]>
+    </if>
+    <if test="tags != null">
+      <![CDATA[ AND t.`tags` = #{tags} ]]>
+    </if>
+    <if test="extend != null">
+      <![CDATA[ AND t.`extend` = #{extend} ]]>
+    </if>
+    <if test="create_time != null">
+      <![CDATA[ AND t.`create_time` = #{create_time} ]]>
+    </if>
+    <if test="update_time != null">
+      <![CDATA[ AND t.`update_time` = #{update_time} ]]>
+    </if>
+  </sql>
+
+  <sql id="Where_Sql">
+    <where>
+      <include refid="Base_Where_Sql"/>
+      <include refid="Custom_Where_Sql"/>
+    </where>
+  </sql>
+
+  <!-- 插入 -->
+  <insert id="insert" parameterType="com.xr.recommend.common.model.ItemModel" keyProperty="id" useGeneratedKeys="true">
+    <![CDATA[ INSERT INTO res_item ]]>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        <![CDATA[ `id`, ]]>
+      </if>
+      <if test="datasource_id != null">
+        <![CDATA[ `datasource_id`, ]]>
+      </if>
+      <if test="item_id != null">
+        <![CDATA[ `item_id`, ]]>
+      </if>
+      <if test="type != null">
+        <![CDATA[ `type`, ]]>
+      </if>
+      <if test="category != null">
+        <![CDATA[ `category`, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ `status`, ]]>
+      </if>
+      <if test="title != null">
+        <![CDATA[ `title`, ]]>
+      </if>
+      <if test="content != null">
+        <![CDATA[ `content`, ]]>
+      </if>
+      <if test="author != null">
+        <![CDATA[ `author`, ]]>
+      </if>
+      <if test="tags != null">
+        <![CDATA[ `tags`, ]]>
+      </if>
+      <if test="extend != null">
+        <![CDATA[ `extend`, ]]>
+      </if>
+      <if test="create_time != null">
+        <![CDATA[ `create_time`, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ `update_time`, ]]>
+      </if>
+    </trim>
+    <![CDATA[ VALUES ]]>
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        <![CDATA[ #{id}, ]]>
+      </if>
+      <if test="datasource_id != null">
+        <![CDATA[ #{datasource_id}, ]]>
+      </if>
+      <if test="item_id != null">
+        <![CDATA[ #{item_id}, ]]>
+      </if>
+      <if test="type != null">
+        <![CDATA[ #{type}, ]]>
+      </if>
+      <if test="category != null">
+        <![CDATA[ #{category}, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ #{status}, ]]>
+      </if>
+      <if test="title != null">
+        <![CDATA[ #{title}, ]]>
+      </if>
+      <if test="content != null">
+        <![CDATA[ #{content}, ]]>
+      </if>
+      <if test="author != null">
+        <![CDATA[ #{author}, ]]>
+      </if>
+      <if test="tags != null">
+        <![CDATA[ #{tags}, ]]>
+      </if>
+      <if test="extend != null">
+        <![CDATA[ #{extend}, ]]>
+      </if>
+      <if test="create_time != null">
+        <![CDATA[ #{create_time}, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ #{update_time}, ]]>
+      </if>
+    </trim>
+  </insert>
+
+  <!-- 批量插入 -->
+  <insert id="insertBatch" parameterType="com.xr.recommend.common.model.ItemModel">
+    <![CDATA[ INSERT INTO res_item (`id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `title`, `content`, `author`, `tags`, `extend`, `create_time`, `update_time`) VALUES ]]>
+    <foreach collection="list" separator="," item="item">
+      (#{item.id}, #{item.datasource_id}, #{item.item_id}, #{item.type}, #{item.category}, #{item.status}, #{item.title}, #{item.content}, #{item.author}, #{item.tags}, #{item.extend}, #{item.create_time}, #{item.update_time})
+    </foreach>
+  </insert>
+
+  <!-- 更新（主键/version/create_time不会被更新，version自增1） -->
+  <update id="update" parameterType="map">
+    <![CDATA[ UPDATE res_item t SET t.`version` = t.`version` + 1, ]]>
+    <trim suffixOverrides=",">
+      <if test="datasource_id != null">
+        <![CDATA[ t.`datasource_id` = #{datasource_id}, ]]>
+      </if>
+      <if test="item_id != null">
+        <![CDATA[ t.`item_id` = #{item_id}, ]]>
+      </if>
+      <if test="type != null">
+        <![CDATA[ t.`type` = #{type}, ]]>
+      </if>
+      <if test="category != null">
+        <![CDATA[ t.`category` = #{category}, ]]>
+      </if>
+      <if test="status != null">
+        <![CDATA[ t.`status` = #{status}, ]]>
+      </if>
+      <if test="title != null">
+        <![CDATA[ t.`title` = #{title}, ]]>
+      </if>
+      <if test="content != null">
+        <![CDATA[ t.`content` = #{content}, ]]>
+      </if>
+      <if test="author != null">
+        <![CDATA[ t.`author` = #{author}, ]]>
+      </if>
+      <if test="tags != null">
+        <![CDATA[ t.`tags` = #{tags}, ]]>
+      </if>
+      <if test="extend != null">
+        <![CDATA[ t.`extend` = #{extend}, ]]>
+      </if>
+      <if test="update_time != null">
+        <![CDATA[ t.`update_time` = #{update_time}, ]]>
+      </if>
+    </trim>
+    <where>
+      <if test="id != null">
+        <![CDATA[ AND t.`id` = #{id} ]]>
+      </if>
+    </where>
+  </update>
+
+  <!-- 删除 -->
+  <delete id="delete" parameterType="map">
+    <![CDATA[ DELETE t FROM res_item t ]]>
+    <include refid="Where_Sql"/>
+  </delete>
+
+  <!-- 查询行数 -->
+  <select id="selectCount" parameterType="map" resultType="long">
+    <![CDATA[ SELECT COUNT(*) FROM res_item t ]]>
+    <include refid="Where_Sql"/>
+  </select>
+
+  <!-- 查询记录 -->
+  <select id="selectList" parameterType="map" resultType="com.xr.recommend.common.model.ItemModel">
+    <![CDATA[ SELECT ]]>
+    <include refid="Base_Column_List"/>
+    <![CDATA[ FROM res_item t ]]>
+    <include refid="Where_Sql"/>
+    <include refid="global.globalSort"/>
+  </select>
+
+</mapper>
