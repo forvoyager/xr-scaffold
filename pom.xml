@@ -17,6 +17,8 @@
     <module>scaffold-gateway-server</module>
     <module>scaffold-task-server</module>
     <module>scaffold-code-generator</module>
+    <module>scaffold-recommend-server</module>
+    <module>scaffold-recommend-common</module>
   </modules>
 
   <parent>
