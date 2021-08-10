@@ -5,10 +5,8 @@ import com.xr.recommend.common.service.IUserService;
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
 import com.xr.base.core.page.PageData;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -18,10 +16,12 @@ import java.util.Map;
 
 /**
 * <b>author</b>: forvoyager@outlook.com
-* <b>time</b>: 2021-08-10 13:19:29 <br>
+* <b>time</b>: 2021-08-10 14:31:18 <br>
 * <b>description</b>: 用户数据 HTTP服务 <br>
 */
+@Api(tags = "用户数据相关操作")
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
   @Resource
@@ -29,15 +29,15 @@ public class UserController {
 
   /**
    * <p>
-   * 插入一条记录
+   * 存在则更新，否则插入
    * </p>
    *
    * @param entity 实体对象
-   * @return
+   * @return UserModel 插入/更新成功的对象
    */
-  @RequestMapping("/user/insert")
-  public ResultDto insert(@RequestBody UserModel entity) throws Exception {
-    userService.insert(entity);
+  @PostMapping("/upsert")
+  public ResultDto<UserModel> upsert(@RequestBody UserModel entity) throws Exception {
+    userService.upsert(entity);
     return ResultDto.success();
   }
 
@@ -49,23 +49,9 @@ public class UserController {
    * @param entityList 对象列表
    * @return 插入成功的记录数
    */
-  @RequestMapping("/user/insert/batch")
+  @PostMapping("/insert/batch")
   public ResultDto<Integer> insertBatch(@RequestBody List<UserModel> entityList) throws Exception {
     userService.insertBatch(entityList);
-    return ResultDto.success();
-  }
-
-  /**
-   * <p>
-   * 存在则更新，否则插入
-   * </p>
-   *
-   * @param entity 实体对象
-   * @return UserModel 插入/更新成功的对象
-   */
-  @RequestMapping("/user/upsert")
-  public ResultDto<UserModel> upsert(@RequestBody UserModel entity) throws Exception {
-    userService.upsert(entity);
     return ResultDto.success();
   }
 
@@ -77,7 +63,7 @@ public class UserController {
    * @param id 主键ID
    * @return 删除的行数
    */
-  @RequestMapping("/user/delete/{id}")
+  @DeleteMapping("/delete/{id}")
   public ResultDto<Integer> deleteById(@PathVariable("id") long id) throws Exception {
     return ResultDto.successData(userService.deleteById(id));
   }
@@ -90,35 +76,9 @@ public class UserController {
    * @param condition 删除条件
    * @return Integer 删除的行数
    */
-  @RequestMapping("/user/delete")
+  @DeleteMapping("/delete")
   public ResultDto<Long> delete(@RequestBody Map<String, Object> condition) throws Exception {
     return ResultDto.successData(userService.delete(condition));
-  }
-
-  /**
-   * <p>
-   * 根据 model 修改数据
-   * </p>
-   *
-   * @param entity 实体对象
-   * @return 更新的行数
-   */
-  @RequestMapping("/user/update/model")
-  public ResultDto<Long> update(@RequestBody UserModel entity) throws Exception {
-    return ResultDto.successData(userService.update(entity));
-  }
-
-  /**
-   * <p>
-   * 根据map条件 修改
-   * </p>
-   *
-   * @param columnMap 更新数据/更新条件
-   * @return 更新的行数
-   */
-  @RequestMapping("/user/update/map")
-  public ResultDto<Long> updateByMap(@RequestBody Map<String, Object> columnMap) throws Exception {
-    return ResultDto.successData(userService.update(columnMap));
   }
 
   /**
@@ -127,12 +87,12 @@ public class UserController {
    * </p>
    *
    * @param id 主键ID
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return UserModel
    */
-  @RequestMapping("/user/select/{master}/{id}")
-  public ResultDto<UserModel> selectById(@PathVariable("id") long id, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(userService.selectById(id, master));
+  @GetMapping("/select/{cluster}/{id}")
+  public ResultDto<UserModel> selectById(@PathVariable("id") long id, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(userService.selectById(id, cluster));
   }
 
   /**
@@ -141,12 +101,12 @@ public class UserController {
    * </p>
    *
    * @param idList 主键ID列表
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return List<UserModel> 列表
    */
-  @RequestMapping("/user/select/{master}/batch")
-  public ResultDto<List<UserModel>> selectByIds(@RequestBody Collection<? extends Serializable> idList, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(userService.selectByIds(idList, master));
+  @GetMapping("/select/{cluster}/batch")
+  public ResultDto<List<UserModel>> selectByIds(@RequestBody Collection<? extends Serializable> idList, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(userService.selectByIds(idList, cluster));
   }
 
   /**
@@ -155,12 +115,12 @@ public class UserController {
    * </p>
    *
    * @param condition 查询条件
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return List<UserModel> 列表
    */
-  @RequestMapping("/user/select/{master}/list")
-  public ResultDto<List<UserModel>> selectList(@RequestBody Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(userService.selectList(condition, master));
+  @GetMapping("/select/{cluster}/list")
+  public ResultDto<List<UserModel>> selectList(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(userService.selectList(condition, cluster));
   }
 
   /**
@@ -169,12 +129,12 @@ public class UserController {
    * </p>
    *
    * @param condition 查询条件
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return UserModel
    */
-  @RequestMapping("/user/select/{master}/one")
-  public ResultDto<UserModel> selectOne(@RequestBody Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(userService.selectOne(condition, master));
+  @GetMapping("/select/{cluster}/one")
+  public ResultDto<UserModel> selectOne(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(userService.selectOne(condition, cluster));
   }
 
   /**
@@ -183,12 +143,12 @@ public class UserController {
    * </p>
    *
    * @param condition 查询条件
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return long 记录数
    */
-  @RequestMapping("/user/select/{master}/count")
-  public ResultDto<Long> selectCount(@RequestBody(required = false) Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(userService.selectCount(condition, master));
+  @GetMapping("/select/{cluster}/count")
+  public ResultDto<Long> selectCount(@RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(userService.selectCount(condition, cluster));
   }
 
   /**
@@ -199,12 +159,12 @@ public class UserController {
    * @param page 第几页
    * @param size 每页记录数
    * @param condition 查询条件
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return
    */
-  @RequestMapping("/user/select/{master}/page/{page}/{size}")
-  public ResultDto<PageData<UserModel>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(userService.selectPage(page, size, condition, master));
+  @GetMapping("/select/{cluster}/page/{page}/{size}")
+  public ResultDto<PageData<UserModel>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(userService.selectPage(page, size, condition, cluster));
   }
 
 }

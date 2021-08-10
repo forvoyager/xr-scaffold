@@ -5,10 +5,8 @@ import ${basePackageName}.${moduleName}.common.service.I${modelName?cap_first}Se
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
 import com.xr.base.core.page.PageData;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -21,7 +19,9 @@ import java.util.Map;
 * <b>time</b>: ${time} <br>
 * <b>description</b>: ${comments} HTTP服务 <br>
 */
+@Api(tags = "${comments}相关操作")
 @RestController
+@RequestMapping("/${modelName}")
 public class ${modelName?cap_first}Controller {
 
   @Resource
@@ -29,15 +29,15 @@ public class ${modelName?cap_first}Controller {
 
   /**
    * <p>
-   * 插入一条记录
+   * 存在则更新，否则插入
    * </p>
    *
    * @param entity 实体对象
-   * @return
+   * @return ${modelName?cap_first}Model 插入/更新成功的对象
    */
-  @RequestMapping("/${modelName}/insert")
-  public ResultDto insert(@RequestBody ${modelName?cap_first}Model entity) throws Exception {
-    ${modelName}Service.insert(entity);
+  @PostMapping("/upsert")
+  public ResultDto<${modelName?cap_first}Model> upsert(@RequestBody ${modelName?cap_first}Model entity) throws Exception {
+    ${modelName}Service.upsert(entity);
     return ResultDto.success();
   }
 
@@ -49,23 +49,9 @@ public class ${modelName?cap_first}Controller {
    * @param entityList 对象列表
    * @return 插入成功的记录数
    */
-  @RequestMapping("/${modelName}/insert/batch")
+  @PostMapping("/insert/batch")
   public ResultDto<Integer> insertBatch(@RequestBody List<${modelName?cap_first}Model> entityList) throws Exception {
     ${modelName}Service.insertBatch(entityList);
-    return ResultDto.success();
-  }
-
-  /**
-   * <p>
-   * 存在则更新，否则插入
-   * </p>
-   *
-   * @param entity 实体对象
-   * @return ${modelName?cap_first}Model 插入/更新成功的对象
-   */
-  @RequestMapping("/${modelName}/upsert")
-  public ResultDto<${modelName?cap_first}Model> upsert(@RequestBody ${modelName?cap_first}Model entity) throws Exception {
-    ${modelName}Service.upsert(entity);
     return ResultDto.success();
   }
 
@@ -77,7 +63,7 @@ public class ${modelName?cap_first}Controller {
    * @param ${primaryField} 主键ID
    * @return 删除的行数
    */
-  @RequestMapping("/${modelName}/delete/{${primaryField}}")
+  @DeleteMapping("/delete/{${primaryField}}")
   public ResultDto<Integer> deleteById(@PathVariable("${primaryField}") long ${primaryField}) throws Exception {
     return ResultDto.successData(${modelName}Service.deleteById(${primaryField}));
   }
@@ -90,35 +76,9 @@ public class ${modelName?cap_first}Controller {
    * @param condition 删除条件
    * @return Integer 删除的行数
    */
-  @RequestMapping("/${modelName}/delete")
+  @DeleteMapping("/delete")
   public ResultDto<Long> delete(@RequestBody Map<String, Object> condition) throws Exception {
     return ResultDto.successData(${modelName}Service.delete(condition));
-  }
-
-  /**
-   * <p>
-   * 根据 model 修改数据
-   * </p>
-   *
-   * @param entity 实体对象
-   * @return 更新的行数
-   */
-  @RequestMapping("/${modelName}/update/model")
-  public ResultDto<Long> update(@RequestBody ${modelName?cap_first}Model entity) throws Exception {
-    return ResultDto.successData(${modelName}Service.update(entity));
-  }
-
-  /**
-   * <p>
-   * 根据map条件 修改
-   * </p>
-   *
-   * @param columnMap 更新数据/更新条件
-   * @return 更新的行数
-   */
-  @RequestMapping("/${modelName}/update/map")
-  public ResultDto<Long> updateByMap(@RequestBody Map<String, Object> columnMap) throws Exception {
-    return ResultDto.successData(${modelName}Service.update(columnMap));
   }
 
   /**
@@ -127,12 +87,12 @@ public class ${modelName?cap_first}Controller {
    * </p>
    *
    * @param ${primaryField} 主键ID
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return ${modelName?cap_first}Model
    */
-  @RequestMapping("/${modelName}/select/{master}/{${primaryField}}")
-  public ResultDto<${modelName?cap_first}Model> selectById(@PathVariable("${primaryField}") long ${primaryField}, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(${modelName}Service.selectById(${primaryField}, master));
+  @GetMapping("/select/{cluster}/{${primaryField}}")
+  public ResultDto<${modelName?cap_first}Model> selectById(@PathVariable("${primaryField}") long ${primaryField}, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(${modelName}Service.selectById(${primaryField}, cluster));
   }
 
   /**
@@ -141,12 +101,12 @@ public class ${modelName?cap_first}Controller {
    * </p>
    *
    * @param idList 主键ID列表
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return List<${modelName?cap_first}Model> 列表
    */
-  @RequestMapping("/${modelName}/select/{master}/batch")
-  public ResultDto<List<${modelName?cap_first}Model>> selectByIds(@RequestBody Collection<? extends Serializable> idList, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(${modelName}Service.selectByIds(idList, master));
+  @GetMapping("/select/{cluster}/batch")
+  public ResultDto<List<${modelName?cap_first}Model>> selectByIds(@RequestBody Collection<? extends Serializable> idList, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(${modelName}Service.selectByIds(idList, cluster));
   }
 
   /**
@@ -155,12 +115,12 @@ public class ${modelName?cap_first}Controller {
    * </p>
    *
    * @param condition 查询条件
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return List<${modelName?cap_first}Model> 列表
    */
-  @RequestMapping("/${modelName}/select/{master}/list")
-  public ResultDto<List<${modelName?cap_first}Model>> selectList(@RequestBody Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(${modelName}Service.selectList(condition, master));
+  @GetMapping("/select/{cluster}/list")
+  public ResultDto<List<${modelName?cap_first}Model>> selectList(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(${modelName}Service.selectList(condition, cluster));
   }
 
   /**
@@ -169,12 +129,12 @@ public class ${modelName?cap_first}Controller {
    * </p>
    *
    * @param condition 查询条件
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return ${modelName?cap_first}Model
    */
-  @RequestMapping("/${modelName}/select/{master}/one")
-  public ResultDto<${modelName?cap_first}Model> selectOne(@RequestBody Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(${modelName}Service.selectOne(condition, master));
+  @GetMapping("/select/{cluster}/one")
+  public ResultDto<${modelName?cap_first}Model> selectOne(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(${modelName}Service.selectOne(condition, cluster));
   }
 
   /**
@@ -183,12 +143,12 @@ public class ${modelName?cap_first}Controller {
    * </p>
    *
    * @param condition 查询条件
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return long 记录数
    */
-  @RequestMapping("/${modelName}/select/{master}/count")
-  public ResultDto<Long> selectCount(@RequestBody(required = false) Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(${modelName}Service.selectCount(condition, master));
+  @GetMapping("/select/{cluster}/count")
+  public ResultDto<Long> selectCount(@RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(${modelName}Service.selectCount(condition, cluster));
   }
 
   /**
@@ -199,12 +159,12 @@ public class ${modelName?cap_first}Controller {
    * @param page 第几页
    * @param size 每页记录数
    * @param condition 查询条件
-   * @param master 主节点 or 从节点
+   * @param cluster 主节点 or 从节点
    * @return
    */
-  @RequestMapping("/${modelName}/select/{master}/page/{page}/{size}")
-  public ResultDto<PageData<${modelName?cap_first}Model>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("master") Cluster master) throws Exception {
-    return ResultDto.successData(${modelName}Service.selectPage(page, size, condition, master));
+  @GetMapping("/select/{cluster}/page/{page}/{size}")
+  public ResultDto<PageData<${modelName?cap_first}Model>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(${modelName}Service.selectPage(page, size, condition, cluster));
   }
 
 }
