@@ -1,7 +1,7 @@
 package ${basePackageName}.${moduleName}.service;
 
 import ${basePackageName}.${moduleName}.common.model.${modelName?cap_first}Model;
-import com.xr.base.jdbc.service.IBaseService;
+import com.xr.base.core.service.IBaseService;
 
 /**
  * <b>author</b>: ${author}

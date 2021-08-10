@@ -39,8 +39,22 @@ public class CodeGenerator {
 
     // 需要生成代码的表Map<tableName, comment>
     List<String> tables = new ArrayList<String>();
-    tables.add("xr_user");
-    tables.add("xr_user_account");
+
+    // todo 修改配置信息
+    basePackageName = "com.xr";
+    moduleName = "recommend";
+    author = "forvoyager@outlook.com";
+    outputPath = "F:\\xR\\code";
+    url = "jdbc:mysql://localhost:3306/res_db_test?characterEncoding=UTF-8";
+    driver = "com.mysql.cj.jdbc.Driver";
+    username = "root";
+    password = "123456";
+    skipTablePrefix = "res_";
+    tables.add("res_action");
+    tables.add("res_datasource");
+    tables.add("res_item");
+    tables.add("res_scene");
+    tables.add("res_user");
 
 //    // 基础包名
 //    String basePackageName = "com.xr";
