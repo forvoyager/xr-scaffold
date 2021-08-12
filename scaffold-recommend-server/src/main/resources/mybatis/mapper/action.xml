@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2021-08-10 13:19:29 -->
+<!-- time: 2021-08-12 16:41:11 -->
 <!-- description: 行为数据 数据库操作mapper -->
 <mapper namespace="com.xr.recommend.mapper.ActionMapper">
 
   <sql id="Base_Column_List">
-    `action_id`, `datasource_id`, `user_id`, `item_type`, `item_id`, `action_type`, `action_time`, `trace_id`, `extend`, `create_time`, `update_time`
+    `action_id`, `datasource_id`, `user_id`, `item_type`, `item_id`, `action_code`, `action_time`, `action_score`, `trace_id`, `extend`, `create_time`, `update_time`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -37,11 +37,14 @@
     <if test="item_id != null">
       <![CDATA[ AND t.`item_id` = #{item_id} ]]>
     </if>
-    <if test="action_type != null">
-      <![CDATA[ AND t.`action_type` = #{action_type} ]]>
+    <if test="action_code != null">
+      <![CDATA[ AND t.`action_code` = #{action_code} ]]>
     </if>
     <if test="action_time != null">
       <![CDATA[ AND t.`action_time` = #{action_time} ]]>
+    </if>
+    <if test="action_score != null">
+      <![CDATA[ AND t.`action_score` = #{action_score} ]]>
     </if>
     <if test="trace_id != null">
       <![CDATA[ AND t.`trace_id` = #{trace_id} ]]>
@@ -83,11 +86,14 @@
       <if test="item_id != null">
         <![CDATA[ `item_id`, ]]>
       </if>
-      <if test="action_type != null">
-        <![CDATA[ `action_type`, ]]>
+      <if test="action_code != null">
+        <![CDATA[ `action_code`, ]]>
       </if>
       <if test="action_time != null">
         <![CDATA[ `action_time`, ]]>
+      </if>
+      <if test="action_score != null">
+        <![CDATA[ `action_score`, ]]>
       </if>
       <if test="trace_id != null">
         <![CDATA[ `trace_id`, ]]>
@@ -119,11 +125,14 @@
       <if test="item_id != null">
         <![CDATA[ #{item_id}, ]]>
       </if>
-      <if test="action_type != null">
-        <![CDATA[ #{action_type}, ]]>
+      <if test="action_code != null">
+        <![CDATA[ #{action_code}, ]]>
       </if>
       <if test="action_time != null">
         <![CDATA[ #{action_time}, ]]>
+      </if>
+      <if test="action_score != null">
+        <![CDATA[ #{action_score}, ]]>
       </if>
       <if test="trace_id != null">
         <![CDATA[ #{trace_id}, ]]>
@@ -142,9 +151,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.xr.recommend.common.model.ActionModel">
-    <![CDATA[ INSERT INTO res_action (`action_id`, `datasource_id`, `user_id`, `item_type`, `item_id`, `action_type`, `action_time`, `trace_id`, `extend`, `create_time`, `update_time`) VALUES ]]>
+    <![CDATA[ INSERT INTO res_action (`action_id`, `datasource_id`, `user_id`, `item_type`, `item_id`, `action_code`, `action_time`, `action_score`, `trace_id`, `extend`, `create_time`, `update_time`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.action_id}, #{item.datasource_id}, #{item.user_id}, #{item.item_type}, #{item.item_id}, #{item.action_type}, #{item.action_time}, #{item.trace_id}, #{item.extend}, #{item.create_time}, #{item.update_time})
+      (#{item.action_id}, #{item.datasource_id}, #{item.user_id}, #{item.item_type}, #{item.item_id}, #{item.action_code}, #{item.action_time}, #{item.action_score}, #{item.trace_id}, #{item.extend}, #{item.create_time}, #{item.update_time})
     </foreach>
   </insert>
 
@@ -164,11 +173,14 @@
       <if test="item_id != null">
         <![CDATA[ t.`item_id` = #{item_id}, ]]>
       </if>
-      <if test="action_type != null">
-        <![CDATA[ t.`action_type` = #{action_type}, ]]>
+      <if test="action_code != null">
+        <![CDATA[ t.`action_code` = #{action_code}, ]]>
       </if>
       <if test="action_time != null">
         <![CDATA[ t.`action_time` = #{action_time}, ]]>
+      </if>
+      <if test="action_score != null">
+        <![CDATA[ t.`action_score` = #{action_score}, ]]>
       </if>
       <if test="trace_id != null">
         <![CDATA[ t.`trace_id` = #{trace_id}, ]]>

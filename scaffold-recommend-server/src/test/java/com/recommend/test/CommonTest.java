@@ -158,8 +158,10 @@ public class CommonTest {
       model.setUser_id(jsonNode.findPath("userId").asText(""));
       model.setItem_type(0);
       model.setItem_id(jsonNode.findPath("itemId").asText(""));
-      model.setAction_type(getActionType(jsonNode.findPath("actionType").asText("")));
+      ActionType t = getActionType(jsonNode.findPath("actionType").asText(""));
+      model.setAction_code(t.getCode());
       model.setAction_time(jsonNode.findPath("actionTime").asInt(0));
+      model.setAction_score(t.getScore());
       model.setTrace_id("");
       model.setExtend("");
       model.setCreate_time(now);
@@ -177,12 +179,11 @@ public class CommonTest {
     }
   }
 
-  private int getActionType(String type){
+  private ActionType getActionType(String type){
     if(StringUtils.isNotEmpty(type)){
-      ActionType actionType = ActionType.parseActionType(type);
-      return actionType.getCode();
+      return ActionType.parseActionType(type);
     }
 
-    return ActionType.click.getCode();
+    return ActionType.click;
   }
 }
