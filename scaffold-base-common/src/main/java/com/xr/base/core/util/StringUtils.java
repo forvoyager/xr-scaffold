@@ -11,4 +11,8 @@ package com.xr.base.core.util;
 public final class StringUtils extends org.springframework.util.StringUtils {
 
     private StringUtils(){}
+
+    public static boolean isNotEmpty(Object str) {
+        return !isEmpty(str);
+    }
 }

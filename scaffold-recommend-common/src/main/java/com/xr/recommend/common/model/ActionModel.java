@@ -4,7 +4,7 @@ import com.xr.base.core.model.BaseModel;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-10 13:19:29 <br>
+ * <b>time</b>: 2021-08-12 10:20:19 <br>
  * <b>description</b>: 行为数据 模型 <br>
  */
 public class ActionModel extends BaseModel {
@@ -40,7 +40,7 @@ public class ActionModel extends BaseModel {
    */
   private String item_id;
   /**
-   * 行为类型 0-item 1-article 2-video 3-audio 4-image
+   * 行为类型 见系统枚举ActionType
    */
   private Integer action_type;
   /**

@@ -4,7 +4,7 @@ import com.xr.base.core.model.BaseModel;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-10 13:19:29 <br>
+ * <b>time</b>: 2021-08-12 10:20:19 <br>
  * <b>description</b>: 物品数据 模型 <br>
  */
 public class ItemModel extends BaseModel {
@@ -15,6 +15,8 @@ public class ItemModel extends BaseModel {
   public static final String TYPE = "type";
   public static final String CATEGORY = "category";
   public static final String STATUS = "status";
+  public static final String PIC_URL = "pic_url";
+  public static final String PRICE = "price";
   public static final String TITLE = "title";
   public static final String CONTENT = "content";
   public static final String AUTHOR = "author";
@@ -45,6 +47,14 @@ public class ItemModel extends BaseModel {
    * 状态 0可推荐 1不可推荐 2置顶
    */
   private Integer status;
+  /**
+   * 图片，多个用,隔开
+   */
+  private String pic_url;
+  /**
+   * 价格
+   */
+  private Double price;
   /**
    * 标题
    */
@@ -117,6 +127,24 @@ public class ItemModel extends BaseModel {
 
   public ItemModel setStatus(Integer status) {
     this.status = status;
+    return this;
+  }
+
+  public String getPic_url() {
+    return this.pic_url;
+  }
+
+  public ItemModel setPic_url(String pic_url) {
+    this.pic_url = pic_url;
+    return this;
+  }
+
+  public Double getPrice() {
+    return this.price;
+  }
+
+  public ItemModel setPrice(Double price) {
+    this.price = price;
     return this;
   }
 

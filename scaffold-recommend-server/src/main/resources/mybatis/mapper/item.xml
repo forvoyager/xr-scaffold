@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2021-08-10 13:19:29 -->
+<!-- time: 2021-08-12 10:20:19 -->
 <!-- description: 物品数据 数据库操作mapper -->
 <mapper namespace="com.xr.recommend.mapper.ItemMapper">
 
   <sql id="Base_Column_List">
-    `id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `title`, `content`, `author`, `tags`, `extend`, `create_time`, `update_time`
+    `id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `pic_url`, `price`, `title`, `content`, `author`, `tags`, `extend`, `create_time`, `update_time`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -39,6 +39,12 @@
     </if>
     <if test="status != null">
       <![CDATA[ AND t.`status` = #{status} ]]>
+    </if>
+    <if test="pic_url != null">
+      <![CDATA[ AND t.`pic_url` = #{pic_url} ]]>
+    </if>
+    <if test="price != null">
+      <![CDATA[ AND t.`price` = #{price} ]]>
     </if>
     <if test="title != null">
       <![CDATA[ AND t.`title` = #{title} ]]>
@@ -92,6 +98,12 @@
       <if test="status != null">
         <![CDATA[ `status`, ]]>
       </if>
+      <if test="pic_url != null">
+        <![CDATA[ `pic_url`, ]]>
+      </if>
+      <if test="price != null">
+        <![CDATA[ `price`, ]]>
+      </if>
       <if test="title != null">
         <![CDATA[ `title`, ]]>
       </if>
@@ -134,6 +146,12 @@
       <if test="status != null">
         <![CDATA[ #{status}, ]]>
       </if>
+      <if test="pic_url != null">
+        <![CDATA[ #{pic_url}, ]]>
+      </if>
+      <if test="price != null">
+        <![CDATA[ #{price}, ]]>
+      </if>
       <if test="title != null">
         <![CDATA[ #{title}, ]]>
       </if>
@@ -160,9 +178,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.xr.recommend.common.model.ItemModel">
-    <![CDATA[ INSERT INTO res_item (`id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `title`, `content`, `author`, `tags`, `extend`, `create_time`, `update_time`) VALUES ]]>
+    <![CDATA[ INSERT INTO res_item (`id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `pic_url`, `price`, `title`, `content`, `author`, `tags`, `extend`, `create_time`, `update_time`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.datasource_id}, #{item.item_id}, #{item.type}, #{item.category}, #{item.status}, #{item.title}, #{item.content}, #{item.author}, #{item.tags}, #{item.extend}, #{item.create_time}, #{item.update_time})
+      (#{item.id}, #{item.datasource_id}, #{item.item_id}, #{item.type}, #{item.category}, #{item.status}, #{item.pic_url}, #{item.price}, #{item.title}, #{item.content}, #{item.author}, #{item.tags}, #{item.extend}, #{item.create_time}, #{item.update_time})
     </foreach>
   </insert>
 
@@ -184,6 +202,12 @@
       </if>
       <if test="status != null">
         <![CDATA[ t.`status` = #{status}, ]]>
+      </if>
+      <if test="pic_url != null">
+        <![CDATA[ t.`pic_url` = #{pic_url}, ]]>
+      </if>
+      <if test="price != null">
+        <![CDATA[ t.`price` = #{price}, ]]>
       </if>
       <if test="title != null">
         <![CDATA[ t.`title` = #{title}, ]]>

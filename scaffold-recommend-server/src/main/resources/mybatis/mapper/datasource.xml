@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2021-08-10 13:19:29 -->
+<!-- time: 2021-08-12 10:20:19 -->
 <!-- description: 推荐数据源 数据库操作mapper -->
 <mapper namespace="com.xr.recommend.mapper.DatasourceMapper">
 
   <sql id="Base_Column_List">
-    `datasource_id`, `source_code`, `name`, `status`, `create_time`, `update_time`
+    `datasource_id`, `source_code`, `name`, `status`, `remark`, `create_time`, `update_time`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -33,6 +33,9 @@
     </if>
     <if test="status != null">
       <![CDATA[ AND t.`status` = #{status} ]]>
+    </if>
+    <if test="remark != null">
+      <![CDATA[ AND t.`remark` = #{remark} ]]>
     </if>
     <if test="create_time != null">
       <![CDATA[ AND t.`create_time` = #{create_time} ]]>
@@ -65,6 +68,9 @@
       <if test="status != null">
         <![CDATA[ `status`, ]]>
       </if>
+      <if test="remark != null">
+        <![CDATA[ `remark`, ]]>
+      </if>
       <if test="create_time != null">
         <![CDATA[ `create_time`, ]]>
       </if>
@@ -86,6 +92,9 @@
       <if test="status != null">
         <![CDATA[ #{status}, ]]>
       </if>
+      <if test="remark != null">
+        <![CDATA[ #{remark}, ]]>
+      </if>
       <if test="create_time != null">
         <![CDATA[ #{create_time}, ]]>
       </if>
@@ -97,9 +106,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.xr.recommend.common.model.DatasourceModel">
-    <![CDATA[ INSERT INTO res_datasource (`datasource_id`, `source_code`, `name`, `status`, `create_time`, `update_time`) VALUES ]]>
+    <![CDATA[ INSERT INTO res_datasource (`datasource_id`, `source_code`, `name`, `status`, `remark`, `create_time`, `update_time`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.datasource_id}, #{item.source_code}, #{item.name}, #{item.status}, #{item.create_time}, #{item.update_time})
+      (#{item.datasource_id}, #{item.source_code}, #{item.name}, #{item.status}, #{item.remark}, #{item.create_time}, #{item.update_time})
     </foreach>
   </insert>
 
@@ -115,6 +124,9 @@
       </if>
       <if test="status != null">
         <![CDATA[ t.`status` = #{status}, ]]>
+      </if>
+      <if test="remark != null">
+        <![CDATA[ t.`remark` = #{remark}, ]]>
       </if>
       <if test="update_time != null">
         <![CDATA[ t.`update_time` = #{update_time}, ]]>
