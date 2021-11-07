@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,31 +24,39 @@ public class HttpUtils {
   protected static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
   public static String post(String url) throws Exception {
-    return post(url, null);
+    return post(url, Collections.EMPTY_MAP, Collections.EMPTY_MAP);
   }
 
   public static String post(String url, Map<String, String> params) throws Exception {
+    return post(url, params, Collections.EMPTY_MAP);
+  }
 
+  public static String post(String url, Map<String, String> params, Map<String, String> header) throws Exception {
+    int responseCode = 0;
+    String result = null;
     long startTime = System.currentTimeMillis();
-    HttpURLConnection conn = getConnection(url, HTTP_METHOD_POST);
 
-    if (params != null && params.size() > 0) {
-      OutputStream outwritestream = conn.getOutputStream();
-      outwritestream.write(JsonUtils.toJson(params).getBytes(DEFAULT_CHARSET));
-      outwritestream.flush();
-      outwritestream.close();
+    try {
+      HttpURLConnection conn = getConnection(url, HTTP_METHOD_POST, header);
+      if (params != null && params.size() > 0) {
+        OutputStream outwritestream = conn.getOutputStream();
+        outwritestream.write(JsonUtils.toJson(params).getBytes(DEFAULT_CHARSET));
+        outwritestream.flush();
+        outwritestream.close();
+      }
+
+      responseCode = conn.getResponseCode();
+      result = parseResponseAsString(conn);
+      conn.disconnect();
+    }finally {
+      logger.info(HTTP_REQUEST_LOG_PATTERN, HTTP_METHOD_POST, url, JsonUtils.toJson(params), (System.currentTimeMillis() - startTime), responseCode, result);
     }
-
-    String result = parseResponseAsString(conn);
-    conn.disconnect();
-
-    logger.info(HTTP_REQUEST_LOG_PATTERN, "POST", url, JsonUtils.toJson(params), (System.currentTimeMillis() - startTime), conn.getResponseCode(), result);
 
     return result;
   }
 
   public static String get(String url) throws Exception {
-    return get(url, Collections.EMPTY_MAP);
+    return get(url, Collections.EMPTY_MAP, Collections.EMPTY_MAP);
   }
 
   public static String get(String url, Map<String, String> params) throws Exception {
@@ -56,6 +65,46 @@ public class HttpUtils {
 
   public static String get(String url, Map<String, String> params, Map<String, String> header) throws Exception {
 
+    String finalUrl = parseGetUrl(url, params);
+    String result = null;
+    int responseCode = 0;
+    long startTime = System.currentTimeMillis();
+    try {
+      HttpURLConnection conn = getConnection(finalUrl, HTTP_METHOD_GET, header);
+      responseCode = conn.getResponseCode();
+      result = parseResponseAsString(conn);
+      conn.disconnect();
+    } finally {
+      logger.info(HTTP_REQUEST_LOG_PATTERN, HTTP_METHOD_GET, finalUrl, JsonUtils.toJson(params), (System.currentTimeMillis() - startTime), responseCode, result);
+    }
+
+    return result;
+  }
+
+  /**
+   * 获取get请求的header头信息
+   * @param url
+   * @param params
+   * @return
+   * @throws Exception
+   */
+  public static Map<String, List<String>> getHeader(String url, Map<String, String> params) throws Exception{
+
+    long startTime = System.currentTimeMillis();
+    String finalUrl = parseGetUrl(url, params);
+    int responseCode = 0;
+    try {
+      HttpURLConnection conn = getConnection(finalUrl, HTTP_METHOD_GET);
+      responseCode = conn.getResponseCode();
+      Map<String, List<String>> header = parseResponseHeader(conn);
+      conn.disconnect();
+      return header;
+    }finally {
+      logger.info(HTTP_REQUEST_LOG_PATTERN, HTTP_METHOD_GET, finalUrl, JsonUtils.toJson(params), (System.currentTimeMillis() - startTime), responseCode, "");
+    }
+  }
+
+  private static String parseGetUrl(String url, Map<String, String> params) throws Exception{
     StringBuffer finalUrl = new StringBuffer();
     if (params != null && params.size() > 0) {
       for (String key : params.keySet()) {
@@ -64,37 +113,18 @@ public class HttpUtils {
       finalUrl.replace(0, 1, "?");
     }
     finalUrl.insert(0, url);
-
-    String result = null;
-    int responseCode = 0;
-    long startTime = System.currentTimeMillis();
-    try {
-      HttpURLConnection conn = getConnection(finalUrl.toString(), HTTP_METHOD_GET, header);
-      responseCode = conn.getResponseCode();
-      result = parseResponseAsString(conn);
-      conn.disconnect();
-    } finally {
-      logger.info(HTTP_REQUEST_LOG_PATTERN, "GET", finalUrl.toString(), JsonUtils.toJson(params), (System.currentTimeMillis() - startTime), responseCode, result);
-    }
-
-    return result;
+    return finalUrl.toString();
   }
 
-  public static byte[] getBytes(String url, Map<String, Object> params, String method) throws Exception {
+  public static byte[] getBytes(String url, Map<String, String> params, String method) throws Exception {
+
+    long startTime = System.currentTimeMillis();
 
     String finalUrl = url;
     if (HTTP_METHOD_GET.equals(method)) {
-      StringBuffer tmpUrl = new StringBuffer();
-      if (params != null && params.size() > 0) {
-        for (String key : params.keySet()) {
-          tmpUrl.append("&").append(key).append("=").append(URLEncoder.encode(params.get(key).toString(), DEFAULT_CHARSET));
-        }
-        tmpUrl.replace(0, 1, "?");
-      }
-      finalUrl = tmpUrl.insert(0, url).toString();
+      finalUrl = parseGetUrl(url, params);
     }
 
-    long startTime = System.currentTimeMillis();
     HttpURLConnection conn = getConnection(finalUrl, method);
 
     if (HTTP_METHOD_POST.equals(method)) {
@@ -138,7 +168,7 @@ public class HttpUtils {
   }
 
   private static HttpURLConnection getConnection(String url, String type, Map<String, String> header) throws Exception {
-    type = StringUtils.isEmpty(type) ? "GET" : type.toUpperCase();
+    type = StringUtils.isEmpty(type) ? HTTP_METHOD_GET : type.toUpperCase();
     HttpURLConnection conn = (HttpURLConnection) new URL(url).openConnection();
     conn.setRequestProperty("Charset", DEFAULT_CHARSET);
     conn.setRequestProperty("accept", "*/*");
@@ -200,5 +230,12 @@ public class HttpUtils {
     }
 
     return result.toString();
+  }
+
+  private static Map<String, List<String>> parseResponseHeader(HttpURLConnection conn) throws Exception{
+
+    if(conn == null){ return Collections.EMPTY_MAP; }
+
+    return conn.getHeaderFields();
   }
 }
