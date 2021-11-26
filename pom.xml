@@ -19,6 +19,7 @@
     <module>scaffold-code-generator</module>
     <module>scaffold-recommend-server</module>
     <module>scaffold-recommend-common</module>
+    <module>scaffold-recommend-man-server</module>
   </modules>
 
   <parent>
@@ -31,6 +32,8 @@
     <encoding>UTF-8</encoding>
     <resource.delimiter>${}</resource.delimiter>
     <compiler.version>1.8</compiler.version>
+    <jackson.version>2.10.1</jackson.version>
+    <dubbo.version>3.0.4</dubbo.version>
   </properties>
 
   <repositories>
@@ -123,13 +126,31 @@
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-core</artifactId>
-        <version>2.9.9</version>
+        <version>${jackson.version}</version>
       </dependency>
 
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
-        <version>2.9.9</version>
+        <version>${jackson.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jdk8</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson.datatype</groupId>
+        <artifactId>jackson-datatype-jsr310</artifactId>
+        <version>${jackson.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.fasterxml.jackson.module</groupId>
+        <artifactId>jackson-module-parameter-names</artifactId>
+        <version>${jackson.version}</version>
       </dependency>
       <!--jackson end-->
 
@@ -264,6 +285,27 @@
         <version>2.0.7</version>
         <scope>test</scope>
       </dependency>
+
+      <!-- dubbo start -->
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-spring-boot-starter</artifactId>
+        <version>${dubbo.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-registry-nacos</artifactId>
+        <version>${dubbo.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-configcenter-nacos</artifactId>
+        <version>${dubbo.version}</version>
+      </dependency>
+      <!-- dubbo end -->
+
     </dependencies>
   </dependencyManagement>
 
