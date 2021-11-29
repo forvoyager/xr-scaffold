@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.node.TextNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
@@ -21,6 +20,7 @@ public class JsonUtils {
     mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     mapper.registerModule(new JavaTimeModule());
+    mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false); // 空对象( new Object() )序列化不报错
   }
 
   public static String toJson(Object object) throws Exception {
@@ -46,12 +46,5 @@ public class JsonUtils {
 
   public static JsonNode toObject(String json) throws IOException {
     return mapper.reader().readTree(json);
-  }
-
-  public static JsonNode toJsonObject(String json) throws Exception {
-    if (StringUtils.isEmpty(json)) {
-      return new TextNode("");
-    }
-    return mapper.readTree(json);
   }
 }
