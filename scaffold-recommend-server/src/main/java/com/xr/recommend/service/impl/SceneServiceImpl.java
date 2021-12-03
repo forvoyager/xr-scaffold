@@ -4,6 +4,7 @@ import com.xr.recommend.common.model.SceneModel;
 import com.xr.recommend.common.service.ISceneService;
 import com.xr.recommend.mapper.SceneMapper;
 import com.xr.base.jdbc.service.impl.BaseServiceImpl;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
  * <b>time</b>: 2021-08-10 13:19:29 <br>
  * <b>description</b>: 推荐场景 服务实现 <br>
  */
+@DubboService
 @Service("sceneService")
 public class SceneServiceImpl extends BaseServiceImpl<SceneMapper, SceneModel> implements ISceneService {
   @Override

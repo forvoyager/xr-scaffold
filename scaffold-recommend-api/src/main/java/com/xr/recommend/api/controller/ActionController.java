@@ -1,11 +1,12 @@
-package com.xr.recommend.controller;
+package com.xr.recommend.api.controller;
 
-import com.xr.recommend.common.model.ActionModel;
-import com.xr.recommend.common.service.IActionService;
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
 import com.xr.base.core.page.PageData;
+import com.xr.recommend.common.model.ActionModel;
+import com.xr.recommend.common.service.IActionService;
 import io.swagger.annotations.Api;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -24,7 +25,7 @@ import java.util.Map;
 @RequestMapping("/action")
 public class ActionController {
 
-  @Resource
+  @DubboReference
   private IActionService actionService;
 
   /**

@@ -20,6 +20,7 @@
     <module>scaffold-recommend-server</module>
     <module>scaffold-recommend-common</module>
     <module>scaffold-recommend-man-server</module>
+    <module>scaffold-recommend-api</module>
   </modules>
 
   <parent>
@@ -34,6 +35,7 @@
     <compiler.version>1.8</compiler.version>
     <jackson.version>2.10.1</jackson.version>
     <dubbo.version>3.0.4</dubbo.version>
+    <revision>3.0.4</revision>
   </properties>
 
   <repositories>
@@ -70,6 +72,18 @@
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>1.2.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.29</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.7.29</version>
     </dependency>
 
     <dependency>
@@ -289,20 +303,54 @@
       <!-- dubbo start -->
       <dependency>
         <groupId>org.apache.dubbo</groupId>
+        <artifactId>dubbo-dependencies-bom</artifactId>
+        <version>${dubbo.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.dubbo</groupId>
         <artifactId>dubbo-spring-boot-starter</artifactId>
         <version>${dubbo.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-registry-nacos</artifactId>
+        <artifactId>dubbo</artifactId>
         <version>${dubbo.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
         <groupId>org.apache.dubbo</groupId>
-        <artifactId>dubbo-configcenter-nacos</artifactId>
+        <artifactId>dubbo-registry-nacos</artifactId>
         <version>${dubbo.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba.nacos</groupId>
+        <artifactId>nacos-client</artifactId>
+        <version>2.0.3</version>
       </dependency>
       <!-- dubbo end -->
 

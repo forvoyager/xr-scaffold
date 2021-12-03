@@ -1,14 +1,14 @@
-package com.xr.recommend.controller;
+package com.xr.recommend.api.controller;
 
-import com.xr.recommend.common.model.UserModel;
-import com.xr.recommend.common.service.IUserService;
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
 import com.xr.base.core.page.PageData;
+import com.xr.recommend.common.model.ItemModel;
+import com.xr.recommend.common.service.IItemService;
 import io.swagger.annotations.Api;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -17,15 +17,15 @@ import java.util.Map;
 /**
 * <b>author</b>: forvoyager@outlook.com
 * <b>time</b>: 2021-08-10 14:31:18 <br>
-* <b>description</b>: 用户数据 HTTP服务 <br>
+* <b>description</b>: 物品数据 HTTP服务 <br>
 */
-@Api(tags = "用户数据相关操作")
+@Api(tags = "物品数据相关操作")
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/item")
+public class ItemController {
 
-  @Resource
-  private IUserService userService;
+  @DubboReference
+  private IItemService itemService;
 
   /**
    * <p>
@@ -33,11 +33,11 @@ public class UserController {
    * </p>
    *
    * @param entity 实体对象
-   * @return UserModel 插入/更新成功的对象
+   * @return ItemModel 插入/更新成功的对象
    */
   @PostMapping("/upsert")
-  public ResultDto<UserModel> upsert(@RequestBody UserModel entity) throws Exception {
-    userService.upsert(entity);
+  public ResultDto<ItemModel> upsert(@RequestBody ItemModel entity) throws Exception {
+    itemService.upsert(entity);
     return ResultDto.success();
   }
 
@@ -50,8 +50,8 @@ public class UserController {
    * @return 插入成功的记录数
    */
   @PostMapping("/insert/batch")
-  public ResultDto<Integer> insertBatch(@RequestBody List<UserModel> entityList) throws Exception {
-    userService.insertBatch(entityList);
+  public ResultDto<Integer> insertBatch(@RequestBody List<ItemModel> entityList) throws Exception {
+    itemService.insertBatch(entityList);
     return ResultDto.success();
   }
 
@@ -65,7 +65,7 @@ public class UserController {
    */
   @DeleteMapping("/delete/{id}")
   public ResultDto<Integer> deleteById(@PathVariable("id") long id) throws Exception {
-    return ResultDto.successData(userService.deleteById(id));
+    return ResultDto.successData(itemService.deleteById(id));
   }
 
   /**
@@ -78,7 +78,7 @@ public class UserController {
    */
   @DeleteMapping("/delete")
   public ResultDto<Long> delete(@RequestBody Map<String, Object> condition) throws Exception {
-    return ResultDto.successData(userService.delete(condition));
+    return ResultDto.successData(itemService.delete(condition));
   }
 
   /**
@@ -88,11 +88,11 @@ public class UserController {
    *
    * @param id 主键ID
    * @param cluster 主节点 or 从节点
-   * @return UserModel
+   * @return ItemModel
    */
   @GetMapping("/select/{cluster}/{id}")
-  public ResultDto<UserModel> selectById(@PathVariable("id") long id, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(userService.selectById(id, cluster));
+  public ResultDto<ItemModel> selectById(@PathVariable("id") long id, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(itemService.selectById(id, cluster));
   }
 
   /**
@@ -102,11 +102,11 @@ public class UserController {
    *
    * @param idList 主键ID列表
    * @param cluster 主节点 or 从节点
-   * @return List<UserModel> 列表
+   * @return List<ItemModel> 列表
    */
   @GetMapping("/select/{cluster}/batch")
-  public ResultDto<List<UserModel>> selectByIds(@RequestBody Collection<? extends Serializable> idList, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(userService.selectByIds(idList, cluster));
+  public ResultDto<List<ItemModel>> selectByIds(@RequestBody Collection<? extends Serializable> idList, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(itemService.selectByIds(idList, cluster));
   }
 
   /**
@@ -116,11 +116,11 @@ public class UserController {
    *
    * @param condition 查询条件
    * @param cluster 主节点 or 从节点
-   * @return List<UserModel> 列表
+   * @return List<ItemModel> 列表
    */
   @GetMapping("/select/{cluster}/list")
-  public ResultDto<List<UserModel>> selectList(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(userService.selectList(condition, cluster));
+  public ResultDto<List<ItemModel>> selectList(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(itemService.selectList(condition, cluster));
   }
 
   /**
@@ -130,11 +130,11 @@ public class UserController {
    *
    * @param condition 查询条件
    * @param cluster 主节点 or 从节点
-   * @return UserModel
+   * @return ItemModel
    */
   @GetMapping("/select/{cluster}/one")
-  public ResultDto<UserModel> selectOne(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(userService.selectOne(condition, cluster));
+  public ResultDto<ItemModel> selectOne(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(itemService.selectOne(condition, cluster));
   }
 
   /**
@@ -148,7 +148,7 @@ public class UserController {
    */
   @GetMapping("/select/{cluster}/count")
   public ResultDto<Long> selectCount(@RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(userService.selectCount(condition, cluster));
+    return ResultDto.successData(itemService.selectCount(condition, cluster));
   }
 
   /**
@@ -163,8 +163,8 @@ public class UserController {
    * @return
    */
   @GetMapping("/select/{cluster}/page/{page}/{size}")
-  public ResultDto<PageData<UserModel>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(userService.selectPage(page, size, condition, cluster));
+  public ResultDto<PageData<ItemModel>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(itemService.selectPage(page, size, condition, cluster));
   }
 
 }

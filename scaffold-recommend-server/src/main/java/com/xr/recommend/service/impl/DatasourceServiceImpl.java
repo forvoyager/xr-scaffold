@@ -4,6 +4,7 @@ import com.xr.recommend.common.model.DatasourceModel;
 import com.xr.recommend.common.service.IDatasourceService;
 import com.xr.recommend.mapper.DatasourceMapper;
 import com.xr.base.jdbc.service.impl.BaseServiceImpl;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
  * <b>time</b>: 2021-08-10 13:19:29 <br>
  * <b>description</b>: 推荐数据源 服务实现 <br>
  */
+@DubboService
 @Service("datasourceService")
 public class DatasourceServiceImpl extends BaseServiceImpl<DatasourceMapper, DatasourceModel> implements IDatasourceService {
   @Override

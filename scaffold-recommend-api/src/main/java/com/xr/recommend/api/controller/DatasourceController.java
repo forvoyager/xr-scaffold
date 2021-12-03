@@ -1,14 +1,14 @@
-package com.xr.recommend.controller;
+package com.xr.recommend.api.controller;
 
-import com.xr.recommend.common.model.DatasourceModel;
-import com.xr.recommend.common.service.IDatasourceService;
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
 import com.xr.base.core.page.PageData;
+import com.xr.recommend.common.model.DatasourceModel;
+import com.xr.recommend.common.service.IDatasourceService;
 import io.swagger.annotations.Api;
+import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.Map;
 @RequestMapping("/datasource")
 public class DatasourceController {
 
-  @Resource
+  @DubboReference
   private IDatasourceService datasourceService;
 
   /**
