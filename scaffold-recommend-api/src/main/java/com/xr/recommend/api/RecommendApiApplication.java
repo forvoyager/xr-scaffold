@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description: 推荐服务API
  */
 @SpringBootApplication
-public class ScaffoldRecommendApiApplication {
+public class RecommendApiApplication {
   public static void main(String[] args) {
     System.setProperty("dubbo.application.logger", "slf4j");
-    SpringApplication.run(ScaffoldRecommendApiApplication.class, args);
+    SpringApplication.run(RecommendApiApplication.class, args);
   }
 }

@@ -1,6 +1,7 @@
 package com.xr.recommend.api.config;
 
 import com.xr.base.core.dto.ResultDto;
+import com.xr.base.core.enums.ResultCodeEnum;
 import com.xr.base.core.exception.BaseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +54,7 @@ public class GlobalExceptionHandler {
   @ResponseBody
   public ResultDto exceptionHandler(Exception e) {
     logger.error("未知异常，原因:", e);
-    return ResultDto.failure(e.getMessage());
+    return ResultDto.failure(ResultCodeEnum.UNKNOW_SYSTEM_ERROR.getLabel());
   }
 
 }

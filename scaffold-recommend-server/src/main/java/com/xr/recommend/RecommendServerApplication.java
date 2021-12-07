@@ -10,8 +10,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * <b>@description</b>: 推荐服务
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-public class ScaffoldRecommendApplication {
+public class RecommendServerApplication {
   public static void main(String[] args) {
-    SpringApplication.run(ScaffoldRecommendApplication.class, args);
+    SpringApplication.run(RecommendServerApplication.class, args);
   }
 }

@@ -17,10 +17,10 @@ import java.util.Map;
  */
 public class HttpUtils {
 
-  protected static final String DEFAULT_CHARSET = "UTF-8";
+  public static final String DEFAULT_CHARSET = "UTF-8";
   protected static final String HTTP_REQUEST_LOG_PATTERN = "{} {}, with parameter {}, and cost is {}ms, http status is {}, result is {}";
-  protected static final String HTTP_METHOD_POST = "POST";
-  protected static final String HTTP_METHOD_GET = "GET";
+  public static final String HTTP_METHOD_POST = "POST";
+  public static final String HTTP_METHOD_GET = "GET";
   protected static Logger logger = LoggerFactory.getLogger(HttpUtils.class);
 
   public static String post(String url) throws Exception {

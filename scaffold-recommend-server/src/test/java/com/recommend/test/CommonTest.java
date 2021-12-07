@@ -3,7 +3,7 @@ package com.recommend.test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.xr.base.core.util.JsonUtils;
 import com.xr.base.core.util.StringUtils;
-import com.xr.recommend.ScaffoldRecommendApplication;
+import com.xr.recommend.RecommendServerApplication;
 import com.xr.recommend.common.ActionType;
 import com.xr.recommend.common.model.ActionModel;
 import com.xr.recommend.common.model.ItemModel;
@@ -30,7 +30,7 @@ import java.util.List;
  * @description:
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ScaffoldRecommendApplication.class)
+@SpringBootTest(classes = RecommendServerApplication.class)
 public class CommonTest {
 
   @Autowired
