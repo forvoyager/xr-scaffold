@@ -126,7 +126,7 @@ public interface IBaseService<T> extends IService {
    * @param cluster 主节点 or 从节点
    * @return 查询的对象
    */
-  T selectOne(Map<String, Object> condition, Cluster cluster) throws Exception;
+  T selectOne(Map<String, ? extends Object> condition, Cluster cluster) throws Exception;
 
   /**
    * <p>
@@ -138,7 +138,7 @@ public interface IBaseService<T> extends IService {
    * @param throwException true存在多条抛异常 false不抛异常（返回第一条）
    * @return 查询的对象
    */
-  T selectOne(Map<String, Object> condition, Cluster cluster, boolean throwException) throws Exception;
+  T selectOne(Map<String, ? extends Object> condition, Cluster cluster, boolean throwException) throws Exception;
 
   /**
    * <p>
@@ -149,7 +149,7 @@ public interface IBaseService<T> extends IService {
    * @param cluster 主节点 or 从节点
    * @return 查询的对象列表
    */
-  List<T> selectList(Map<String, Object> condition, Cluster cluster) throws Exception;
+  List<T> selectList(Map<String, ? extends Object> condition, Cluster cluster) throws Exception;
 
   /**
    * <p>
@@ -160,7 +160,7 @@ public interface IBaseService<T> extends IService {
    * @param cluster 主节点 or 从节点
    * @return 记录数
    */
-  long selectCount(Map<String, Object> condition, Cluster cluster) throws Exception;
+  long selectCount(Map<String, ? extends Object> condition, Cluster cluster) throws Exception;
 
   /**
    * 分页查询
@@ -171,6 +171,6 @@ public interface IBaseService<T> extends IService {
    * @return 分页查询结果
    * @throws Exception
    */
-  PageData<T> selectPage(int pageNum, int pageSize, Map<String, Object> condition, Cluster cluster) throws Exception;
+  PageData<T> selectPage(int pageNum, int pageSize, Map<String, ? extends Object> condition, Cluster cluster) throws Exception;
 
 }

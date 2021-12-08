@@ -54,7 +54,7 @@ public interface IBaseMapper<T> {
    * @param condition 查询条件
    * @return List<T>
    */
-  List<T> selectList(Map<String, Object> condition);
+  List<T> selectList(Map<String, ? extends Object> condition);
 
   /**
    * <p>
@@ -64,6 +64,6 @@ public interface IBaseMapper<T> {
    * @param condition 查询条件
    * @return long
    */
-  long selectCount(Map<String, Object> condition);
+  long selectCount(Map<String, ? extends Object> condition);
 
 }

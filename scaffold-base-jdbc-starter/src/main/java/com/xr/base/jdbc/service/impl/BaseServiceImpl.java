@@ -155,13 +155,13 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
 
   @Transactional(propagation = Propagation.SUPPORTS)
   @Override
-  public T selectOne(Map<String, Object> condition, Cluster cluster) throws Exception {
+  public T selectOne(Map<String, ? extends Object> condition, Cluster cluster) throws Exception {
     return this.selectOne(condition, cluster, false);
   }
 
   @Transactional(propagation = Propagation.SUPPORTS)
   @Override
-  public T selectOne(Map<String, Object> condition, Cluster cluster, boolean throwException) throws Exception {
+  public T selectOne(Map<String, ? extends Object> condition, Cluster cluster, boolean throwException) throws Exception {
     List<T> data = this.selectList(condition, cluster);
     if(CollectionUtils.isEmpty(data)){
       return null;
@@ -176,13 +176,13 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
 
   @Transactional(propagation = Propagation.SUPPORTS)
   @Override
-  public List<T> selectList(Map<String, Object> condition, Cluster cluster) throws Exception {
+  public List<T> selectList(Map<String, ? extends Object> condition, Cluster cluster) throws Exception {
     return this.baseMapper.selectList(condition);
   }
 
   @Transactional(propagation = Propagation.SUPPORTS)
   @Override
-  public long selectCount(Map<String, Object> condition, Cluster cluster) throws Exception {
+  public long selectCount(Map<String, ? extends Object> condition, Cluster cluster) throws Exception {
     AssertUtils.notEmpty(condition, "select failed, with invalid condition.");
 
     return this.baseMapper.selectCount(condition);
@@ -190,7 +190,7 @@ public abstract class BaseServiceImpl<M extends IBaseMapper<T>, T> implements IB
 
   @Transactional(propagation = Propagation.SUPPORTS)
   @Override
-  public PageData<T> selectPage(int pageNum, int pageSize, Map<String, Object> condition, Cluster cluster) throws Exception {
+  public PageData<T> selectPage(int pageNum, int pageSize, Map<String, ? extends Object> condition, Cluster cluster) throws Exception {
 
     // 默认返回第1页
     pageNum = pageNum < 1 ? 1 : pageNum;
