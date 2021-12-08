@@ -104,8 +104,8 @@ public class ${modelName?cap_first}Controller {
    * @param cluster 主节点 or 从节点
    * @return List<${modelName?cap_first}Model> 列表
    */
-  @GetMapping("/select/{cluster}/batch")
-  public ResultDto<List<${modelName?cap_first}Model>> selectByIds(@RequestBody Collection<? extends Serializable> idList, @PathVariable("cluster") Cluster cluster) throws Exception {
+  @GetMapping("/select/{cluster}/ids")
+  public ResultDto<List<${modelName?cap_first}Model>> selectByIds(@RequestParam Collection<? extends Serializable> idList, @PathVariable("cluster") Cluster cluster) throws Exception {
     return ResultDto.successData(${modelName}Service.selectByIds(idList, cluster));
   }
 
@@ -119,7 +119,7 @@ public class ${modelName?cap_first}Controller {
    * @return List<${modelName?cap_first}Model> 列表
    */
   @GetMapping("/select/{cluster}/list")
-  public ResultDto<List<${modelName?cap_first}Model>> selectList(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+  public ResultDto<List<${modelName?cap_first}Model>> selectList(@RequestParam Map<String, String> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
     return ResultDto.successData(${modelName}Service.selectList(condition, cluster));
   }
 
@@ -133,7 +133,7 @@ public class ${modelName?cap_first}Controller {
    * @return ${modelName?cap_first}Model
    */
   @GetMapping("/select/{cluster}/one")
-  public ResultDto<${modelName?cap_first}Model> selectOne(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+  public ResultDto<${modelName?cap_first}Model> selectOne(@RequestParam Map<String, String> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
     return ResultDto.successData(${modelName}Service.selectOne(condition, cluster));
   }
 
@@ -147,7 +147,7 @@ public class ${modelName?cap_first}Controller {
    * @return long 记录数
    */
   @GetMapping("/select/{cluster}/count")
-  public ResultDto<Long> selectCount(@RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+  public ResultDto<Long> selectCount(@RequestParam(required = false) Map<String, String> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
     return ResultDto.successData(${modelName}Service.selectCount(condition, cluster));
   }
 
@@ -163,7 +163,7 @@ public class ${modelName?cap_first}Controller {
    * @return
    */
   @GetMapping("/select/{cluster}/page/{page}/{size}")
-  public ResultDto<PageData<${modelName?cap_first}Model>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+  public ResultDto<PageData<${modelName?cap_first}Model>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestParam(required = false) Map<String, String> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
     return ResultDto.successData(${modelName}Service.selectPage(page, size, condition, cluster));
   }
 
