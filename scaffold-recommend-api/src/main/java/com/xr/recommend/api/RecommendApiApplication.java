@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author: yang.changyan@foundbyte.com
+ * @author: forvoyager@outlook.com
  * @time: 2021-11-30 11:02:00
  * @description: 推荐服务API
  */

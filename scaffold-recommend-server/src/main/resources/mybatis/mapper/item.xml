@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2021-08-12 10:20:19 -->
+<!-- time: 2021-12-09 17:09:28 -->
 <!-- description: 物品数据 数据库操作mapper -->
 <mapper namespace="com.xr.recommend.mapper.ItemMapper">
 
   <sql id="Base_Column_List">
-    `id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `pic_url`, `price`, `title`, `content`, `author`, `tags`, `extend`, `create_time`, `update_time`
+    `id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `title`, `author`, `pic_urls`, `price`, `publish_time`, `weight`, `content`, `location`, `tags`, `extend`, `tenant_id`, `create_time`, `update_time`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -40,26 +40,38 @@
     <if test="status != null">
       <![CDATA[ AND t.`status` = #{status} ]]>
     </if>
-    <if test="pic_url != null">
-      <![CDATA[ AND t.`pic_url` = #{pic_url} ]]>
+    <if test="title != null">
+      <![CDATA[ AND t.`title` = #{title} ]]>
+    </if>
+    <if test="author != null">
+      <![CDATA[ AND t.`author` = #{author} ]]>
+    </if>
+    <if test="pic_urls != null">
+      <![CDATA[ AND t.`pic_urls` = #{pic_urls} ]]>
     </if>
     <if test="price != null">
       <![CDATA[ AND t.`price` = #{price} ]]>
     </if>
-    <if test="title != null">
-      <![CDATA[ AND t.`title` = #{title} ]]>
+    <if test="publish_time != null">
+      <![CDATA[ AND t.`publish_time` = #{publish_time} ]]>
+    </if>
+    <if test="weight != null">
+      <![CDATA[ AND t.`weight` = #{weight} ]]>
     </if>
     <if test="content != null">
       <![CDATA[ AND t.`content` = #{content} ]]>
     </if>
-    <if test="author != null">
-      <![CDATA[ AND t.`author` = #{author} ]]>
+    <if test="location != null">
+      <![CDATA[ AND t.`location` = #{location} ]]>
     </if>
     <if test="tags != null">
       <![CDATA[ AND t.`tags` = #{tags} ]]>
     </if>
     <if test="extend != null">
       <![CDATA[ AND t.`extend` = #{extend} ]]>
+    </if>
+    <if test="tenant_id != null">
+      <![CDATA[ AND t.`tenant_id` = #{tenant_id} ]]>
     </if>
     <if test="create_time != null">
       <![CDATA[ AND t.`create_time` = #{create_time} ]]>
@@ -98,26 +110,38 @@
       <if test="status != null">
         <![CDATA[ `status`, ]]>
       </if>
-      <if test="pic_url != null">
-        <![CDATA[ `pic_url`, ]]>
+      <if test="title != null">
+        <![CDATA[ `title`, ]]>
+      </if>
+      <if test="author != null">
+        <![CDATA[ `author`, ]]>
+      </if>
+      <if test="pic_urls != null">
+        <![CDATA[ `pic_urls`, ]]>
       </if>
       <if test="price != null">
         <![CDATA[ `price`, ]]>
       </if>
-      <if test="title != null">
-        <![CDATA[ `title`, ]]>
+      <if test="publish_time != null">
+        <![CDATA[ `publish_time`, ]]>
+      </if>
+      <if test="weight != null">
+        <![CDATA[ `weight`, ]]>
       </if>
       <if test="content != null">
         <![CDATA[ `content`, ]]>
       </if>
-      <if test="author != null">
-        <![CDATA[ `author`, ]]>
+      <if test="location != null">
+        <![CDATA[ `location`, ]]>
       </if>
       <if test="tags != null">
         <![CDATA[ `tags`, ]]>
       </if>
       <if test="extend != null">
         <![CDATA[ `extend`, ]]>
+      </if>
+      <if test="tenant_id != null">
+        <![CDATA[ `tenant_id`, ]]>
       </if>
       <if test="create_time != null">
         <![CDATA[ `create_time`, ]]>
@@ -146,26 +170,38 @@
       <if test="status != null">
         <![CDATA[ #{status}, ]]>
       </if>
-      <if test="pic_url != null">
-        <![CDATA[ #{pic_url}, ]]>
+      <if test="title != null">
+        <![CDATA[ #{title}, ]]>
+      </if>
+      <if test="author != null">
+        <![CDATA[ #{author}, ]]>
+      </if>
+      <if test="pic_urls != null">
+        <![CDATA[ #{pic_urls}, ]]>
       </if>
       <if test="price != null">
         <![CDATA[ #{price}, ]]>
       </if>
-      <if test="title != null">
-        <![CDATA[ #{title}, ]]>
+      <if test="publish_time != null">
+        <![CDATA[ #{publish_time}, ]]>
+      </if>
+      <if test="weight != null">
+        <![CDATA[ #{weight}, ]]>
       </if>
       <if test="content != null">
         <![CDATA[ #{content}, ]]>
       </if>
-      <if test="author != null">
-        <![CDATA[ #{author}, ]]>
+      <if test="location != null">
+        <![CDATA[ #{location}, ]]>
       </if>
       <if test="tags != null">
         <![CDATA[ #{tags}, ]]>
       </if>
       <if test="extend != null">
         <![CDATA[ #{extend}, ]]>
+      </if>
+      <if test="tenant_id != null">
+        <![CDATA[ #{tenant_id}, ]]>
       </if>
       <if test="create_time != null">
         <![CDATA[ #{create_time}, ]]>
@@ -178,9 +214,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.xr.recommend.common.model.ItemModel">
-    <![CDATA[ INSERT INTO res_item (`id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `pic_url`, `price`, `title`, `content`, `author`, `tags`, `extend`, `create_time`, `update_time`) VALUES ]]>
+    <![CDATA[ INSERT INTO res_item (`id`, `datasource_id`, `item_id`, `type`, `category`, `status`, `title`, `author`, `pic_urls`, `price`, `publish_time`, `weight`, `content`, `location`, `tags`, `extend`, `tenant_id`, `create_time`, `update_time`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.datasource_id}, #{item.item_id}, #{item.type}, #{item.category}, #{item.status}, #{item.pic_url}, #{item.price}, #{item.title}, #{item.content}, #{item.author}, #{item.tags}, #{item.extend}, #{item.create_time}, #{item.update_time})
+      (#{item.id}, #{item.datasource_id}, #{item.item_id}, #{item.type}, #{item.category}, #{item.status}, #{item.title}, #{item.author}, #{item.pic_urls}, #{item.price}, #{item.publish_time}, #{item.weight}, #{item.content}, #{item.location}, #{item.tags}, #{item.extend}, #{item.tenant_id}, #{item.create_time}, #{item.update_time})
     </foreach>
   </insert>
 
@@ -203,26 +239,38 @@
       <if test="status != null">
         <![CDATA[ t.`status` = #{status}, ]]>
       </if>
-      <if test="pic_url != null">
-        <![CDATA[ t.`pic_url` = #{pic_url}, ]]>
+      <if test="title != null">
+        <![CDATA[ t.`title` = #{title}, ]]>
+      </if>
+      <if test="author != null">
+        <![CDATA[ t.`author` = #{author}, ]]>
+      </if>
+      <if test="pic_urls != null">
+        <![CDATA[ t.`pic_urls` = #{pic_urls}, ]]>
       </if>
       <if test="price != null">
         <![CDATA[ t.`price` = #{price}, ]]>
       </if>
-      <if test="title != null">
-        <![CDATA[ t.`title` = #{title}, ]]>
+      <if test="publish_time != null">
+        <![CDATA[ t.`publish_time` = #{publish_time}, ]]>
+      </if>
+      <if test="weight != null">
+        <![CDATA[ t.`weight` = #{weight}, ]]>
       </if>
       <if test="content != null">
         <![CDATA[ t.`content` = #{content}, ]]>
       </if>
-      <if test="author != null">
-        <![CDATA[ t.`author` = #{author}, ]]>
+      <if test="location != null">
+        <![CDATA[ t.`location` = #{location}, ]]>
       </if>
       <if test="tags != null">
         <![CDATA[ t.`tags` = #{tags}, ]]>
       </if>
       <if test="extend != null">
         <![CDATA[ t.`extend` = #{extend}, ]]>
+      </if>
+      <if test="tenant_id != null">
+        <![CDATA[ t.`tenant_id` = #{tenant_id}, ]]>
       </if>
       <if test="update_time != null">
         <![CDATA[ t.`update_time` = #{update_time}, ]]>

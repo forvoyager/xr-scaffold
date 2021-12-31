@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- author: forvoyager@outlook.com -->
-<!-- time: 2021-08-10 13:19:29 -->
+<!-- time: 2021-12-09 17:09:28 -->
 <!-- description: 用户数据 数据库操作mapper -->
 <mapper namespace="com.xr.recommend.mapper.UserMapper">
 
   <sql id="Base_Column_List">
-    `id`, `datasource_id`, `user_id`, `age`, `gender`, `tags`, `extend`, `create_time`, `update_time`
+    `id`, `datasource_id`, `user_id`, `age`, `gender`, `location`, `tags`, `extend`, `tenant_id`, `create_time`, `update_time`
   </sql>
 
   <!-- 自定义查询条件 -->
@@ -37,11 +37,17 @@
     <if test="gender != null">
       <![CDATA[ AND t.`gender` = #{gender} ]]>
     </if>
+    <if test="location != null">
+      <![CDATA[ AND t.`location` = #{location} ]]>
+    </if>
     <if test="tags != null">
       <![CDATA[ AND t.`tags` = #{tags} ]]>
     </if>
     <if test="extend != null">
       <![CDATA[ AND t.`extend` = #{extend} ]]>
+    </if>
+    <if test="tenant_id != null">
+      <![CDATA[ AND t.`tenant_id` = #{tenant_id} ]]>
     </if>
     <if test="create_time != null">
       <![CDATA[ AND t.`create_time` = #{create_time} ]]>
@@ -77,11 +83,17 @@
       <if test="gender != null">
         <![CDATA[ `gender`, ]]>
       </if>
+      <if test="location != null">
+        <![CDATA[ `location`, ]]>
+      </if>
       <if test="tags != null">
         <![CDATA[ `tags`, ]]>
       </if>
       <if test="extend != null">
         <![CDATA[ `extend`, ]]>
+      </if>
+      <if test="tenant_id != null">
+        <![CDATA[ `tenant_id`, ]]>
       </if>
       <if test="create_time != null">
         <![CDATA[ `create_time`, ]]>
@@ -107,11 +119,17 @@
       <if test="gender != null">
         <![CDATA[ #{gender}, ]]>
       </if>
+      <if test="location != null">
+        <![CDATA[ #{location}, ]]>
+      </if>
       <if test="tags != null">
         <![CDATA[ #{tags}, ]]>
       </if>
       <if test="extend != null">
         <![CDATA[ #{extend}, ]]>
+      </if>
+      <if test="tenant_id != null">
+        <![CDATA[ #{tenant_id}, ]]>
       </if>
       <if test="create_time != null">
         <![CDATA[ #{create_time}, ]]>
@@ -124,9 +142,9 @@
 
   <!-- 批量插入 -->
   <insert id="insertBatch" parameterType="com.xr.recommend.common.model.UserModel">
-    <![CDATA[ INSERT INTO res_user (`id`, `datasource_id`, `user_id`, `age`, `gender`, `tags`, `extend`, `create_time`, `update_time`) VALUES ]]>
+    <![CDATA[ INSERT INTO res_user (`id`, `datasource_id`, `user_id`, `age`, `gender`, `location`, `tags`, `extend`, `tenant_id`, `create_time`, `update_time`) VALUES ]]>
     <foreach collection="list" separator="," item="item">
-      (#{item.id}, #{item.datasource_id}, #{item.user_id}, #{item.age}, #{item.gender}, #{item.tags}, #{item.extend}, #{item.create_time}, #{item.update_time})
+      (#{item.id}, #{item.datasource_id}, #{item.user_id}, #{item.age}, #{item.gender}, #{item.location}, #{item.tags}, #{item.extend}, #{item.tenant_id}, #{item.create_time}, #{item.update_time})
     </foreach>
   </insert>
 
@@ -146,11 +164,17 @@
       <if test="gender != null">
         <![CDATA[ t.`gender` = #{gender}, ]]>
       </if>
+      <if test="location != null">
+        <![CDATA[ t.`location` = #{location}, ]]>
+      </if>
       <if test="tags != null">
         <![CDATA[ t.`tags` = #{tags}, ]]>
       </if>
       <if test="extend != null">
         <![CDATA[ t.`extend` = #{extend}, ]]>
+      </if>
+      <if test="tenant_id != null">
+        <![CDATA[ t.`tenant_id` = #{tenant_id}, ]]>
       </if>
       <if test="update_time != null">
         <![CDATA[ t.`update_time` = #{update_time}, ]]>

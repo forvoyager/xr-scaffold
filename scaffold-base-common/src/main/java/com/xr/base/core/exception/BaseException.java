@@ -28,6 +28,10 @@ public class BaseException extends RuntimeException{
     this(ResultCodeEnum.UNKNOW_SYSTEM_ERROR, message);
   }
 
+  public BaseException(ResultCodeEnum code){
+    this(code, code.getLabel());
+  }
+
   public BaseException(ResultCodeEnum code, String message){
     this.code = code.getCode();
     this.message = message;
