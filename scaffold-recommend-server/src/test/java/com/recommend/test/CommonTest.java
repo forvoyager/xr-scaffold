@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.xr.base.core.util.JsonUtils;
 import com.xr.base.core.util.StringUtils;
 import com.xr.recommend.RecommendServerApplication;
-import com.xr.recommend.common.ActionType;
+import com.xr.recommend.common.enums.ActionType;
 import com.xr.recommend.common.model.ActionModel;
 import com.xr.recommend.common.model.ItemModel;
 import com.xr.recommend.common.model.UserModel;
@@ -108,7 +108,7 @@ public class CommonTest {
       model.setType(0);
       model.setCategory(jsonNode.findPath("category").asText(""));
       model.setStatus(0);
-      model.setPic_url("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
+      model.setPic_urls("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
       model.setPrice(0.0);
       extend = jsonNode.findPath("extend");
       if(extend != null){
@@ -156,11 +156,11 @@ public class CommonTest {
       model = new ActionModel();
       model.setDatasource_id(100L);
       model.setUser_id(jsonNode.findPath("userId").asText(""));
-      model.setItem_type(0);
+      model.setAction_code(0);
       model.setItem_id(jsonNode.findPath("itemId").asText(""));
       ActionType t = getActionType(jsonNode.findPath("actionType").asText(""));
       model.setAction_code(t.getCode());
-      model.setAction_time(jsonNode.findPath("actionTime").asInt(0));
+      model.setAction_time(jsonNode.findPath("actionTime").asLong(0));
       model.setAction_score(t.getScore());
       model.setTrace_id("");
       model.setExtend("");
