@@ -4,7 +4,7 @@ import com.xr.base.core.model.BaseModel;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-12 10:20:19 <br>
+ * <b>time</b>: 2021-12-09 17:09:28 <br>
  * <b>description</b>: 推荐数据源 模型 <br>
  */
 public class DatasourceModel extends BaseModel {
@@ -14,6 +14,7 @@ public class DatasourceModel extends BaseModel {
   public static final String NAME = "name";
   public static final String STATUS = "status";
   public static final String REMARK = "remark";
+  public static final String TENANT_ID = "tenant_id";
 
   /**
    * 数据源id
@@ -35,6 +36,10 @@ public class DatasourceModel extends BaseModel {
    * 备注
    */
   private String remark;
+  /**
+   * 租户id
+   */
+  private String tenant_id;
 
   public Long getDatasource_id() {
     return this.datasource_id;
@@ -78,6 +83,15 @@ public class DatasourceModel extends BaseModel {
 
   public DatasourceModel setRemark(String remark) {
     this.remark = remark;
+    return this;
+  }
+
+  public String getTenant_id() {
+    return this.tenant_id;
+  }
+
+  public DatasourceModel setTenant_id(String tenant_id) {
+    this.tenant_id = tenant_id;
     return this;
   }
 

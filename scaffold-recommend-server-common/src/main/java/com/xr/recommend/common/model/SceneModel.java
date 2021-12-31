@@ -4,7 +4,7 @@ import com.xr.base.core.model.BaseModel;
 
 /**
  * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-10 13:19:29 <br>
+ * <b>time</b>: 2021-12-09 17:09:28 <br>
  * <b>description</b>: 推荐场景 模型 <br>
  */
 public class SceneModel extends BaseModel {
@@ -14,6 +14,7 @@ public class SceneModel extends BaseModel {
   public static final String NAME = "name";
   public static final String REMARK = "remark";
   public static final String CONFIG = "config";
+  public static final String TENANT_ID = "tenant_id";
 
   /**
    * 场景id
@@ -35,6 +36,10 @@ public class SceneModel extends BaseModel {
    * 配置信息，如点击消息跳转xx地址
    */
   private String config;
+  /**
+   * 租户id
+   */
+  private String tenant_id;
 
   public Long getScene_id() {
     return this.scene_id;
@@ -78,6 +83,15 @@ public class SceneModel extends BaseModel {
 
   public SceneModel setConfig(String config) {
     this.config = config;
+    return this;
+  }
+
+  public String getTenant_id() {
+    return this.tenant_id;
+  }
+
+  public SceneModel setTenant_id(String tenant_id) {
+    this.tenant_id = tenant_id;
     return this;
   }
 

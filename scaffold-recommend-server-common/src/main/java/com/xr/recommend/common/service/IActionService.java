@@ -9,4 +9,12 @@ import com.xr.recommend.common.model.ActionModel;
  * <b>description</b>: 行为数据 服务定义 <br>
  */
 public interface IActionService extends IBaseService<ActionModel> {
+
+  /**
+   * 上传行为数据
+   * @param entity 实体对象
+   * @return 主键id
+   */
+  void upload(ActionModel entity) throws Exception;
+
 }
