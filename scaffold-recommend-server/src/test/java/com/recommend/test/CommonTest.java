@@ -1,6 +1,9 @@
 package com.recommend.test;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xr.base.core.enums.Cluster;
+import com.xr.base.core.page.PageData;
+import com.xr.base.core.util.CollectionUtils;
 import com.xr.base.core.util.JsonUtils;
 import com.xr.base.core.util.StringUtils;
 import com.xr.recommend.RecommendServerApplication;
@@ -17,12 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 /**
  * @author: forvoyager@outlook.com
@@ -32,6 +31,9 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RecommendServerApplication.class)
 public class CommonTest {
+
+  public static final String tenant_id = "10010";
+  public static final Long datasource_id = 100L;
 
   @Autowired
   private IUserService userService;
@@ -64,12 +66,14 @@ public class CommonTest {
       }
 
       userModel = new UserModel();
-      userModel.setDatasource_id(100L);
+      userModel.setDatasource_id(datasource_id);
       userModel.setUser_id(userId);
       userModel.setAge(0);
       userModel.setGender(0);
+      userModel.setLocation("");
       userModel.setTags(tags);
       userModel.setExtend("");
+      userModel.setTenant_id(tenant_id);
       userModel.setCreate_time(now);
       userModel.setUpdate_time(now);
       userList.add(userModel);
@@ -103,11 +107,13 @@ public class CommonTest {
       tags = jsonNode.findPath("tags").toString();
 
       model = new ItemModel();
-      model.setDatasource_id(100L);
+      model.setDatasource_id(datasource_id);
       model.setItem_id(jsonNode.findPath("itemId").asText(""));
       model.setType(0);
       model.setCategory(jsonNode.findPath("category").asText(""));
       model.setStatus(0);
+      model.setTitle(jsonNode.findPath("title").asText(""));
+      model.setAuthor(jsonNode.findPath("author").asText(""));
       model.setPic_urls("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
       model.setPrice(0.0);
       extend = jsonNode.findPath("extend");
@@ -117,11 +123,13 @@ public class CommonTest {
           model.setPrice(price.asDouble(0.0));
         }
       }
-      model.setTitle(jsonNode.findPath("title").asText(""));
+      model.setPublish_time(now.getTime());
+      model.setWeight(1);
       model.setContent("");
-      model.setAuthor(jsonNode.findPath("author").asText(""));
+      model.setLocation("");
       model.setTags(tags);
       model.setExtend("");
+      model.setTenant_id(tenant_id);
       model.setCreate_time(now);
       model.setUpdate_time(now);
       list.add(model);
@@ -144,39 +152,76 @@ public class CommonTest {
     BufferedReader br = new BufferedReader(new InputStreamReader(is));
     String line = br.readLine();
     JsonNode jsonNode = null;
-    String tags = null;
-    List<ActionModel> list = new ArrayList<>();
-    ActionModel model = null;
+    List<ActionModel> actionList = new ArrayList<>();
+    ActionModel actionModel = null;
     Date now = new Date();
     int size = 0;
+    String userId = null;
     while(StringUtils.isNotEmpty(line)) {
       jsonNode = JsonUtils.toObject(line);
-      tags = jsonNode.findPath("tags").toString();
+      userId = jsonNode.findPath("userId").asText("");
 
-      model = new ActionModel();
-      model.setDatasource_id(100L);
-      model.setUser_id(jsonNode.findPath("userId").asText(""));
-      model.setAction_code(0);
-      model.setItem_id(jsonNode.findPath("itemId").asText(""));
-      ActionType t = getActionType(jsonNode.findPath("actionType").asText(""));
-      model.setAction_code(t.getCode());
-      model.setAction_time(jsonNode.findPath("actionTime").asLong(0));
-      model.setAction_score(t.getScore());
-      model.setTrace_id("");
-      model.setExtend("");
-      model.setCreate_time(now);
-      model.setUpdate_time(now);
-      list.add(model);
-      size++;
+      if(StringUtils.isNotEmpty(userId)){
+        actionModel = new ActionModel();
+        actionModel.setDatasource_id(datasource_id);
+        actionModel.setUser_id(userId);
+        actionModel.setAction_code(0);
+        actionModel.setItem_id(jsonNode.findPath("itemId").asText(""));
+        ActionType t = getActionType(jsonNode.findPath("actionType").asText(""));
+        actionModel.setAction_code(t.getCode());
+        actionModel.setAction_time(jsonNode.findPath("actionTime").asLong(0));
+        actionModel.setAction_score(t.getScore());
+        actionModel.setTrace_id("");
+        actionModel.setExtend("");
+        actionModel.setTenant_id(tenant_id);
+        actionModel.setCreate_time(now);
+        actionModel.setUpdate_time(now);
+        actionList.add(actionModel);
 
-      if(size > 200){
-        actionService.insertBatch(list);
-        size = 0;
-        list.clear();
+        size++;
+        if(size > 200){
+          actionService.insertBatch(actionList);
+          size = 0;
+          actionList.clear();
+        }
       }
+
 
       line = br.readLine();
     }
+  }
+
+  @Test
+  public void exportRating() throws Exception{
+
+    String linePattern = "%s,%s,%s,%s";
+    BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/data/rating.csv", true));
+
+    // 表头
+    bw.write(String.format(linePattern, "userId", "itemId", "rating", "timestamp"));
+    bw.newLine();
+
+    int pageNum = 0;
+    int pageSize = 100;
+    List<ActionModel> data = null;
+    PageData<ActionModel> pageData = null;
+    Map<String, Object> condition = new HashMap<>();
+    condition.put(ActionModel.DATASOURCE_ID, datasource_id);
+    condition.put("orderBy", "action_id asc");
+    do{
+      pageNum++;
+      pageData = actionService.selectPage(pageNum, pageSize, condition, Cluster.slave);
+      data = pageData.getData();
+      if (CollectionUtils.isEmpty(data)){ break; }
+
+      for(ActionModel am : data){
+        bw.write(String.format(linePattern, am.getUser_id(), am.getItem_id(), am.getAction_score(), am.getAction_time()));
+        bw.newLine();
+      }
+    }while (true);
+
+    bw.flush();
+    bw.close();
   }
 
   private ActionType getActionType(String type){
