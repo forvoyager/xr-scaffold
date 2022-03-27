@@ -18,6 +18,7 @@
     <module>scaffold-task-server</module>
     <module>scaffold-code-generator</module>
     <module>scaffold-recommend-server</module>
+    <module>scaffold-recommend-server-common</module>
     <module>scaffold-recommend-common</module>
     <module>scaffold-recommend-man-server</module>
     <module>scaffold-recommend-api</module>

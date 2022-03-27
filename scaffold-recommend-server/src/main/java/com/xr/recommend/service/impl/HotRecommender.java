@@ -4,10 +4,11 @@ import com.xr.recommend.common.AbstractRecommender;
 import com.xr.recommend.common.Context;
 import com.xr.recommend.common.enums.RecommendSceneType;
 import com.xr.recommend.common.model.ItemModel;
+import com.xr.recommend.common.service.IActionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author: forvoyager@outlook.com
@@ -16,18 +17,23 @@ import java.util.List;
  */
 @Component
 public class HotRecommender extends AbstractRecommender {
+
+  @Autowired
+  private IActionService actionService;
+
   @Override
-  public List<ItemModel> callItem(Context context, List<String> excludeItemList) throws Exception {
+  protected List<ItemModel> callItem(Context context, List<String> excludeItemList) throws Exception {
+//    actionService.selectPage()
     return null;
   }
 
   @Override
-  public List<ItemModel> orderItem(Context context, List<ItemModel> itemList) throws Exception {
+  protected List<ItemModel> orderItem(Context context, List<ItemModel> itemList) throws Exception {
     return itemList;
   }
 
   @Override
-  public List<RecommendSceneType> supportRecommendScene() {
+  public List<RecommendSceneType> scene() {
     return Arrays.asList(RecommendSceneType.hot);
   }
 
