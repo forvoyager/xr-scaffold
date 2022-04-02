@@ -1,6 +1,6 @@
 package com.xr.recommend.service.impl;
 
-import com.xr.recommend.common.model.ActionModel;
+import com.xr.recommend.common.entity.ActionEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -13,7 +13,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 @Component
 public class MQManager {
   private final int MQ_SIZE = 20000;
-  private ArrayBlockingQueue<ActionModel> actionMQ = new ArrayBlockingQueue<ActionModel>(MQ_SIZE);
+  private ArrayBlockingQueue<ActionEntity> actionMQ = new ArrayBlockingQueue<ActionEntity>(MQ_SIZE);
 
   /**
    * 动作行为消息队列

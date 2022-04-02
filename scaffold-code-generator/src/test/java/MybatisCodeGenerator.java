@@ -30,6 +30,8 @@ public class MybatisCodeGenerator {
     String tablePrefix = "res_"; // 表前缀
     String author = "forvoyager@outlook.com"; // 作者
     String db = "localhost:3306/res_db_test"; // 数据库地址
+    String username = "root";
+    String password = "123456";
 
     // 需要生成代码的表
     List<String> tables = new ArrayList<>();
@@ -54,10 +56,10 @@ public class MybatisCodeGenerator {
     gc.setOutputDir(finalPath + "/src/main/java");
     gc.setAuthor(author);
     gc.setOpen(false);
-    gc.setSwagger2(true);
+    gc.setSwagger2(false);
     gc.setActiveRecord(false);
     gc.setFileOverride(true);
-    gc.setEntityName("%sModel");
+    gc.setEntityName("%sEntity");
     gc.setServiceName("I%sService");
     gc.setServiceImplName("%sServiceImpl");
     gc.setControllerName("%sController");
@@ -69,8 +71,8 @@ public class MybatisCodeGenerator {
     dsc.setDbType(DbType.MYSQL);
     dsc.setUrl("jdbc:mysql://" + db + "?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull");
     dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-    dsc.setUsername("root");
-    dsc.setPassword("rootroot");
+    dsc.setUsername(username);
+    dsc.setPassword(password);
 //    dsc.setTypeConvert(new MySqlTypeConvert(){
 //      @Override
 //      public DbColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType){
@@ -136,6 +138,7 @@ public class MybatisCodeGenerator {
     strategy.setNaming(NamingStrategy.underline_to_camel);
     strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 //    strategy.setSuperEntityClass("com.xr.base.core.model.BaseModel");
+    strategy.setEntityTableFieldAnnotationEnable(false);
     strategy.setEntityLombokModel(false);
     strategy.setEntityColumnConstant(true);
     strategy.setRestControllerStyle(true);

@@ -1,14 +1,16 @@
 package com.xr.recommend.mapper;
 
-import com.xr.recommend.common.model.ItemModel;
-import com.xr.base.jdbc.mapper.IBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xr.recommend.common.entity.ItemEntity;
 
 /**
- * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-10 13:19:29 <br>
- * <b>description</b>: 物品数据 mapper操作 <br>
+ * <p>
+ * 物品数据 Mapper 接口
+ * </p>
+ *
+ * @author forvoyager@outlook.com
+ * @since 2022-04-01
  */
-@Mapper
-public interface ItemMapper extends IBaseMapper<ItemModel> {
+public interface ItemMapper extends BaseMapper<ItemEntity> {
+
 }

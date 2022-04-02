@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * <b>@time</b>: 2021-08-10 13:27:00
  * <b>@description</b>: 推荐服务
  */
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@SpringBootApplication
 public class RecommendServerApplication {
   public static void main(String[] args) {
     SpringApplication.run(RecommendServerApplication.class, args);

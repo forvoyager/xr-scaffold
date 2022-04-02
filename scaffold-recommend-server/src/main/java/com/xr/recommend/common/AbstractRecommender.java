@@ -1,12 +1,12 @@
 package com.xr.recommend.common;
 
+import com.xr.base.core.util.CollectionUtils;
+import com.xr.recommend.common.entity.ItemEntity;
 import com.xr.recommend.common.enums.RecommendSceneType;
-import com.xr.recommend.common.model.ItemModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author: forvoyager@outlook.com
@@ -17,19 +17,21 @@ public abstract class AbstractRecommender {
 
   protected Logger logger = LoggerFactory.getLogger(getClass());
 
+  protected Map<String, List<String>> excludeItemList = new HashMap<>();
+
   /**
    * 获取推荐结果
    * @param context
    * @return
    * @throws Exception
    */
-  public List<ItemModel> doRecommend(Context context) throws Exception{
+  public List<ItemEntity> recommend(Context context) throws Exception{
 
     // 查询过滤的物品id
-    List<String> excludeItemList = getExcludeItemIds(context.getUserId());
+    List<String> excludeItemList = getExcludeItemList(context);
 
     // 召回推荐列表
-    List<ItemModel> callItemList = this.callItem(context, excludeItemList);
+    List<ItemEntity> callItemList = this.callItem(context, excludeItemList);
 
     // 推荐列表排序（粗排）
     callItemList = this.orderItem(context, callItemList);
@@ -40,17 +42,35 @@ public abstract class AbstractRecommender {
     // 推荐列表排序（重排）
     callItemList = this.reOrderItem(context, callItemList);
 
+    // 更新推荐排除列表（下次推荐时不再推荐列表内的物品）
+    this.updateExcludeItemList(context, callItemList);
+
     return callItemList;
   }
 
   /**
    * 获取需要过滤掉的物品id
-   * @param userId
+   * @param context 推荐上下文
    * @return
    */
-  private List<String> getExcludeItemIds(String userId){
+  private List<String> getExcludeItemList(Context context){
+    return excludeItemList.getOrDefault(context.getUserId(), Collections.EMPTY_LIST);
+  }
 
-    return Collections.EMPTY_LIST;
+  /**
+   * 更新需要过滤掉的物品id
+   * @param context
+   * @param excludeItems
+   * @throws Exception
+   */
+  private void updateExcludeItemList(Context context, List<ItemEntity> excludeItems){
+    if(CollectionUtils.isEmpty(excludeItems)){ return; }
+
+    List<String> exclude = excludeItemList.get(context.getUserId());
+    if(exclude == null) { exclude = new ArrayList<>(); }
+    for(ItemEntity im : excludeItems){
+      exclude.add(im.getItemId());
+    }
   }
 
   /**
@@ -60,7 +80,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  public abstract List<ItemModel> callItem(Context context, List<String> excludeItemList) throws Exception;
+  protected abstract List<ItemEntity> callItem(Context context, List<String> excludeItemList) throws Exception;
 
   /**
    * 推荐列表排序（粗排）
@@ -69,7 +89,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  public abstract List<ItemModel> orderItem(Context context, List<ItemModel> itemList) throws Exception;
+  protected abstract List<ItemEntity> orderItem(Context context, List<ItemEntity> itemList) throws Exception;
 
   /**
    * 推荐列表排序（精排）
@@ -78,7 +98,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  public List<ItemModel> fineOrderItem(Context context, List<ItemModel> itemList) {
+  protected List<ItemEntity> fineOrderItem(Context context, List<ItemEntity> itemList) {
     return itemList;
   }
 
@@ -89,7 +109,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  public List<ItemModel> reOrderItem(Context context, List<ItemModel> itemList) {
+  protected List<ItemEntity> reOrderItem(Context context, List<ItemEntity> itemList) {
     return itemList;
   }
 
@@ -97,7 +117,7 @@ public abstract class AbstractRecommender {
    * 当前推荐器支持的场景
    * @return
    */
-  public abstract List<RecommendSceneType> supportRecommendScene();
+  public abstract List<RecommendSceneType> scene();
 
   /**
    * 推荐器名称

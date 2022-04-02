@@ -1,22 +1,20 @@
 package com.xr.recommend.service.impl;
 
-import com.xr.recommend.common.model.ItemModel;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.xr.recommend.common.entity.ItemEntity;
 import com.xr.recommend.common.service.IItemService;
 import com.xr.recommend.mapper.ItemMapper;
-import com.xr.base.jdbc.service.impl.BaseServiceImpl;
-import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 /**
- * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-10 13:19:29 <br>
- * <b>description</b>: 物品数据 服务实现 <br>
+ * <p>
+ * 物品数据 服务实现类
+ * </p>
+ *
+ * @author forvoyager@outlook.com
+ * @since 2022-04-02
  */
-@DubboService
-@Service("itemService")
-public class ItemServiceImpl extends BaseServiceImpl<ItemMapper, ItemModel> implements IItemService {
-  @Override
-  protected String getPrimaryKeyName() {
-    return "id";
-  }
+@Service
+public class ItemServiceImpl extends ServiceImpl<ItemMapper, ItemEntity> implements IItemService {
+
 }

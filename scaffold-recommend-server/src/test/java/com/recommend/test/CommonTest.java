@@ -1,16 +1,17 @@
 package com.recommend.test;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.xr.base.core.enums.Cluster;
-import com.xr.base.core.page.PageData;
 import com.xr.base.core.util.CollectionUtils;
 import com.xr.base.core.util.JsonUtils;
 import com.xr.base.core.util.StringUtils;
 import com.xr.recommend.RecommendServerApplication;
+import com.xr.recommend.common.entity.ActionEntity;
+import com.xr.recommend.common.entity.ItemEntity;
+import com.xr.recommend.common.entity.UserEntity;
 import com.xr.recommend.common.enums.ActionType;
-import com.xr.recommend.common.model.ActionModel;
-import com.xr.recommend.common.model.ItemModel;
-import com.xr.recommend.common.model.UserModel;
 import com.xr.recommend.common.service.IActionService;
 import com.xr.recommend.common.service.IItemService;
 import com.xr.recommend.common.service.IUserService;
@@ -21,6 +22,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 /**
@@ -53,9 +57,9 @@ public class CommonTest {
     JsonNode jsonNode = null;
     String tags = null;
     String userId = null;
-    List<UserModel> userList = new ArrayList<>();
-    UserModel userModel = null;
-    Date now = new Date();
+    List<UserEntity> userList = new ArrayList<>();
+    UserEntity userEntity = null;
+    LocalDateTime now = LocalDateTime.now();
     int size = 0;
     while(StringUtils.isNotEmpty(line)) {
       jsonNode = JsonUtils.toObject(line);
@@ -65,22 +69,22 @@ public class CommonTest {
         continue;
       }
 
-      userModel = new UserModel();
-      userModel.setDatasource_id(datasource_id);
-      userModel.setUser_id(userId);
-      userModel.setAge(0);
-      userModel.setGender(0);
-      userModel.setLocation("");
-      userModel.setTags(tags);
-      userModel.setExtend("");
-      userModel.setTenant_id(tenant_id);
-      userModel.setCreate_time(now);
-      userModel.setUpdate_time(now);
-      userList.add(userModel);
+      userEntity = new UserEntity();
+      userEntity.setDatasourceId(datasource_id);
+      userEntity.setUserId(userId);
+      userEntity.setAge(0);
+      userEntity.setGender(0);
+      userEntity.setLocation("");
+      userEntity.setTags(tags);
+      userEntity.setExtend("");
+      userEntity.setTenantId(tenant_id);
+      userEntity.setCreateTime(now);
+      userEntity.setUpdateTime(now);
+      userList.add(userEntity);
       size++;
 
       if(size > 200){
-        userService.insertBatch(userList);
+        userService.saveBatch(userList);
         size = 0;
         userList.clear();
       }
@@ -98,45 +102,45 @@ public class CommonTest {
     JsonNode jsonNode = null;
     JsonNode extend = null;
     String tags = null;
-    List<ItemModel> list = new ArrayList<>();
-    ItemModel model = null;
-    Date now = new Date();
+    List<ItemEntity> list = new ArrayList<>();
+    ItemEntity Entity = null;
+    LocalDateTime now = LocalDateTime.now();
     int size = 0;
     while(StringUtils.isNotEmpty(line)) {
       jsonNode = JsonUtils.toObject(line);
       tags = jsonNode.findPath("tags").toString();
 
-      model = new ItemModel();
-      model.setDatasource_id(datasource_id);
-      model.setItem_id(jsonNode.findPath("itemId").asText(""));
-      model.setType(0);
-      model.setCategory(jsonNode.findPath("category").asText(""));
-      model.setStatus(0);
-      model.setTitle(jsonNode.findPath("title").asText(""));
-      model.setAuthor(jsonNode.findPath("author").asText(""));
-      model.setPic_urls("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
-      model.setPrice(0.0);
+      Entity = new ItemEntity();
+      Entity.setDatasourceId(datasource_id);
+      Entity.setItemId(jsonNode.findPath("itemId").asText(""));
+      Entity.setType(0);
+      Entity.setCategory(jsonNode.findPath("category").asText(""));
+      Entity.setStatus(0);
+      Entity.setTitle(jsonNode.findPath("title").asText(""));
+      Entity.setAuthor(jsonNode.findPath("author").asText(""));
+      Entity.setPicUrls("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
+      Entity.setPrice(BigDecimal.ZERO);
       extend = jsonNode.findPath("extend");
       if(extend != null){
         JsonNode price = extend.get("price");
         if(price != null){
-          model.setPrice(price.asDouble(0.0));
+          Entity.setPrice(BigDecimal.valueOf(price.asDouble(0.0)));
         }
       }
-      model.setPublish_time(now.getTime());
-      model.setWeight(1);
-      model.setContent("");
-      model.setLocation("");
-      model.setTags(tags);
-      model.setExtend("");
-      model.setTenant_id(tenant_id);
-      model.setCreate_time(now);
-      model.setUpdate_time(now);
-      list.add(model);
+      Entity.setPublishTime(now.toEpochSecond(ZoneOffset.of("+8")));
+      Entity.setWeight(1);
+      Entity.setContent("");
+      Entity.setLocation("");
+      Entity.setTags(tags);
+      Entity.setExtend("");
+      Entity.setTenantId(tenant_id);
+      Entity.setCreateTime(now);
+      Entity.setUpdateTime(now);
+      list.add(Entity);
       size++;
 
       if(size > 200){
-        itemService.insertBatch(list);
+        itemService.saveBatch(list);
         size = 0;
         list.clear();
       }
@@ -152,9 +156,9 @@ public class CommonTest {
     BufferedReader br = new BufferedReader(new InputStreamReader(is));
     String line = br.readLine();
     JsonNode jsonNode = null;
-    List<ActionModel> actionList = new ArrayList<>();
-    ActionModel actionModel = null;
-    Date now = new Date();
+    List<ActionEntity> actionList = new ArrayList<>();
+    ActionEntity actionEntity = null;
+    LocalDateTime now = LocalDateTime.now();
     int size = 0;
     String userId = null;
     while(StringUtils.isNotEmpty(line)) {
@@ -162,25 +166,25 @@ public class CommonTest {
       userId = jsonNode.findPath("userId").asText("");
 
       if(StringUtils.isNotEmpty(userId)){
-        actionModel = new ActionModel();
-        actionModel.setDatasource_id(datasource_id);
-        actionModel.setUser_id(userId);
-        actionModel.setAction_code(0);
-        actionModel.setItem_id(jsonNode.findPath("itemId").asText(""));
+        actionEntity = new ActionEntity();
+        actionEntity.setDatasourceId(datasource_id);
+        actionEntity.setUserId(userId);
+        actionEntity.setActionCode(0);
+        actionEntity.setItemId(jsonNode.findPath("itemId").asText(""));
         ActionType t = getActionType(jsonNode.findPath("actionType").asText(""));
-        actionModel.setAction_code(t.getCode());
-        actionModel.setAction_time(jsonNode.findPath("actionTime").asLong(0));
-        actionModel.setAction_score(t.getScore());
-        actionModel.setTrace_id("");
-        actionModel.setExtend("");
-        actionModel.setTenant_id(tenant_id);
-        actionModel.setCreate_time(now);
-        actionModel.setUpdate_time(now);
-        actionList.add(actionModel);
+        actionEntity.setActionCode(t.getCode());
+        actionEntity.setActionTime(jsonNode.findPath("actionTime").asLong(0));
+        actionEntity.setActionScore(t.getScore());
+        actionEntity.setTraceId("");
+        actionEntity.setExtend("");
+        actionEntity.setTenantId(tenant_id);
+        actionEntity.setCreateTime(now);
+        actionEntity.setUpdateTime(now);
+        actionList.add(actionEntity);
 
         size++;
         if(size > 200){
-          actionService.insertBatch(actionList);
+          actionService.saveBatch(actionList);
           size = 0;
           actionList.clear();
         }
@@ -203,19 +207,19 @@ public class CommonTest {
 
     int pageNum = 0;
     int pageSize = 100;
-    List<ActionModel> data = null;
-    PageData<ActionModel> pageData = null;
-    Map<String, Object> condition = new HashMap<>();
-    condition.put(ActionModel.DATASOURCE_ID, datasource_id);
-    condition.put("orderBy", "action_id asc");
+    List<ActionEntity> data = null;
+    QueryWrapper<ActionEntity> queryWrapper = new QueryWrapper<>();
+    queryWrapper.eq(ActionEntity.DATASOURCE_ID, datasource_id);
+    queryWrapper.orderByAsc(ActionEntity.ACTION_ID);
     do{
       pageNum++;
-      pageData = actionService.selectPage(pageNum, pageSize, condition, Cluster.slave);
-      data = pageData.getData();
+      IPage page = new Page(pageNum, pageSize);
+      page = actionService.page(page, queryWrapper);
+      data = page.getRecords();
       if (CollectionUtils.isEmpty(data)){ break; }
 
-      for(ActionModel am : data){
-        bw.write(String.format(linePattern, am.getUser_id(), am.getItem_id(), am.getAction_score(), am.getAction_time()));
+      for(ActionEntity am : data){
+        bw.write(String.format(linePattern, am.getUserId(), am.getItemId(), am.getActionScore(), am.getActionTime()));
         bw.newLine();
       }
     }while (true);
