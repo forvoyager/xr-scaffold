@@ -1,9 +1,14 @@
 package com.xr.recommend.api.controller;
 
 import com.xr.base.core.dto.ResultDto;
+import com.xr.base.core.enums.ResultCodeEnum;
+import com.xr.base.core.exception.BaseException;
+import com.xr.base.core.util.StringUtils;
+import com.xr.recommend.api.common.dto.ActionDto;
 import com.xr.recommend.api.common.dto.ItemDto;
 import com.xr.recommend.common.service.IActionService;
 import com.xr.recommend.common.service.IItemService;
+import com.xr.recommend.common.service.IUserService;
 import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +27,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class UploadDataController {
 
   @DubboReference
+  private IUserService userService;
+
+  @DubboReference
   private IItemService itemService;
 
   @DubboReference
   private IActionService actionService;
+
+  /**
+   * <p>
+   * 上传用户数据
+   * </p>
+   *
+   * @param userDto 用户数据
+   */
+  @PostMapping("/item")
+  public ResultDto uploadItem() throws Exception {
+    return ResultDto.success();
+  }
 
   /**
    * <p>
@@ -44,21 +64,10 @@ public class UploadDataController {
    * 上传行为数据
    * </p>
    *
-   * @param entity 实体对象
+   * @param actionDto 行为数据
    */
   @PostMapping("/action")
-  public ResultDto uploadAction(@RequestBody ItemDto itemDto) throws Exception {
-//    if(itemDto.getItemType() != null){
-//      itemDto.setType(itemDto.getItemType().getType());
-//    }
-//
-//    String itemId = itemDto.getItem_id();
-//    if(StringUtils.isEmpty(itemId)){
-//      throw new BaseException(ResultCodeEnum.ILLEGAL_ARGUMENT, "物品ID不能为空");
-//    }
-//
-//    actionService.upload(itemDto);
-
+  public ResultDto uploadAction(@RequestBody ActionDto actionDto) throws Exception {
     return ResultDto.success();
   }
 }
