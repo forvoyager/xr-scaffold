@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * @author: yang.changyan@foundbyte.com
+ * @author: forvoyager@outlook.com
  * @time: 2021-12-21 11:18:00
  * @description: 用户行为处理器
  */

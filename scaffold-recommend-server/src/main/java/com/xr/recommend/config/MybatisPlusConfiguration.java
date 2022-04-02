@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
- * @author: yang.changyan@foundbyte.com
+ * @author: forvoyager@outlook.com
  * @time: 2022-04-01 18:58:00
- * @description:
+ * @description: mybatis配置
  */
 @Configuration
 @MapperScan(value = {

@@ -2,6 +2,9 @@ package com.xr.recommend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xr.recommend.common.entity.ActionEntity;
+import com.xr.recommend.common.statistics.ActionStatistic;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,7 @@ import com.xr.recommend.common.entity.ActionEntity;
  * @since 2022-04-01
  */
 public interface ActionMapper extends BaseMapper<ActionEntity> {
+
+  List<ActionStatistic> actionStatistic(long startTime, long endTime, int actionCode);
 
 }
