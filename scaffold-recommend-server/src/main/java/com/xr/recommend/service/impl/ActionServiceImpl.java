@@ -2,11 +2,17 @@ package com.xr.recommend.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xr.recommend.common.entity.ActionEntity;
+import com.xr.recommend.common.enums.ActionType;
 import com.xr.recommend.common.service.IActionService;
+import com.xr.recommend.common.statistics.ActionStatistic;
 import com.xr.recommend.mapper.ActionMapper;
 import com.xr.recommend.processor.ActionProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -25,6 +31,20 @@ public class ActionServiceImpl extends ServiceImpl<ActionMapper, ActionEntity> i
   @Override
   public void upload(ActionEntity entity) throws Exception {
     actionProcessor.add(entity);
+  }
+
+  @Override
+  public List<ActionStatistic> actionStatistic(long startTimeInSeconds, long endTimeInSeconds, ActionType actionType, int n) {
+    Map<String, Object> condition = new HashMap<>();
+    condition.put("startTimeInSeconds", startTimeInSeconds);
+    condition.put("endTimeInSeconds", endTimeInSeconds);
+    condition.put("actionCode", actionType.getCode());
+    condition.put("size", n);
+    List<ActionStatistic> statistics = getBaseMapper().actionStatistic(condition);
+    statistics.parallelStream().forEach(itm->{
+      itm.setActionType(actionType);
+    });
+    return statistics;
   }
 
 }

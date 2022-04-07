@@ -3,6 +3,8 @@ package com.xr.base.core.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -100,6 +102,10 @@ public class DateUtil {
     if(p2 != null && date.after(p2)){ return false; } // date在p2之后
 
     return true;
+  }
+
+  public static long toSecond(LocalDateTime ldt){
+    return ldt.toEpochSecond(ZoneOffset.of("+8"));
   }
 
   private DateUtil(){}

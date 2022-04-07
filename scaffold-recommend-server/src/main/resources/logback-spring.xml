@@ -50,7 +50,7 @@
         </encoder>
     </appender>
 
-<!--    <logger name="com.xr.recommend.mapper" level="DEBUG"/>-->
+    <logger name="com.xr.recommend.mapper" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

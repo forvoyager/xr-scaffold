@@ -1,8 +1,10 @@
 package com.xr.recommend.common;
 
+import com.xr.base.core.FixedLengthList;
 import com.xr.base.core.util.CollectionUtils;
+import com.xr.base.core.util.StringUtils;
 import com.xr.recommend.common.entity.ItemEntity;
-import com.xr.recommend.common.enums.RecommendSceneType;
+import com.xr.recommend.common.enums.SceneType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +19,7 @@ public abstract class AbstractRecommender {
 
   protected Logger logger = LoggerFactory.getLogger(getClass());
 
-  protected Map<String, List<String>> excludeItemList = new HashMap<>();
+  protected Map<String, FixedLengthList<String>> excludeItemList = new HashMap<>();
 
   /**
    * 获取推荐结果
@@ -27,25 +29,38 @@ public abstract class AbstractRecommender {
    */
   public List<ItemEntity> recommend(Context context) throws Exception{
 
-    // 查询过滤的物品id
-    List<String> excludeItemList = getExcludeItemList(context);
+    // 获取需要过滤的物品id
+    FixedLengthList excludeItemList = this.getExcludeItemList(context);
 
     // 召回推荐列表
-    List<ItemEntity> callItemList = this.callItem(context, excludeItemList);
+    List<ItemEntity> itemList = this.callbackItem(context, excludeItemList);
 
     // 推荐列表排序（粗排）
-    callItemList = this.orderItem(context, callItemList);
+    itemList = this.subList(itemList, context.getOrderItemSize());
+    itemList = this.orderItem(context, itemList);
 
     // 推荐列表排序（精排）
-    callItemList = this.fineOrderItem(context, callItemList);
+    itemList = this.subList(itemList, context.getFineOrderItemSize());
+    itemList = this.fineOrderItem(context, itemList);
 
     // 推荐列表排序（重排）
-    callItemList = this.reOrderItem(context, callItemList);
+    itemList = this.subList(itemList, context.getReOrderItemSize());
+    itemList = this.reOrderItem(context, itemList);
 
     // 更新推荐排除列表（下次推荐时不再推荐列表内的物品）
-    this.updateExcludeItemList(context, callItemList);
+    this.updateExcludeItemList(context, itemList);
 
-    return callItemList;
+    return itemList;
+  }
+
+  /**
+   * 截取子列表
+   * @param list
+   * @param subSize
+   * @return
+   */
+  private List<ItemEntity> subList(List<ItemEntity> list, int subSize){
+    return list.size()>subSize ? list.subList(0, subSize) : list;
   }
 
   /**
@@ -53,8 +68,8 @@ public abstract class AbstractRecommender {
    * @param context 推荐上下文
    * @return
    */
-  private List<String> getExcludeItemList(Context context){
-    return excludeItemList.getOrDefault(context.getUserId(), Collections.EMPTY_LIST);
+  private FixedLengthList getExcludeItemList(Context context){
+    return excludeItemList.getOrDefault(context.getUserId(), new FixedLengthList());
   }
 
   /**
@@ -64,10 +79,17 @@ public abstract class AbstractRecommender {
    * @throws Exception
    */
   private void updateExcludeItemList(Context context, List<ItemEntity> excludeItems){
+    // todo 异步处理
     if(CollectionUtils.isEmpty(excludeItems)){ return; }
 
-    List<String> exclude = excludeItemList.get(context.getUserId());
-    if(exclude == null) { exclude = new ArrayList<>(); }
+    String userId = context.getUserId();
+    if(StringUtils.isEmpty(userId)){ return; }
+
+    FixedLengthList<String> exclude = excludeItemList.get(userId);
+    if(exclude == null) {
+      exclude = new FixedLengthList<>(context.getExcludeItemSize());
+      excludeItemList.put(userId, exclude);
+    }
     for(ItemEntity im : excludeItems){
       exclude.add(im.getItemId());
     }
@@ -80,7 +102,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  protected abstract List<ItemEntity> callItem(Context context, List<String> excludeItemList) throws Exception;
+  protected abstract List<ItemEntity> callbackItem(Context context, FixedLengthList<String> excludeItemList) throws Exception;
 
   /**
    * 推荐列表排序（粗排）
@@ -117,7 +139,7 @@ public abstract class AbstractRecommender {
    * 当前推荐器支持的场景
    * @return
    */
-  public abstract List<RecommendSceneType> scene();
+  public abstract List<SceneType> scene();
 
   /**
    * 推荐器名称
