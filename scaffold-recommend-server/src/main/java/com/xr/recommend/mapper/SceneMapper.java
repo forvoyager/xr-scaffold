@@ -1,14 +1,16 @@
 package com.xr.recommend.mapper;
 
-import com.xr.recommend.common.model.SceneModel;
-import com.xr.base.jdbc.mapper.IBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xr.recommend.common.entity.SceneEntity;
 
 /**
- * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-10 13:19:29 <br>
- * <b>description</b>: 推荐场景 mapper操作 <br>
+ * <p>
+ * 推荐场景 Mapper 接口
+ * </p>
+ *
+ * @author forvoyager@outlook.com
+ * @since 2022-04-01
  */
-@Mapper
-public interface SceneMapper extends IBaseMapper<SceneModel> {
+public interface SceneMapper extends BaseMapper<SceneEntity> {
+
 }

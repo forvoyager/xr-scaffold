@@ -1,12 +1,16 @@
 package com.xr.recommend.common.service;
 
-import com.xr.base.core.service.IBaseService;
-import com.xr.recommend.common.model.DatasourceModel;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.xr.recommend.common.entity.DatasourceEntity;
 
 /**
- * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-10 13:19:29 <br>
- * <b>description</b>: 推荐数据源 服务定义 <br>
+ * <p>
+ * 推荐数据源 服务类
+ * </p>
+ *
+ * @author forvoyager@outlook.com
+ * @since 2022-04-01
  */
-public interface IDatasourceService extends IBaseService<DatasourceModel> {
+public interface IDatasourceService extends IService<DatasourceEntity> {
+
 }

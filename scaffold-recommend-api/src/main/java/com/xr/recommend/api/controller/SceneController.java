@@ -3,7 +3,7 @@ package com.xr.recommend.api.controller;
 import com.xr.base.core.dto.ResultDto;
 import com.xr.base.core.enums.Cluster;
 import com.xr.base.core.page.PageData;
-import com.xr.recommend.common.model.SceneModel;
+import com.xr.recommend.common.entity.SceneEntity;
 import com.xr.recommend.common.service.ISceneService;
 import io.swagger.annotations.Api;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 /**
 * <b>author</b>: forvoyager@outlook.com
-* <b>time</b>: 2021-08-10 14:31:18 <br>
+* <b>time</b>: 2021-12-09 17:09:28 <br>
 * <b>description</b>: 推荐场景 HTTP服务 <br>
 */
 @Api(tags = "推荐场景相关操作")
@@ -33,11 +33,11 @@ public class SceneController {
    * </p>
    *
    * @param entity 实体对象
-   * @return SceneModel 插入/更新成功的对象
+   * @return SceneEntity 插入/更新成功的对象
    */
   @PostMapping("/upsert")
-  public ResultDto<SceneModel> upsert(@RequestBody SceneModel entity) throws Exception {
-    sceneService.upsert(entity);
+  public ResultDto<SceneEntity> upsert(@RequestBody SceneEntity entity) throws Exception {
+    sceneService.saveOrUpdate(entity);
     return ResultDto.success();
   }
 
@@ -50,8 +50,8 @@ public class SceneController {
    * @return 插入成功的记录数
    */
   @PostMapping("/insert/batch")
-  public ResultDto<Integer> insertBatch(@RequestBody List<SceneModel> entityList) throws Exception {
-    sceneService.insertBatch(entityList);
+  public ResultDto<Integer> insertBatch(@RequestBody List<SceneEntity> entityList) throws Exception {
+    sceneService.saveBatch(entityList);
     return ResultDto.success();
   }
 
@@ -60,25 +60,12 @@ public class SceneController {
    * 根据 主键ID 删除
    * </p>
    *
-   * @param scene_id 主键ID
+   * @param action_id 主键ID
    * @return 删除的行数
    */
-  @DeleteMapping("/delete/{scene_id}")
-  public ResultDto<Integer> deleteById(@PathVariable("scene_id") long scene_id) throws Exception {
-    return ResultDto.successData(sceneService.deleteById(scene_id));
-  }
-
-  /**
-   * <p>
-   * 根据 condition 条件，删除记录
-   * </p>
-   *
-   * @param condition 删除条件
-   * @return Integer 删除的行数
-   */
-  @DeleteMapping("/delete")
-  public ResultDto<Long> delete(@RequestBody Map<String, Object> condition) throws Exception {
-    return ResultDto.successData(sceneService.delete(condition));
+  @DeleteMapping("/delete/{action_id}")
+  public ResultDto<Integer> deleteById(@PathVariable("action_id") long action_id) throws Exception {
+    return ResultDto.successData(sceneService.removeById(action_id));
   }
 
   /**
@@ -86,13 +73,13 @@ public class SceneController {
    * 根据 主键ID 查询
    * </p>
    *
-   * @param scene_id 主键ID
+   * @param action_id 主键ID
    * @param cluster 主节点 or 从节点
-   * @return SceneModel
+   * @return SceneEntity
    */
-  @GetMapping("/select/{cluster}/{scene_id}")
-  public ResultDto<SceneModel> selectById(@PathVariable("scene_id") long scene_id, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(sceneService.selectById(scene_id, cluster));
+  @GetMapping("/select/{cluster}/{action_id}")
+  public ResultDto<SceneEntity> selectById(@PathVariable("action_id") long action_id, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(sceneService.getById(action_id));
   }
 
   /**
@@ -102,11 +89,11 @@ public class SceneController {
    *
    * @param idList 主键ID列表
    * @param cluster 主节点 or 从节点
-   * @return List<SceneModel> 列表
+   * @return List<SceneEntity> 列表
    */
-  @GetMapping("/select/{cluster}/batch")
-  public ResultDto<List<SceneModel>> selectByIds(@RequestBody Collection<? extends Serializable> idList, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(sceneService.selectByIds(idList, cluster));
+  @GetMapping("/select/{cluster}/ids")
+  public ResultDto<List<SceneEntity>> selectByIds(@RequestParam Collection<? extends Serializable> idList, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(sceneService.listByIds(idList));
   }
 
   /**
@@ -116,11 +103,11 @@ public class SceneController {
    *
    * @param condition 查询条件
    * @param cluster 主节点 or 从节点
-   * @return List<SceneModel> 列表
+   * @return List<SceneEntity> 列表
    */
   @GetMapping("/select/{cluster}/list")
-  public ResultDto<List<SceneModel>> selectList(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(sceneService.selectList(condition, cluster));
+  public ResultDto<List<SceneEntity>> selectList(@RequestParam Map<String, String> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(null);
   }
 
   /**
@@ -130,11 +117,11 @@ public class SceneController {
    *
    * @param condition 查询条件
    * @param cluster 主节点 or 从节点
-   * @return SceneModel
+   * @return SceneEntity
    */
   @GetMapping("/select/{cluster}/one")
-  public ResultDto<SceneModel> selectOne(@RequestBody Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(sceneService.selectOne(condition, cluster));
+  public ResultDto<SceneEntity> selectOne(@RequestParam Map<String, String> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(null);
   }
 
   /**
@@ -147,8 +134,8 @@ public class SceneController {
    * @return long 记录数
    */
   @GetMapping("/select/{cluster}/count")
-  public ResultDto<Long> selectCount(@RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(sceneService.selectCount(condition, cluster));
+  public ResultDto<Long> selectCount(@RequestParam(required = false) Map<String, String> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(null);
   }
 
   /**
@@ -163,8 +150,8 @@ public class SceneController {
    * @return
    */
   @GetMapping("/select/{cluster}/page/{page}/{size}")
-  public ResultDto<PageData<SceneModel>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestBody(required = false) Map<String, Object> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
-    return ResultDto.successData(sceneService.selectPage(page, size, condition, cluster));
+  public ResultDto<PageData<SceneEntity>> selectPage(@PathVariable("page") int page, @PathVariable("size") int size, @RequestParam(required = false) Map<String, String> condition, @PathVariable("cluster") Cluster cluster) throws Exception {
+    return ResultDto.successData(null);
   }
 
 }

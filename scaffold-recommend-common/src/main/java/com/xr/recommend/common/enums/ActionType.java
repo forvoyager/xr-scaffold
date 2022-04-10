@@ -10,7 +10,7 @@ public enum ActionType {
   // 10打头，通用
   expose(100, -1, -1, "曝光"),
   click(101, 3, 1, "点击"),
-  search_click(12, 4, 1, "搜索点击"),
+  search_click(102, 4, 1, "搜索点击"),
   share(103, 5, 1, "分享"),
   collect(104, 5, 1, "收藏"),
   uncollect(105, -4, -1, "取消收藏"),

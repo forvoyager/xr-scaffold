@@ -2,8 +2,8 @@ package com.xr.recommend.service.impl;
 
 import com.xr.recommend.common.AbstractRecommender;
 import com.xr.recommend.common.Context;
+import com.xr.recommend.common.entity.ItemEntity;
 import com.xr.recommend.common.enums.RecommendSceneType;
-import com.xr.recommend.common.model.ItemModel;
 import com.xr.recommend.common.service.IActionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,13 +22,13 @@ public class HotRecommender extends AbstractRecommender {
   private IActionService actionService;
 
   @Override
-  protected List<ItemModel> callItem(Context context, List<String> excludeItemList) throws Exception {
+  protected List<ItemEntity> callItem(Context context, List<String> excludeItemList) throws Exception {
 //    actionService.selectPage()
     return null;
   }
 
   @Override
-  protected List<ItemModel> orderItem(Context context, List<ItemModel> itemList) throws Exception {
+  protected List<ItemEntity> orderItem(Context context, List<ItemEntity> itemList) throws Exception {
     return itemList;
   }
 

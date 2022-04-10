@@ -1,13 +1,17 @@
 package com.recommend.test;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xr.base.core.util.CollectionUtils;
 import com.xr.base.core.util.JsonUtils;
 import com.xr.base.core.util.StringUtils;
 import com.xr.recommend.RecommendServerApplication;
+import com.xr.recommend.common.entity.ActionEntity;
+import com.xr.recommend.common.entity.ItemEntity;
+import com.xr.recommend.common.entity.UserEntity;
 import com.xr.recommend.common.enums.ActionType;
-import com.xr.recommend.common.model.ActionModel;
-import com.xr.recommend.common.model.ItemModel;
-import com.xr.recommend.common.model.UserModel;
 import com.xr.recommend.common.service.IActionService;
 import com.xr.recommend.common.service.IItemService;
 import com.xr.recommend.common.service.IUserService;
@@ -17,12 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.*;
 
 /**
  * @author: forvoyager@outlook.com
@@ -32,6 +35,9 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RecommendServerApplication.class)
 public class CommonTest {
+
+  public static final String tenant_id = "10010";
+  public static final Long datasource_id = 100L;
 
   @Autowired
   private IUserService userService;
@@ -51,9 +57,9 @@ public class CommonTest {
     JsonNode jsonNode = null;
     String tags = null;
     String userId = null;
-    List<UserModel> userList = new ArrayList<>();
-    UserModel userModel = null;
-    Date now = new Date();
+    List<UserEntity> userList = new ArrayList<>();
+    UserEntity userEntity = null;
+    LocalDateTime now = LocalDateTime.now();
     int size = 0;
     while(StringUtils.isNotEmpty(line)) {
       jsonNode = JsonUtils.toObject(line);
@@ -63,20 +69,22 @@ public class CommonTest {
         continue;
       }
 
-      userModel = new UserModel();
-      userModel.setDatasource_id(100L);
-      userModel.setUser_id(userId);
-      userModel.setAge(0);
-      userModel.setGender(0);
-      userModel.setTags(tags);
-      userModel.setExtend("");
-      userModel.setCreate_time(now);
-      userModel.setUpdate_time(now);
-      userList.add(userModel);
+      userEntity = new UserEntity();
+      userEntity.setDatasourceId(datasource_id);
+      userEntity.setUserId(userId);
+      userEntity.setAge(0);
+      userEntity.setGender(0);
+      userEntity.setLocation("");
+      userEntity.setTags(tags);
+      userEntity.setExtend("");
+      userEntity.setTenantId(tenant_id);
+      userEntity.setCreateTime(now);
+      userEntity.setUpdateTime(now);
+      userList.add(userEntity);
       size++;
 
       if(size > 200){
-        userService.insertBatch(userList);
+        userService.saveBatch(userList);
         size = 0;
         userList.clear();
       }
@@ -94,41 +102,45 @@ public class CommonTest {
     JsonNode jsonNode = null;
     JsonNode extend = null;
     String tags = null;
-    List<ItemModel> list = new ArrayList<>();
-    ItemModel model = null;
-    Date now = new Date();
+    List<ItemEntity> list = new ArrayList<>();
+    ItemEntity Entity = null;
+    LocalDateTime now = LocalDateTime.now();
     int size = 0;
     while(StringUtils.isNotEmpty(line)) {
       jsonNode = JsonUtils.toObject(line);
       tags = jsonNode.findPath("tags").toString();
 
-      model = new ItemModel();
-      model.setDatasource_id(100L);
-      model.setItem_id(jsonNode.findPath("itemId").asText(""));
-      model.setType(0);
-      model.setCategory(jsonNode.findPath("category").asText(""));
-      model.setStatus(0);
-      model.setPic_urls("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
-      model.setPrice(0.0);
+      Entity = new ItemEntity();
+      Entity.setDatasourceId(datasource_id);
+      Entity.setItemId(jsonNode.findPath("itemId").asText(""));
+      Entity.setType(0);
+      Entity.setCategory(jsonNode.findPath("category").asText(""));
+      Entity.setStatus(0);
+      Entity.setTitle(jsonNode.findPath("title").asText(""));
+      Entity.setAuthor(jsonNode.findPath("author").asText(""));
+      Entity.setPicUrls("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
+      Entity.setPrice(BigDecimal.ZERO);
       extend = jsonNode.findPath("extend");
       if(extend != null){
         JsonNode price = extend.get("price");
         if(price != null){
-          model.setPrice(price.asDouble(0.0));
+          Entity.setPrice(BigDecimal.valueOf(price.asDouble(0.0)));
         }
       }
-      model.setTitle(jsonNode.findPath("title").asText(""));
-      model.setContent("");
-      model.setAuthor(jsonNode.findPath("author").asText(""));
-      model.setTags(tags);
-      model.setExtend("");
-      model.setCreate_time(now);
-      model.setUpdate_time(now);
-      list.add(model);
+      Entity.setPublishTime(now.toEpochSecond(ZoneOffset.of("+8")));
+      Entity.setWeight(1);
+      Entity.setContent("");
+      Entity.setLocation("");
+      Entity.setTags(tags);
+      Entity.setExtend("");
+      Entity.setTenantId(tenant_id);
+      Entity.setCreateTime(now);
+      Entity.setUpdateTime(now);
+      list.add(Entity);
       size++;
 
       if(size > 200){
-        itemService.insertBatch(list);
+        itemService.saveBatch(list);
         size = 0;
         list.clear();
       }
@@ -144,39 +156,76 @@ public class CommonTest {
     BufferedReader br = new BufferedReader(new InputStreamReader(is));
     String line = br.readLine();
     JsonNode jsonNode = null;
-    String tags = null;
-    List<ActionModel> list = new ArrayList<>();
-    ActionModel model = null;
-    Date now = new Date();
+    List<ActionEntity> actionList = new ArrayList<>();
+    ActionEntity actionEntity = null;
+    LocalDateTime now = LocalDateTime.now();
     int size = 0;
+    String userId = null;
     while(StringUtils.isNotEmpty(line)) {
       jsonNode = JsonUtils.toObject(line);
-      tags = jsonNode.findPath("tags").toString();
+      userId = jsonNode.findPath("userId").asText("");
 
-      model = new ActionModel();
-      model.setDatasource_id(100L);
-      model.setUser_id(jsonNode.findPath("userId").asText(""));
-      model.setAction_code(0);
-      model.setItem_id(jsonNode.findPath("itemId").asText(""));
-      ActionType t = getActionType(jsonNode.findPath("actionType").asText(""));
-      model.setAction_code(t.getCode());
-      model.setAction_time(jsonNode.findPath("actionTime").asLong(0));
-      model.setAction_score(t.getScore());
-      model.setTrace_id("");
-      model.setExtend("");
-      model.setCreate_time(now);
-      model.setUpdate_time(now);
-      list.add(model);
-      size++;
+      if(StringUtils.isNotEmpty(userId)){
+        actionEntity = new ActionEntity();
+        actionEntity.setDatasourceId(datasource_id);
+        actionEntity.setUserId(userId);
+        actionEntity.setActionCode(0);
+        actionEntity.setItemId(jsonNode.findPath("itemId").asText(""));
+        ActionType t = getActionType(jsonNode.findPath("actionType").asText(""));
+        actionEntity.setActionCode(t.getCode());
+        actionEntity.setActionTime(jsonNode.findPath("actionTime").asLong(0));
+        actionEntity.setActionScore(t.getScore());
+        actionEntity.setTraceId("");
+        actionEntity.setExtend("");
+        actionEntity.setTenantId(tenant_id);
+        actionEntity.setCreateTime(now);
+        actionEntity.setUpdateTime(now);
+        actionList.add(actionEntity);
 
-      if(size > 200){
-        actionService.insertBatch(list);
-        size = 0;
-        list.clear();
+        size++;
+        if(size > 200){
+          actionService.saveBatch(actionList);
+          size = 0;
+          actionList.clear();
+        }
       }
+
 
       line = br.readLine();
     }
+  }
+
+  @Test
+  public void exportRating() throws Exception{
+
+    String linePattern = "%s,%s,%s,%s";
+    BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/data/rating.csv", true));
+
+    // 表头
+    bw.write(String.format(linePattern, "userId", "itemId", "rating", "timestamp"));
+    bw.newLine();
+
+    int pageNum = 0;
+    int pageSize = 100;
+    List<ActionEntity> data = null;
+    QueryWrapper<ActionEntity> queryWrapper = new QueryWrapper<>();
+    queryWrapper.eq(ActionEntity.DATASOURCE_ID, datasource_id);
+    queryWrapper.orderByAsc(ActionEntity.ACTION_ID);
+    do{
+      pageNum++;
+      IPage page = new Page(pageNum, pageSize);
+      page = actionService.page(page, queryWrapper);
+      data = page.getRecords();
+      if (CollectionUtils.isEmpty(data)){ break; }
+
+      for(ActionEntity am : data){
+        bw.write(String.format(linePattern, am.getUserId(), am.getItemId(), am.getActionScore(), am.getActionTime()));
+        bw.newLine();
+      }
+    }while (true);
+
+    bw.flush();
+    bw.close();
   }
 
   private ActionType getActionType(String type){

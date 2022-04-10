@@ -1,14 +1,21 @@
 package com.xr.recommend.mapper;
 
-import com.xr.recommend.common.model.ActionModel;
-import com.xr.base.jdbc.mapper.IBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.xr.recommend.common.entity.ActionEntity;
+import com.xr.recommend.common.statistics.ActionStatistic;
+
+import java.util.List;
 
 /**
- * <b>author</b>: forvoyager@outlook.com
- * <b>time</b>: 2021-08-10 13:19:29 <br>
- * <b>description</b>: 行为数据 mapper操作 <br>
+ * <p>
+ * 行为数据 Mapper 接口
+ * </p>
+ *
+ * @author forvoyager@outlook.com
+ * @since 2022-04-01
  */
-@Mapper
-public interface ActionMapper extends IBaseMapper<ActionModel> {
+public interface ActionMapper extends BaseMapper<ActionEntity> {
+
+  List<ActionStatistic> actionStatistic(long startTime, long endTime, int actionCode);
+
 }

@@ -1,7 +1,6 @@
 package com.xr.recommend.api.common.dto;
 
 import com.xr.recommend.common.enums.ItemType;
-import com.xr.recommend.common.model.ItemModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

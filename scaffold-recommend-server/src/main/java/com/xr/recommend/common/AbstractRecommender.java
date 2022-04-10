@@ -1,8 +1,8 @@
 package com.xr.recommend.common;
 
 import com.xr.base.core.util.CollectionUtils;
+import com.xr.recommend.common.entity.ItemEntity;
 import com.xr.recommend.common.enums.RecommendSceneType;
-import com.xr.recommend.common.model.ItemModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,13 +25,13 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  public List<ItemModel> recommend(Context context) throws Exception{
+  public List<ItemEntity> recommend(Context context) throws Exception{
 
     // 查询过滤的物品id
     List<String> excludeItemList = getExcludeItemList(context);
 
     // 召回推荐列表
-    List<ItemModel> callItemList = this.callItem(context, excludeItemList);
+    List<ItemEntity> callItemList = this.callItem(context, excludeItemList);
 
     // 推荐列表排序（粗排）
     callItemList = this.orderItem(context, callItemList);
@@ -63,13 +63,13 @@ public abstract class AbstractRecommender {
    * @param excludeItems
    * @throws Exception
    */
-  private void updateExcludeItemList(Context context, List<ItemModel> excludeItems){
+  private void updateExcludeItemList(Context context, List<ItemEntity> excludeItems){
     if(CollectionUtils.isEmpty(excludeItems)){ return; }
 
     List<String> exclude = excludeItemList.get(context.getUserId());
     if(exclude == null) { exclude = new ArrayList<>(); }
-    for(ItemModel im : excludeItems){
-      exclude.add(im.getItem_id());
+    for(ItemEntity im : excludeItems){
+      exclude.add(im.getItemId());
     }
   }
 
@@ -80,7 +80,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  protected abstract List<ItemModel> callItem(Context context, List<String> excludeItemList) throws Exception;
+  protected abstract List<ItemEntity> callItem(Context context, List<String> excludeItemList) throws Exception;
 
   /**
    * 推荐列表排序（粗排）
@@ -89,7 +89,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  protected abstract List<ItemModel> orderItem(Context context, List<ItemModel> itemList) throws Exception;
+  protected abstract List<ItemEntity> orderItem(Context context, List<ItemEntity> itemList) throws Exception;
 
   /**
    * 推荐列表排序（精排）
@@ -98,7 +98,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  protected List<ItemModel> fineOrderItem(Context context, List<ItemModel> itemList) {
+  protected List<ItemEntity> fineOrderItem(Context context, List<ItemEntity> itemList) {
     return itemList;
   }
 
@@ -109,7 +109,7 @@ public abstract class AbstractRecommender {
    * @return
    * @throws Exception
    */
-  protected List<ItemModel> reOrderItem(Context context, List<ItemModel> itemList) {
+  protected List<ItemEntity> reOrderItem(Context context, List<ItemEntity> itemList) {
     return itemList;
   }
 
