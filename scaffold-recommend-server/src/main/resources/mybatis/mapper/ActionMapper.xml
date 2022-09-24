@@ -2,4 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xr.recommend.mapper.ActionMapper">
 
+  <!-- 统计热门物品 -->
+  <select id="actionStatistic" parameterType="map" resultType="com.xr.recommend.common.statistics.ActionStatistic">
+    <![CDATA[
+      select * from (
+        select item_id, count(item_id) as times
+          from res_action
+          where action_code = #{actionCode} and action_time >= #{startTimeInSeconds} and action_time <= #{endTimeInSeconds} group by item_id
+      ) t order by t.times desc limit #{size};
+    ]]>
+  </select>
+
 </mapper>

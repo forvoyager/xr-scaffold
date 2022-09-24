@@ -47,4 +47,13 @@ public class ActionStatistic {
   public void setTimes(int times) {
     this.times = times;
   }
+
+  @Override
+  public String toString() {
+    return "ActionStatistic{" +
+            "actionType=" + actionType +
+            ", itemId='" + itemId + '\'' +
+            ", times=" + times +
+            '}';
+  }
 }

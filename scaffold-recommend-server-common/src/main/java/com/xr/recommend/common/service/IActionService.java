@@ -2,6 +2,10 @@ package com.xr.recommend.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xr.recommend.common.entity.ActionEntity;
+import com.xr.recommend.common.enums.ActionType;
+import com.xr.recommend.common.statistics.ActionStatistic;
+
+import java.util.List;
 
 /**
  * <p>
@@ -19,5 +23,15 @@ public interface IActionService extends IService<ActionEntity> {
    * @return 主键id
    */
   void upload(ActionEntity entity) throws Exception;
+
+  /**
+   * 根据行为类型统计数据
+   * @param startTimeInSeconds 开始时间
+   * @param endTimeInSeconds 结束时间
+   * @param actionType 行为类型
+   * @param n 返回n条数据
+   * @return
+   */
+  List<ActionStatistic> actionStatistic(long startTimeInSeconds, long endTimeInSeconds, ActionType actionType, int n);
 
 }

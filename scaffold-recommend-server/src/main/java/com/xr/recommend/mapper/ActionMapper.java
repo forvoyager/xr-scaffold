@@ -5,6 +5,7 @@ import com.xr.recommend.common.entity.ActionEntity;
 import com.xr.recommend.common.statistics.ActionStatistic;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -16,6 +17,6 @@ import java.util.List;
  */
 public interface ActionMapper extends BaseMapper<ActionEntity> {
 
-  List<ActionStatistic> actionStatistic(long startTime, long endTime, int actionCode);
+  List<ActionStatistic> actionStatistic(Map<String, ? extends Object> condition);
 
 }
