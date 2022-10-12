@@ -217,7 +217,7 @@
         <groupId>com.baomidou</groupId>
         <artifactId>mybatis-plus-generator</artifactId>
         <version>3.4.0</version>
-        <scope>test</scope>
+<!--        <scope>test</scope>-->
       </dependency>
 
       <dependency>

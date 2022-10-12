@@ -20,7 +20,6 @@ import java.util.List;
 public class CodeGeneratorWithMybatisplus {
 
   public static void main(String[] args) {
-    new AutoGenerator();
     generate();
   }
 
@@ -57,7 +56,7 @@ public class CodeGeneratorWithMybatisplus {
     gc.setOutputDir(finalPath + "/src/main/java");
     gc.setAuthor(author);
     gc.setOpen(false);
-    gc.setSwagger2(true);
+    gc.setSwagger2(false);
     gc.setActiveRecord(false);
     gc.setFileOverride(true);
     gc.setEntityName("%sModel");
