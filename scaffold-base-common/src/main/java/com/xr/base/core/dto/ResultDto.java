@@ -16,7 +16,7 @@ public class ResultDto<T> implements Serializable{
   /**
    * 响应代码 see ResultCodeEnum
    */
-  private String code;
+  private int code;
   /**
    * 信息提示
    */
@@ -29,10 +29,6 @@ public class ResultDto<T> implements Serializable{
    * 扩展数据
    */
   private Map extData;
-  /**
-   * 时间
-   */
-  private Long time;
 
   public static ResultDto successMessage(String msg) {
     return success(msg, null);
@@ -46,7 +42,9 @@ public class ResultDto<T> implements Serializable{
     ResultDto result = new ResultDto();
     result.setCode(ResultCodeEnum.SUCCESS.getCode());
     result.setMessage(msg);
-    result.setTime(DateUtil.currentTimeInSecond());
+    if(data == null){
+      data = new Object();
+    }
     result.setData(data);
     return result;
   }
@@ -67,20 +65,19 @@ public class ResultDto<T> implements Serializable{
     return failure(ResultCodeEnum.UNKNOW_SYSTEM_ERROR.getCode(), msg, data);
   }
 
-  public static ResultDto failure(String code, String msg, Object data) {
+  public static ResultDto failure(int code, String msg, Object data) {
     ResultDto result = new ResultDto();
     result.setCode(code);
     result.setMessage(msg);
-    result.setTime(DateUtil.currentTimeInSecond());
     result.setData(data);
     return result;
   }
 
-  public String getCode() {
+  public int getCode() {
     return code;
   }
 
-  public void setCode(String code) {
+  public void setCode(int code) {
     this.code = code;
   }
 
@@ -114,13 +111,5 @@ public class ResultDto<T> implements Serializable{
     }
 
     this.extData.put(key, data);
-  }
-
-  public Long getTime() {
-    return time;
-  }
-
-  public void setTime(Long time) {
-    this.time = time;
   }
 }

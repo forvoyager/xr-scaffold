@@ -7,21 +7,21 @@ package com.xr.base.core.enums;
  */
 public enum ResultCodeEnum {
 
-  SUCCESS("200", "成功"),
-  ILLEGAL_ARGUMENT("300", "不合法的参数"),
-  ILLEGAL_STATUS("400", "不合法的状态"),
-  UNKNOW_SYSTEM_ERROR("500", "未知的系统错误"),
+  SUCCESS(200, "成功"),
+  ILLEGAL_ARGUMENT(300, "不合法的参数"),
+  ILLEGAL_STATUS(400, "不合法的状态"),
+  UNKNOW_SYSTEM_ERROR(500, "未知的系统错误"),
   ;
 
-  private String code;
+  private int code;
   private String label;
 
-  private ResultCodeEnum(String code, String label){
+  private ResultCodeEnum(int code, String label){
     this.code = code;
     this.label = label;
   }
 
-  public String getCode() {
+  public int getCode() {
     return code;
   }
 
