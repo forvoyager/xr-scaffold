@@ -101,7 +101,7 @@ public class CodeGeneratorV2 {
 
     // 自定义输出配置
     List<FileOutConfig> focList = new ArrayList<>();
-    // 自定义配置会被优先输出
+    // 输出mapper xml文件
     focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
       @Override
       public String outputFile(TableInfo tableInfo) {
@@ -109,12 +109,32 @@ public class CodeGeneratorV2 {
         return finalPath + "/src/main/resources/mapper/" + tableInfo.getMapperName() + StringPool.DOT_XML;
       }
     });
-//    focList.add(new FileOutConfig("tpl/client/XxxClient.ftl") {
-//      @Override
-//      public String outputFile(TableInfo tableInfo) {
-//        return finalPath + "/src/main/java/com/onebuygz/message/client/" + tableInfo.getMapperName() + StringPool.DOT_JAVA;
-//      }
-//    });
+    // 输出通用dto
+    focList.add(new FileOutConfig("tpl/common/XxxDto.ftl") {
+      @Override
+      public String outputFile(TableInfo tableInfo) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(outputPath).append("/");
+        sb.append(projectName).append("-common/");
+        sb.append("src").append("/");
+        sb.append("main").append("/");
+        sb.append("java").append("/");
+        sb.append(packagePath.replace(".", "/")).append("/");
+        sb.append(moduleName).append("/");
+        sb.append("common").append("/");
+        sb.append("dto").append("/");
+        sb.append(tableInfo.getEntityName().replace("Model","Dto"));
+        return sb.toString() + StringPool.DOT_JAVA;
+      }
+    });
+
+    // 输出feign client
+    focList.add(new FileOutConfig("tpl/client/XxxClient.ftl") {
+      @Override
+      public String outputFile(TableInfo tableInfo) {
+        return finalPath + "/src/main/java/"+packagePath.replace(".", "/")+"/message/client/" + tableInfo.getEntityName().replace("Model","")+"Client" + StringPool.DOT_JAVA;
+      }
+    });
     cfg.setFileOutConfigList(focList);
     mpg.setCfg(cfg);
 
