@@ -30,10 +30,10 @@ public class CodeGeneratorV2 {
   public static void generate() {
 
     String outputPath = "F:\\xR\\code"; // 代码保存路径
-    String projectName = "onebuygz-message-center"; // 项目名称
-    String moduleName = "message"; // 模块名称
-    String packagePath = "com.onebuygz"; // 包路径
-    String tablePrefix = "mc_"; // 表前缀
+    String projectName = "onebuygz-recommend-server"; // 项目名称
+    String moduleName = "recommend"; // 模块名称
+    String packagePath = "com.xr"; // 包路径
+    String tablePrefix = "res_"; // 表前缀
     String author = "forvoyager@outlook.com"; // 作者
     String db = "localhost:3306/xr_scaffold_db"; // 数据库地址
     String username = "root";
@@ -41,11 +41,14 @@ public class CodeGeneratorV2 {
 
     // 需要生成代码的表
     List<String> tables = new ArrayList<>();
-    tables.add("mc_application");
+//    tables.add("mc_application");
 //    tables.add("mc_push_audience");
 //    tables.add("mc_push_detail");
 //    tables.add("mc_push_device");
-    tables.add("mc_push_message");
+//    tables.add("mc_push_message");
+    tables.add("res_action");
+    tables.add("res_user");
+    tables.add("res_item");
 
     // ============ 配置上面的信息即可，下面的内容不用修改 ====================
 
@@ -65,7 +68,7 @@ public class CodeGeneratorV2 {
     gc.setSwagger2(false);
     gc.setActiveRecord(false);
     gc.setFileOverride(true);
-    gc.setEntityName("%sModel");
+    gc.setEntityName("%sEntity");
     gc.setServiceName("I%sService");
     gc.setServiceImplName("%sServiceImpl");
     gc.setControllerName("%sController");

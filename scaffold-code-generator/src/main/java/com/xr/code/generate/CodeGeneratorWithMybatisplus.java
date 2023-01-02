@@ -32,13 +32,15 @@ public class CodeGeneratorWithMybatisplus {
     String tablePrefix = "mc_"; // 表前缀
     String author = "forvoyager@outlook.com"; // 作者
     String db = "localhost:3306/xr_scaffold_db"; // 数据库地址
+    String username = "root";
+    String password = "123456";
 
     // 需要生成代码的表
     List<String> tables = new ArrayList<>();
     tables.add("mc_application");
-    tables.add("mc_push_audience");
-    tables.add("mc_push_detail");
-    tables.add("mc_push_device");
+//    tables.add("mc_push_audience");
+//    tables.add("mc_push_detail");
+//    tables.add("mc_push_device");
     tables.add("mc_push_message");
 
     // ============ 配置上面的信息即可，下面的内容不用修改 ====================
@@ -71,22 +73,8 @@ public class CodeGeneratorWithMybatisplus {
     dsc.setDbType(DbType.MYSQL);
     dsc.setUrl("jdbc:mysql://" + db + "?characterEncoding=utf-8&serverTimezone=GMT%2B8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull");
     dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-    dsc.setUsername("root");
-    dsc.setPassword("123456");
-//    dsc.setTypeConvert(new MySqlTypeConvert(){
-//      @Override
-//      public DbColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType){
-//        //tinyint转换成Boolean
-//        if (fieldType.toLowerCase().contains("tinyint")){
-//            return DbColumnType.BOOLEAN;
-//        }
-//        //将数据库中datetime转换成date
-//        if (fieldType.toLowerCase().contains("datetime")) {
-//          return DbColumnType.DATE;
-//        }
-//        return (DbColumnType) super.processTypeConvert(globalConfig, fieldType);
-//      }
-//    });
+    dsc.setUsername(username);
+    dsc.setPassword(password);
     mpg.setDataSource(dsc);
 
     // 包配置
@@ -103,21 +91,21 @@ public class CodeGeneratorWithMybatisplus {
       }
     };
 
-    // 如果模板引擎是 freemarker
-    String templatePath = "/templates/mapper.xml.ftl";
-    // 如果模板引擎是 velocity
-    // String templatePath = "/templates/mapper.xml.vm";
+//    // 如果模板引擎是 freemarker
+//    String templatePath = "/templates/mapper.xml.ftl";
+//    // 如果模板引擎是 velocity
+//    // String templatePath = "/templates/mapper.xml.vm";
 
     // 自定义输出配置
     List<FileOutConfig> focList = new ArrayList<>();
-    // 自定义配置会被优先输出
-    focList.add(new FileOutConfig(templatePath) {
-      @Override
-      public String outputFile(TableInfo tableInfo) {
-        // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
-        return finalPath + "/src/main/resources/mapper/" + tableInfo.getMapperName() + StringPool.DOT_XML;
-      }
-    });
+//    // 自定义配置会被优先输出
+//    focList.add(new FileOutConfig(templatePath) {
+//      @Override
+//      public String outputFile(TableInfo tableInfo) {
+//        // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会跟着发生变化！！
+//        return finalPath + "/src/main/resources/mapper/" + tableInfo.getMapperName() + StringPool.DOT_XML;
+//      }
+//    });
     cfg.setFileOutConfigList(focList);
     mpg.setCfg(cfg);
 
@@ -128,7 +116,7 @@ public class CodeGeneratorWithMybatisplus {
     //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
     // templateConfig.setEntity("templates/entity2.java");
     // templateConfig.setService();
-    // templateConfig.setController();
+    templateConfig.setController("tpl/service/MybatisController");
 
     templateConfig.setXml(null);
     mpg.setTemplate(templateConfig);

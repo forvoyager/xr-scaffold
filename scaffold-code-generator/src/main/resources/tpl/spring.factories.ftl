@@ -1,0 +1,1 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=${basePackageName}.${moduleName}.ClientAutoConfiguration
