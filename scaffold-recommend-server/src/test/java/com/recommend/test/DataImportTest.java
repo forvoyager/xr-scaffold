@@ -207,7 +207,7 @@ public class DataImportTest {
     List<ActionEntity> data = null;
     QueryWrapper<ActionEntity> queryWrapper = new QueryWrapper<>();
     queryWrapper.eq(ActionEntity.DATASOURCE_ID, CommonConstant.datasource_id);
-    queryWrapper.orderByAsc(ActionEntity.ACTION_ID);
+    queryWrapper.orderByAsc(ActionEntity.ID);
     do{
       pageNum++;
       IPage page = new Page(pageNum, pageSize);

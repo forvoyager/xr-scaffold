@@ -23,8 +23,8 @@ public class ActionEntity implements Serializable {
     /**
      * 主键id
      */
-    @TableId(value = "action_id", type = IdType.AUTO)
-    private Long actionId;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     /**
      * 数据源id
@@ -81,14 +81,15 @@ public class ActionEntity implements Serializable {
      */
     private LocalDateTime updateTime;
 
-    public Long getActionId() {
-        return actionId;
+    public Long getId() {
+        return id;
     }
 
-    public ActionEntity setActionId(Long actionId) {
-        this.actionId = actionId;
+    public ActionEntity setId(Long id) {
+        this.id = id;
         return this;
     }
+
     public String getDatasourceId() {
         return datasourceId;
     }
@@ -178,7 +179,7 @@ public class ActionEntity implements Serializable {
         return this;
     }
 
-    public static final String ACTION_ID = "action_id";
+    public static final String ID = "id";
 
     public static final String DATASOURCE_ID = "datasource_id";
 
@@ -205,7 +206,7 @@ public class ActionEntity implements Serializable {
     @Override
     public String toString() {
         return "ActionEntity{" +
-            "actionId=" + actionId +
+            "id=" + id +
             ", datasourceId=" + datasourceId +
             ", userId=" + userId +
             ", itemId=" + itemId +
