@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xr.recommend.common.entity.UserEntity;
 import com.xr.recommend.common.service.IUserService;
 import com.xr.recommend.mapper.UserMapper;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2022-04-02
  */
 @Service
+@DubboService
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserEntity> implements IUserService {
 
 }

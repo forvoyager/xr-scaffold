@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xr.recommend.common.entity.ItemEntity;
 import com.xr.recommend.common.service.IItemService;
 import com.xr.recommend.mapper.ItemMapper;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2022-04-02
  */
 @Service
+@DubboService
 public class ItemServiceImpl extends ServiceImpl<ItemMapper, ItemEntity> implements IItemService {
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xr.recommend.common.entity.SceneEntity;
 import com.xr.recommend.common.service.ISceneService;
 import com.xr.recommend.mapper.SceneMapper;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2022-04-02
  */
 @Service
+@DubboService
 public class SceneServiceImpl extends ServiceImpl<SceneMapper, SceneEntity> implements ISceneService {
 
 }

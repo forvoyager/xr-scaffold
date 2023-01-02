@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xr.recommend.common.entity.DatasourceEntity;
 import com.xr.recommend.common.service.IDatasourceService;
 import com.xr.recommend.mapper.DatasourceMapper;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
  * @since 2022-04-02
  */
 @Service
+@DubboService
 public class DatasourceServiceImpl extends ServiceImpl<DatasourceMapper, DatasourceEntity> implements IDatasourceService {
 
 }

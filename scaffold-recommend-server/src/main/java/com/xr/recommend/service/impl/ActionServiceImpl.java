@@ -8,6 +8,7 @@ import com.xr.recommend.common.service.IActionService;
 import com.xr.recommend.common.statistics.ActionStatistic;
 import com.xr.recommend.mapper.ActionMapper;
 import com.xr.recommend.processor.ActionProcessor;
+import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ import java.util.Map;
  * @since 2022-04-02
  */
 @Service
+@DubboService
 public class ActionServiceImpl extends ServiceImpl<ActionMapper, ActionEntity> implements IActionService {
 
   @Autowired
