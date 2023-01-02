@@ -21,32 +21,32 @@ public class Context {
   /**
    * 推荐数量
    */
-  private int recSize;
+  private int recSize = 10;
   /**
    * 物品id
    */
   private String itemId;
 
   /**
-   * 排除的物品数量（如：最近推荐过的100个物品不会重复推送）
+   * 排除的物品数量（最近推荐过的物品不会重复推送）
    */
-  private int excludeItemSize = 1000;
+  private int excludeItemSize = 200;
   /**
    * 召回物品数量
    */
-  private int callbackSize = 500;
+  private int callbackSize = this.recSize * 6;
   /**
-   * 粗排序物品数量
+   * 粗排序后物品数量
    */
-  private int orderItemSize = 500;
+  private int postOrderItemSize =  this.recSize * 4;
   /**
-   * 精排序物品数量
+   * 精排序后物品数量
    */
-  private int fineOrderItemSize = 100;
+  private int postFineOrderItemSize =  this.recSize * 2;
   /**
-   * 重排序物品数量
+   * 重排序后物品数量
    */
-  private int reOrderItemSize = 10;
+  private int postReOrderItemSize =  this.recSize;
 
   public String getPlatformId() {
     return platformId;
@@ -81,9 +81,9 @@ public class Context {
 
   public Context setRecSize(int recSize) {
     this.recSize = recSize;
-    this.reOrderItemSize = recSize;
-    this.fineOrderItemSize = recSize * 2;
-    this.orderItemSize = recSize * 5;
+    this.postReOrderItemSize = recSize;
+    this.postFineOrderItemSize = recSize * 2;
+    this.postOrderItemSize = recSize * 5;
     this.callbackSize = recSize * 5;
     return this;
   }
@@ -105,15 +105,15 @@ public class Context {
     return callbackSize;
   }
 
-  public int getOrderItemSize() {
-    return orderItemSize;
+  public int getPostOrderItemSize() {
+    return postOrderItemSize;
   }
 
-  public int getFineOrderItemSize() {
-    return fineOrderItemSize;
+  public int getPostFineOrderItemSize() {
+    return postFineOrderItemSize;
   }
 
-  public int getReOrderItemSize() {
-    return reOrderItemSize;
+  public int getPostReOrderItemSize() {
+    return postReOrderItemSize;
   }
 }

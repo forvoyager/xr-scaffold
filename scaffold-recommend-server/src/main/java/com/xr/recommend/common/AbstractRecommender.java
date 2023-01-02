@@ -36,15 +36,15 @@ public abstract class AbstractRecommender {
 
     // 推荐列表排序（粗排）
     itemList = this.orderItem(context, itemList);
-    itemList = this.subList(itemList, context.getOrderItemSize());
+    itemList = this.subList(itemList, context.getPostOrderItemSize());
 
     // 推荐列表排序（精排）
     itemList = this.fineOrderItem(context, itemList);
-    itemList = this.subList(itemList, context.getFineOrderItemSize());
+    itemList = this.subList(itemList, context.getPostFineOrderItemSize());
 
     // 推荐列表排序（重排）
     itemList = this.reOrderItem(context, itemList);
-    itemList = this.subList(itemList, context.getReOrderItemSize());
+    itemList = this.subList(itemList, context.getPostReOrderItemSize());
 
     // 更新推荐排除列表（下次推荐时不再推荐列表内的物品）
     this.updateExcludeItemList(context, itemList);
