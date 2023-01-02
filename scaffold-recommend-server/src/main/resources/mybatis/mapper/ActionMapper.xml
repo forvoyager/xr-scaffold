@@ -8,7 +8,21 @@
       select * from (
         select item_id, count(item_id) as times
           from res_action
-          where action_code = #{actionCode} and action_time >= #{startTimeInSeconds} and action_time <= #{endTimeInSeconds} group by item_id
+          where
+          platform_id <= #{platformId}
+          and datasource_id <= #{datasourceId}
+          and action_code = #{actionCode}
+          and action_time >= #{startTimeInSeconds}
+          and action_time <= #{endTimeInSeconds}
+    ]]>
+    <if test="excludeItemList != null and excludeItemList.size() > 0">
+      <![CDATA[ AND item_id NOT IN ]]>
+      <foreach collection="excludeItemList" item="item" open="(" separator="," close=")">
+        <![CDATA[ #{item} ]]>
+      </foreach>
+    </if>
+    <![CDATA[
+          group by item_id
       ) t order by t.times desc limit #{size};
     ]]>
   </select>

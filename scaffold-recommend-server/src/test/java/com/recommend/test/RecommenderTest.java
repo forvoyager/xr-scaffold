@@ -2,8 +2,8 @@ package com.recommend.test;
 
 import com.xr.recommend.RecommendServerApplication;
 import com.xr.recommend.common.Context;
-import com.xr.recommend.common.entity.ItemEntity;
-import com.xr.recommend.service.impl.HotRecommender;
+import com.xr.recommend.common.dto.ItemDto;
+import com.xr.recommend.recommender.HotRecommender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,14 @@ public class RecommenderTest {
   @Test
   public void testStatistic() throws Exception{
     Context context = new Context();
-    context.setUserId("11111");
-    List<ItemEntity> itemList = hotRecommender.recommend(context);
-    System.out.println(itemList);
+    context.setPlatformId(CommonConstant.platform_id);
+    context.setDatasourceId(CommonConstant.datasource_id);
+    context.setUserId("FvvLpDuX3tP1pcHXu3vDSoCbOzVQxBaE");
+    context.setRecSize(10);
+    List<ItemDto> itemList = hotRecommender.recommend(context);
+    itemList.forEach(itemDto -> {
+      System.out.println(itemDto.getItemId()+"----"+ itemDto.getTitle());
+    });
   }
 
 }

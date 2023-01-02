@@ -14,7 +14,7 @@ public class BaseException extends RuntimeException{
    * 代码
    * @see ResultCodeEnum
    */
-  private String code;
+  private int code;
   /**
    * 信息提示
    */
@@ -37,11 +37,11 @@ public class BaseException extends RuntimeException{
     this.message = message;
   }
 
-  public String getCode() {
+  public int getCode() {
     return code;
   }
 
-  public void setCode(String code) {
+  public void setCode(int code) {
     this.code = code;
   }
 

@@ -34,10 +34,7 @@ import java.util.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RecommendServerApplication.class)
-public class CommonTest {
-
-  public static final String tenant_id = "10010";
-  public static final Long datasource_id = 100L;
+public class DataImportTest {
 
   @Autowired
   private IUserService userService;
@@ -70,14 +67,14 @@ public class CommonTest {
       }
 
       userEntity = new UserEntity();
-      userEntity.setDatasourceId(datasource_id);
+      userEntity.setDatasourceId(CommonConstant.datasource_id);
       userEntity.setUserId(userId);
       userEntity.setAge(0);
       userEntity.setGender(0);
       userEntity.setLocation("");
       userEntity.setTags(tags);
       userEntity.setExtend("");
-      userEntity.setTenantId(tenant_id);
+      userEntity.setPlatformId(CommonConstant.platform_id);
       userEntity.setCreateTime(now);
       userEntity.setUpdateTime(now);
       userList.add(userEntity);
@@ -103,40 +100,40 @@ public class CommonTest {
     JsonNode extend = null;
     String tags = null;
     List<ItemEntity> list = new ArrayList<>();
-    ItemEntity Entity = null;
+    ItemEntity itemEntity = null;
     LocalDateTime now = LocalDateTime.now();
     int size = 0;
     while(StringUtils.isNotEmpty(line)) {
       jsonNode = JsonUtils.toObject(line);
       tags = jsonNode.findPath("tags").toString();
 
-      Entity = new ItemEntity();
-      Entity.setDatasourceId(datasource_id);
-      Entity.setItemId(jsonNode.findPath("itemId").asText(""));
-      Entity.setType(0);
-      Entity.setCategory(jsonNode.findPath("category").asText(""));
-      Entity.setStatus(0);
-      Entity.setTitle(jsonNode.findPath("title").asText(""));
-      Entity.setAuthor(jsonNode.findPath("author").asText(""));
-      Entity.setPicUrls("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
-      Entity.setPrice(BigDecimal.ZERO);
+      itemEntity = new ItemEntity();
+      itemEntity.setDatasourceId(CommonConstant.datasource_id);
+      itemEntity.setItemId(jsonNode.findPath("itemId").asText(""));
+      itemEntity.setType(0);
+      itemEntity.setCategory(jsonNode.findPath("category").asText(""));
+      itemEntity.setStatus(0);
+      itemEntity.setTitle(jsonNode.findPath("title").asText(""));
+      itemEntity.setAuthor(jsonNode.findPath("author").asText(""));
+      itemEntity.setPicUrls("https://images.gogbuy.com"+jsonNode.findPath("item_picture").asText(""));
+      itemEntity.setPrice(BigDecimal.ZERO);
       extend = jsonNode.findPath("extend");
       if(extend != null){
         JsonNode price = extend.get("price");
         if(price != null){
-          Entity.setPrice(BigDecimal.valueOf(price.asDouble(0.0)));
+          itemEntity.setPrice(BigDecimal.valueOf(price.asDouble(0.0)));
         }
       }
-      Entity.setPublishTime(now.toEpochSecond(ZoneOffset.of("+8")));
-      Entity.setWeight(1);
-      Entity.setContent("");
-      Entity.setLocation("");
-      Entity.setTags(tags);
-      Entity.setExtend("");
-      Entity.setTenantId(tenant_id);
-      Entity.setCreateTime(now);
-      Entity.setUpdateTime(now);
-      list.add(Entity);
+      itemEntity.setPublishTime(now.toEpochSecond(ZoneOffset.of("+8")));
+      itemEntity.setWeight(1);
+      itemEntity.setContent("");
+      itemEntity.setLocation("");
+      itemEntity.setTags(tags);
+      itemEntity.setExtend("");
+      itemEntity.setPlatformId(CommonConstant.platform_id);
+      itemEntity.setCreateTime(now);
+      itemEntity.setUpdateTime(now);
+      list.add(itemEntity);
       size++;
 
       if(size > 200){
@@ -167,7 +164,7 @@ public class CommonTest {
 
       if(StringUtils.isNotEmpty(userId)){
         actionEntity = new ActionEntity();
-        actionEntity.setDatasourceId(datasource_id);
+        actionEntity.setDatasourceId(CommonConstant.datasource_id);
         actionEntity.setUserId(userId);
         actionEntity.setActionCode(0);
         actionEntity.setItemId(jsonNode.findPath("itemId").asText(""));
@@ -177,7 +174,7 @@ public class CommonTest {
         actionEntity.setActionScore(t.getScore());
         actionEntity.setTraceId("");
         actionEntity.setExtend("");
-        actionEntity.setTenantId(tenant_id);
+        actionEntity.setPlatformId(CommonConstant.platform_id);
         actionEntity.setCreateTime(now);
         actionEntity.setUpdateTime(now);
         actionList.add(actionEntity);
@@ -209,7 +206,7 @@ public class CommonTest {
     int pageSize = 100;
     List<ActionEntity> data = null;
     QueryWrapper<ActionEntity> queryWrapper = new QueryWrapper<>();
-    queryWrapper.eq(ActionEntity.DATASOURCE_ID, datasource_id);
+    queryWrapper.eq(ActionEntity.DATASOURCE_ID, CommonConstant.datasource_id);
     queryWrapper.orderByAsc(ActionEntity.ACTION_ID);
     do{
       pageNum++;

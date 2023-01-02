@@ -1,11 +1,11 @@
 package com.xr.recommend.common.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author forvoyager@outlook.com
- * @since 2022-04-02
+ * @since 2023-01-02
  */
 @TableName("res_action")
 public class ActionEntity implements Serializable {
@@ -29,7 +29,7 @@ public class ActionEntity implements Serializable {
     /**
      * 数据源id
      */
-    private Long datasourceId;
+    private String datasourceId;
 
     /**
      * 用户id
@@ -67,9 +67,9 @@ public class ActionEntity implements Serializable {
     private String extend;
 
     /**
-     * 租户id
+     * 平台id
      */
-    private String tenantId;
+    private String platformId;
 
     /**
      * 创建时间
@@ -89,11 +89,11 @@ public class ActionEntity implements Serializable {
         this.actionId = actionId;
         return this;
     }
-    public Long getDatasourceId() {
+    public String getDatasourceId() {
         return datasourceId;
     }
 
-    public ActionEntity setDatasourceId(Long datasourceId) {
+    public ActionEntity setDatasourceId(String datasourceId) {
         this.datasourceId = datasourceId;
         return this;
     }
@@ -153,12 +153,12 @@ public class ActionEntity implements Serializable {
         this.extend = extend;
         return this;
     }
-    public String getTenantId() {
-        return tenantId;
+    public String getPlatformId() {
+        return platformId;
     }
 
-    public ActionEntity setTenantId(String tenantId) {
-        this.tenantId = tenantId;
+    public ActionEntity setPlatformId(String platformId) {
+        this.platformId = platformId;
         return this;
     }
     public LocalDateTime getCreateTime() {
@@ -196,7 +196,7 @@ public class ActionEntity implements Serializable {
 
     public static final String EXTEND = "extend";
 
-    public static final String TENANT_ID = "tenant_id";
+    public static final String PLATFORM_ID = "platform_id";
 
     public static final String CREATE_TIME = "create_time";
 
@@ -214,7 +214,7 @@ public class ActionEntity implements Serializable {
             ", actionScore=" + actionScore +
             ", traceId=" + traceId +
             ", extend=" + extend +
-            ", tenantId=" + tenantId +
+            ", platformId=" + platformId +
             ", createTime=" + createTime +
             ", updateTime=" + updateTime +
         "}";

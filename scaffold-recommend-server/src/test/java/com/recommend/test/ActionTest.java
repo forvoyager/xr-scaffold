@@ -1,5 +1,6 @@
 package com.recommend.test;
 
+import com.xr.base.core.FixedLengthList;
 import com.xr.base.core.util.DateUtil;
 import com.xr.recommend.RecommendServerApplication;
 import com.xr.recommend.common.enums.ActionType;
@@ -28,7 +29,10 @@ public class ActionTest {
 
   @Test
   public void testStatistic(){
-    List<ActionStatistic> statistics = actionService.actionStatistic(DateUtil.toSecond(LocalDateTime.now().minusDays(1000)), DateUtil.toSecond(LocalDateTime.now()), ActionType.click, 10);
+    List<ActionStatistic> statistics = actionService.actionStatistic(
+            "xxxx", "111",
+            DateUtil.toSecond(LocalDateTime.now().minusDays(1000)), DateUtil.toSecond(LocalDateTime.now()),
+            ActionType.click, 10, new FixedLengthList());
     System.out.println(statistics);
   }
 

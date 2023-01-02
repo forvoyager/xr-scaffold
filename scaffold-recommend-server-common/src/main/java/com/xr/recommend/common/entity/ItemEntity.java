@@ -1,12 +1,12 @@
 package com.xr.recommend.common.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
 import java.math.BigDecimal;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author forvoyager@outlook.com
- * @since 2022-04-02
+ * @since 2023-01-02
  */
 @TableName("res_item")
 public class ItemEntity implements Serializable {
@@ -30,7 +30,7 @@ public class ItemEntity implements Serializable {
     /**
      * 数据源id
      */
-    private Long datasourceId;
+    private String datasourceId;
 
     /**
      * 物品id
@@ -48,12 +48,12 @@ public class ItemEntity implements Serializable {
     private String category;
 
     /**
-     * 物品状态 0可推荐 1不可推荐
+     * 状态 0可推荐 1不可推荐
      */
     private Integer status;
 
     /**
-     * 物品标题
+     * 标题
      */
     private String title;
 
@@ -68,7 +68,7 @@ public class ItemEntity implements Serializable {
     private String picUrls;
 
     /**
-     * 物品价格
+     * 价格
      */
     private BigDecimal price;
 
@@ -83,17 +83,17 @@ public class ItemEntity implements Serializable {
     private Integer weight;
 
     /**
-     * 物品简介/摘要/正文关键片段等
+     * 简介/摘要/正文关键片段等
      */
     private String content;
 
     /**
-     * 物品位置信息，例：{"location": {"lat": 181.88, "lon": -23.57}}
+     * 用户位置信息，例：{"location": {"lat": 181.88, "lon": -23.57}}
      */
     private String location;
 
     /**
-     * 物品标签List[String]，如["烧烤季"]
+     * 用户标签List[String]，如["抠脚大汉"]
      */
     private String tags;
 
@@ -103,9 +103,9 @@ public class ItemEntity implements Serializable {
     private String extend;
 
     /**
-     * 租户id
+     * 平台id
      */
-    private String tenantId;
+    private String platformId;
 
     /**
      * 创建时间
@@ -125,11 +125,11 @@ public class ItemEntity implements Serializable {
         this.id = id;
         return this;
     }
-    public Long getDatasourceId() {
+    public String getDatasourceId() {
         return datasourceId;
     }
 
-    public ItemEntity setDatasourceId(Long datasourceId) {
+    public ItemEntity setDatasourceId(String datasourceId) {
         this.datasourceId = datasourceId;
         return this;
     }
@@ -245,12 +245,12 @@ public class ItemEntity implements Serializable {
         this.extend = extend;
         return this;
     }
-    public String getTenantId() {
-        return tenantId;
+    public String getPlatformId() {
+        return platformId;
     }
 
-    public ItemEntity setTenantId(String tenantId) {
-        this.tenantId = tenantId;
+    public ItemEntity setPlatformId(String platformId) {
+        this.platformId = platformId;
         return this;
     }
     public LocalDateTime getCreateTime() {
@@ -302,7 +302,7 @@ public class ItemEntity implements Serializable {
 
     public static final String EXTEND = "extend";
 
-    public static final String TENANT_ID = "tenant_id";
+    public static final String PLATFORM_ID = "platform_id";
 
     public static final String CREATE_TIME = "create_time";
 
@@ -327,7 +327,7 @@ public class ItemEntity implements Serializable {
             ", location=" + location +
             ", tags=" + tags +
             ", extend=" + extend +
-            ", tenantId=" + tenantId +
+            ", platformId=" + platformId +
             ", createTime=" + createTime +
             ", updateTime=" + updateTime +
         "}";

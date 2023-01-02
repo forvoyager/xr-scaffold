@@ -1,16 +1,16 @@
-package com.xr.recommend.service.impl;
+package com.xr.recommend.recommender.callback;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xr.base.core.FixedLengthList;
 import com.xr.base.core.util.DateUtil;
-import com.xr.recommend.common.AbstractRecommender;
 import com.xr.recommend.common.Context;
+import com.xr.recommend.common.dto.ItemDto;
 import com.xr.recommend.common.entity.ItemEntity;
 import com.xr.recommend.common.enums.ActionType;
-import com.xr.recommend.common.enums.SceneType;
 import com.xr.recommend.common.service.IActionService;
 import com.xr.recommend.common.service.IItemService;
 import com.xr.recommend.common.statistics.ActionStatistic;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +18,12 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
- * @author: forvoyager@outlook.com
- * @time: 2021-12-20 19:10:00
- * @description: 热门物品推荐器
+ * @Author: forvoyager@outlook.com
+ * @Time: 2022-12-01 19:38:00
+ * @Description: 热门统计（最近访问最多的） 召回
  */
 @Component
-public class HotRecommender extends AbstractRecommender {
+public class HotStatisticCallbackProcessor extends AbstractCallbackProcessor {
 
   @Autowired
   private IActionService actionService;
@@ -32,16 +32,19 @@ public class HotRecommender extends AbstractRecommender {
   private IItemService itemService;
 
   @Override
-  protected List<ItemEntity> callbackItem(Context context, FixedLengthList<String> excludeItemList) throws Exception {
+  public List<ItemDto> callbackItem(Context context, FixedLengthList<String> excludeItemList) throws Exception {
     // 按统计信息召回最近的热门商品（点击/看得最多的商品）
-    List<ActionStatistic> statistics = actionService.actionStatistic(DateUtil.toSecond(LocalDateTime.now().minusDays(1000)), DateUtil.toSecond(LocalDateTime.now()), ActionType.click, 50);
+    List<ActionStatistic> statistics = actionService.actionStatistic(
+            context.getPlatformId(), context.getDatasourceId(),
+            DateUtil.toSecond(LocalDateTime.now().minusDays(1000)), DateUtil.toSecond(LocalDateTime.now()),
+            ActionType.click, context.getCallbackSize(), excludeItemList);
+    if(statistics.size() == 0){ return Collections.EMPTY_LIST; }
 
     // 查询商品信息
     List<String> itemIds = new ArrayList<>();
     statistics.parallelStream().forEach(itm -> {
       itemIds.add(itm.getItemId());
     });
-    if(itemIds.size() == 0){ return Collections.EMPTY_LIST; }
     QueryWrapper<ItemEntity> itemQuery = new QueryWrapper<>();
     itemQuery.in(ItemEntity.ITEM_ID, itemIds);
     List<ItemEntity> entities = itemService.list(itemQuery);
@@ -52,31 +55,13 @@ public class HotRecommender extends AbstractRecommender {
     entities.parallelStream().forEach(itm -> {
       itemMap.put(itm.getItemId(), itm);
     });
-    final List<ItemEntity> callbackItemList = new ArrayList<>();
+    final List<ItemDto> callbackItemList = new ArrayList<>();
     statistics.forEach(itm -> {
-      callbackItemList.add(itemMap.get(itm.getItemId()));
+      ItemDto itemDto = new ItemDto();
+      BeanUtils.copyProperties(itemMap.get(itm.getItemId()), itemDto);
+      callbackItemList.add(itemDto);
     });
 
     return callbackItemList;
-  }
-
-  @Override
-  protected List<ItemEntity> orderItem(Context context, List<ItemEntity> itemList) throws Exception {
-    return itemList;
-  }
-
-  @Override
-  public List<SceneType> scene() {
-    return Arrays.asList(SceneType.hot);
-  }
-
-  @Override
-  public String name() {
-    return "热门推荐";
-  }
-
-  @Override
-  public String description() {
-    return "基于历史数据统计，为用户推荐热门物品。";
   }
 }
